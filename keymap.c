@@ -120,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ── MAC SVORAK ──────────────────────────────────────────────────────────────────
 [MAC_SVORAK] = LAYOUT_92_iso(
     KC_MUTE,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
-    TG(MAC_QWERTY), SE_SECT, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
+    TG(MAC_QWERTY), SE_SECT, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_COMM, KC_RBRC,                    KC_PGDN,
     LCG(KC_Q),      KC_CAPS, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
     KC_CALC,        KC_LSFT, SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             KC_RSFT, KC_UP,
@@ -217,25 +217,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // ── Swedish symbols (shift only) ──
         case SE_SECT: tap_unicode_symbol(0x00A7, 0x00B0, record); return false; // § / °
         case SE_PLUS: tap_unicode_symbol(0x002B, 0x003F, record); return false; // + / ?
-        // ── Backtick / acute — custom handling ──
-        // ` (unshifted) exists on the US layout → send KC_GRV directly.
-        // ´ (shifted) needs Unicode; clear mods first to avoid Option+B
-        // being interpreted as "word backward" by macOS.
-        case SE_ACUT:
-            if (record->event.pressed) {
-                uint8_t mods    = get_mods() | get_weak_mods() | get_oneshot_mods();
-                bool    shifted = (mods & MOD_MASK_SHIFT) != 0;
-                uint8_t saved   = get_mods();
-                clear_mods();
-                clear_weak_mods();
-                if (shifted) {
-                    register_unicode(0x00B4);  // ´
-                } else {
-                    tap_code(KC_GRV);  // `
-                }
-                set_mods(saved);
-            }
-            return false;
+        case SE_ACUT: tap_unicode_symbol(0x0060, 0x00B4, record); return false; // ` / ´
         case SE_APOS: tap_unicode_symbol(0x0027, 0x002A, record); return false; // ' / *
         case SE_LESS: tap_unicode_symbol(0x003C, 0x003E, record); return false; // < / >
 
