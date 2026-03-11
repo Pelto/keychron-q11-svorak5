@@ -3,7 +3,7 @@
 # Enable Unicode input support
 UNICODE_ENABLE = yes
 
-# Enable RGB matrix (for GAME layer indicator and FN layer controls)
+# Enable RGB matrix (for per-layer indicators)
 RGB_MATRIX_ENABLE = yes
 
 # Enable the rotary encoder (knob)

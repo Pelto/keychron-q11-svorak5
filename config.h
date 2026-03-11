@@ -2,9 +2,13 @@
 
 #pragma once
 
+// ── Split sync ───────────────────────────────────────────────────────────────
+// Sync layer state to the slave half so RGB indicators work on both sides.
+#define SPLIT_LAYER_STATE_ENABLE
+
 // ── Unicode input modes ───────────────────────────────────────────────────────
 // Both modes are compiled in. The firmware auto-selects based on the
-// Mac/Win switch at boot (see keyboard_post_init_user in keymap.c).
+// Mac/Win switch at boot (see dip_switch_update_user in keymap.c).
 // You can also cycle manually with UC_NEXT (mapped to FN layer).
 #define UNICODE_SELECTED_MODES UNICODE_MODE_MACOS, UNICODE_MODE_WINCOMPOSE
 

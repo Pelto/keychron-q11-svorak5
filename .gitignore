@@ -1,5 +1,7 @@
 .build/
-compile_commands.json
+.cache/compile_commands.json
+.cache/
 *.bin
 *.hex
 *.uf2
+compile_commands.json

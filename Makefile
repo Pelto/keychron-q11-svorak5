@@ -13,6 +13,14 @@ KEYBOARD ?= keychron/q11/iso_encoder
 KEYMAP   ?= custom
 QMK_HOME ?= .build/qmk_firmware
 
+# Homebrew arm-none-eabi-gcc 15.x is missing newlib headers.
+# Use gcc@8 and ensure binutils is in PATH.
+ARM_GCC8   := $(wildcard /opt/homebrew/Cellar/arm-none-eabi-gcc@8/*/bin)
+ARM_BINUTILS := $(wildcard /opt/homebrew/Cellar/arm-none-eabi-binutils/*/bin)
+ifneq ($(ARM_GCC8),)
+  export PATH := $(ARM_GCC8):$(ARM_BINUTILS):$(PATH)
+endif
+
 KEYMAP_DIR := $(QMK_HOME)/keyboards/$(KEYBOARD)/keymaps/$(KEYMAP)
 SRC_FILES  := keymap.c config.h rules.mk
 
@@ -38,9 +46,9 @@ flash: link
 lint: link
 	cd $(QMK_HOME) && qmk lint -kb $(KEYBOARD) -km $(KEYMAP)
 
-# Generate compile_commands.json for clangd / LSP (requires: pip install qmk)
+# Generate compile_commands.json for clangd / LSP
 compiledb: link
-	cd $(QMK_HOME) && qmk generate-compilation-database -kb $(KEYBOARD) -km $(KEYMAP)
+	qmk compile -kb $(KEYBOARD) -km $(KEYMAP) --compiledb
 	ln -snf $(QMK_HOME)/compile_commands.json compile_commands.json
 
 clean:

@@ -12,8 +12,8 @@
       },
       "knob_l": {
         "press": "KC_MUTE",
-        "cw": "KC_VOLU",
-        "ccw": "KC_VOLD"
+        "cw": "LGUI(KC_RBRC)",
+        "ccw": "LGUI(KC_LBRC)"
       },
       "knob_r": {
         "press": "KC_MUTE",
@@ -38,7 +38,7 @@
         "KC_DEL": "KC_DEL"
       },
       "row1": {
-        "KC_GRV": "KC_GRV",
+        "KC_GRV": "SE_SECT",
         "KC_1": "KC_1",
         "KC_2": "KC_2",
         "KC_3": "KC_3",
@@ -49,15 +49,15 @@
         "KC_8": "KC_8",
         "KC_9": "KC_9",
         "KC_0": "KC_0",
-        "KC_MINS": "KC_MINS",
-        "KC_EQL": "KC_EQL",
+        "KC_MINS": "SE_PLUS",
+        "KC_EQL": "SE_ACUT",
         "KC_BSPC": "KC_BSPC",
         "KC_PGUP": "KC_PGUP"
       },
       "row2": {
         "KC_TAB": "KC_TAB",
         "KC_Q": "KC_LBRC",
-        "KC_W": "KC_RBRC",
+        "KC_W": "KC_QUOT",
         "KC_E": "KC_SCLN",
         "KC_R": "KC_P",
         "KC_T": "KC_Y",
@@ -66,7 +66,7 @@
         "KC_I": "KC_C",
         "KC_O": "KC_R",
         "KC_P": "KC_L",
-        "KC_LBRC": "KC_SLSH",
+        "KC_LBRC": "KC_COMM",
         "KC_RBRC": "KC_EQL",
         "KC_PGDN": "KC_PGDN"
       },
@@ -82,7 +82,7 @@
         "KC_K": "KC_T",
         "KC_L": "KC_N",
         "KC_SCLN": "KC_S",
-        "KC_QUOT": "KC_MINS",
+        "KC_QUOT": "KC_SLSH",
         "KC_NUHS": "KC_NUHS",
         "KC_ENT": "KC_ENT",
         "KC_HOME": "KC_HOME"
@@ -90,7 +90,7 @@
       "row4": {
         "KC_LSFT": "KC_LSFT",
         "KC_NUBS": "KC_NUBS",
-        "KC_Z": "KC_QUOT",
+        "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
         "KC_V": "KC_K",
@@ -107,11 +107,11 @@
         "KC_LCTL": "KC_LCTL",
         "KC_LOPT": "KC_LOPT",
         "KC_LCMD": "KC_LCMD",
-        "MO_FN": "MO(MAC_FN)",
+        "MO_FN": "MO(_FN)",
         "KC_SPC_L": "KC_SPC",
         "KC_SPC_R": "KC_SPC",
         "KC_RCMD": "MO(MAC_SPECIAL)",
-        "MO_FN1": "MO(MAC_FN)",
+        "MO_FN1": "MO(_FN)",
         "KC_RCTL": "KC_RCTL",
         "KC_LEFT": "KC_LEFT",
         "KC_DOWN": "KC_DOWN",
@@ -119,9 +119,9 @@
       },
       "macro": {
         "MC_1": "TG(MAC_QWERTY)",
-        "MC_2": "_______",
-        "MC_3": "_______",
-        "MC_4": "_______",
+        "MC_2": "LSG(KC_4)",
+        "MC_3": "LCG(KC_Q)",
+        "MC_4": "KC_CALC",
         "MC_5": "MO(NUMPAD)"
       }
     },
@@ -131,7 +131,7 @@
       "activation": "TG(MAC_QWERTY) via MC_1 from MAC_SVORAK. MC_1 again to toggle off.",
       "rgb": {
         "mode": "solid",
-        "color": "green",
+        "color": "cyan",
         "scope": "all"
       },
       "knob_l": {
@@ -305,7 +305,7 @@
       "row2": {
         "KC_TAB": "_______",
         "KC_Q": "hex(\"{\")",
-        "KC_W": "_______",
+        "KC_W": "hex(\"}\")",
         "KC_E": "hex(\"[\")",
         "KC_R": "hex(\"]\")",
         "KC_T": "hex(\"$\")",
@@ -315,7 +315,7 @@
         "KC_O": "hex(\"<\")",
         "KC_P": "hex(\">\")",
         "KC_LBRC": "_______",
-        "KC_RBRC": "_______",
+        "KC_RBRC": "hex(\"~\")",
         "KC_PGDN": "_______"
       },
       "row3": {
@@ -338,10 +338,10 @@
       "row4": {
         "KC_LSFT": "_______",
         "KC_NUBS": "_______",
-        "KC_Z": "hex(\".\")",
-        "KC_X": "_______",
+        "KC_Z": "hex(\":\")",
+        "KC_X": "KC_EQL",
         "KC_C": "hex(\"@\")",
-        "KC_V": "_______",
+        "KC_V": "hex(\"!\")",
         "KC_B": "hex(\"\\\\\")",
         "KC_N": "hex(\"%\")",
         "KC_M": "_______",
@@ -384,8 +384,8 @@
       },
       "knob_l": {
         "press": "KC_MUTE",
-        "cw": "KC_VOLU",
-        "ccw": "KC_VOLD"
+        "cw": "LALT(KC_RGHT)",
+        "ccw": "LALT(KC_LEFT)"
       },
       "knob_r": {
         "press": "KC_MUTE",
@@ -394,18 +394,18 @@
       },
       "row0": {
         "KC_ESC": "KC_ESC",
-        "KC_BRID": "KC_BRID",
-        "KC_BRIU": "KC_BRIU",
-        "KC_MCTL": "KC_MCTL",
-        "KC_LPAD": "KC_LPAD",
-        "RM_VALD": "RM_VALD",
-        "RM_VALU": "RM_VALU",
-        "KC_MPRV": "KC_MPRV",
-        "KC_MPLY": "KC_MPLY",
-        "KC_MNXT": "KC_MNXT",
-        "KC_MUTE": "KC_MUTE",
-        "KC_VOLD": "KC_VOLD",
-        "KC_VOLU": "KC_VOLU",
+        "KC_F1": "KC_F1",
+        "KC_F2": "KC_F2",
+        "KC_F3": "KC_F3",
+        "KC_F4": "KC_F4",
+        "KC_F5": "KC_F5",
+        "KC_F6": "KC_F6",
+        "KC_F7": "KC_F7",
+        "KC_F8": "KC_F8",
+        "KC_F9": "KC_F9",
+        "KC_F10": "KC_F10",
+        "KC_F11": "KC_F11",
+        "KC_F12": "KC_F12",
         "KC_INS": "KC_INS",
         "KC_DEL": "KC_DEL"
       },
@@ -429,7 +429,7 @@
       "row2": {
         "KC_TAB": "KC_TAB",
         "KC_Q": "KC_LBRC",
-        "KC_W": "KC_RBRC",
+        "KC_W": "KC_QUOT",
         "KC_E": "KC_SCLN",
         "KC_R": "KC_P",
         "KC_T": "KC_Y",
@@ -438,7 +438,7 @@
         "KC_I": "KC_C",
         "KC_O": "KC_R",
         "KC_P": "KC_L",
-        "KC_LBRC": "KC_SLSH",
+        "KC_LBRC": "KC_COMM",
         "KC_RBRC": "KC_EQL",
         "KC_PGDN": "KC_PGDN"
       },
@@ -454,7 +454,7 @@
         "KC_K": "KC_T",
         "KC_L": "KC_N",
         "KC_SCLN": "KC_S",
-        "KC_QUOT": "KC_MINS",
+        "KC_QUOT": "KC_SLSH",
         "KC_NUHS": "KC_NUHS",
         "KC_ENT": "KC_ENT",
         "KC_HOME": "KC_HOME"
@@ -462,7 +462,7 @@
       "row4": {
         "KC_LSFT": "KC_LSFT",
         "KC_NUBS": "KC_NUBS",
-        "KC_Z": "KC_QUOT",
+        "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
         "KC_V": "KC_K",
@@ -479,11 +479,11 @@
         "KC_LCTL": "KC_LCTL",
         "KC_LWIN": "KC_LWIN",
         "KC_LALT": "KC_LALT",
-        "MO_FN": "MO(WIN_FN)",
+        "MO_FN": "MO(_FN)",
         "KC_SPC_L": "KC_SPC",
         "KC_SPC_R": "KC_SPC",
         "KC_RALT": "MO(WIN_SPECIAL)",
-        "MO_FN1": "MO(WIN_FN)",
+        "MO_FN1": "MO(_FN)",
         "KC_RCTL": "KC_RCTL",
         "KC_LEFT": "KC_LEFT",
         "KC_DOWN": "KC_DOWN",
@@ -491,9 +491,9 @@
       },
       "macro": {
         "MC_1": "TG(WIN_QWERTY)",
-        "MC_2": "_______",
-        "MC_3": "_______",
-        "MC_4": "_______",
+        "MC_2": "KC_PSCR",
+        "MC_3": "LGUI(KC_L)",
+        "MC_4": "KC_CALC",
         "MC_5": "MO(NUMPAD)"
       }
     },
@@ -503,7 +503,7 @@
       "activation": "TG(WIN_QWERTY) via MC_1 from WIN_SVORAK. MC_1 again to toggle off.",
       "rgb": {
         "mode": "solid",
-        "color": "green",
+        "color": "cyan",
         "scope": "all"
       },
       "knob_l": {
@@ -677,7 +677,7 @@
       "row2": {
         "KC_TAB": "_______",
         "KC_Q": "hex(\"{\")",
-        "KC_W": "_______",
+        "KC_W": "hex(\"}\")",
         "KC_E": "hex(\"[\")",
         "KC_R": "hex(\"]\")",
         "KC_T": "hex(\"$\")",
@@ -687,7 +687,7 @@
         "KC_O": "hex(\"<\")",
         "KC_P": "hex(\">\")",
         "KC_LBRC": "_______",
-        "KC_RBRC": "_______",
+        "KC_RBRC": "hex(\"~\")",
         "KC_PGDN": "_______"
       },
       "row3": {
@@ -710,10 +710,10 @@
       "row4": {
         "KC_LSFT": "_______",
         "KC_NUBS": "_______",
-        "KC_Z": "hex(\".\")",
-        "KC_X": "_______",
+        "KC_Z": "hex(\":\")",
+        "KC_X": "hex(\"=\")",
         "KC_C": "hex(\"@\")",
-        "KC_V": "_______",
+        "KC_V": "hex(\"!\")",
         "KC_B": "hex(\"\\\\\")",
         "KC_N": "hex(\"%\")",
         "KC_M": "_______",
@@ -789,9 +789,9 @@
         "KC_4": "_______",
         "KC_5": "_______",
         "KC_6": "_______",
-        "KC_7": "_______",
-        "KC_8": "_______",
-        "KC_9": "_______",
+        "KC_7": "KC_PSLS",
+        "KC_8": "KC_PAST",
+        "KC_9": "KC_PMNS",
         "KC_0": "_______",
         "KC_MINS": "_______",
         "KC_EQL": "_______",
@@ -805,10 +805,10 @@
         "KC_E": "_______",
         "KC_R": "_______",
         "KC_T": "_______",
-        "KC_Y": "_______",
-        "KC_U": "KC_P7",
-        "KC_I": "KC_P8",
-        "KC_O": "KC_P9",
+        "KC_Y": "KC_P7",
+        "KC_U": "KC_P8",
+        "KC_I": "KC_P9",
+        "KC_O": "KC_PSLS",
         "KC_P": "KC_PAST",
         "KC_LBRC": "_______",
         "KC_RBRC": "_______",
@@ -821,11 +821,11 @@
         "KC_D": "_______",
         "KC_F": "_______",
         "KC_G": "_______",
-        "KC_H": "_______",
-        "KC_J": "KC_P4",
-        "KC_K": "KC_P5",
-        "KC_L": "KC_P6",
-        "KC_SCLN": "KC_PMNS",
+        "KC_H": "KC_P4",
+        "KC_J": "KC_P5",
+        "KC_K": "KC_P6",
+        "KC_L": "KC_PMNS",
+        "KC_SCLN": "KC_PPLS",
         "KC_QUOT": "_______",
         "KC_NUHS": "_______",
         "KC_ENT": "KC_PENT",
@@ -839,11 +839,11 @@
         "KC_C": "_______",
         "KC_V": "_______",
         "KC_B": "_______",
-        "KC_N": "_______",
-        "KC_M": "KC_P1",
-        "KC_COMM": "KC_P2",
-        "KC_DOT": "KC_P3",
-        "KC_SLSH": "KC_PPLS",
+        "KC_N": "KC_P1",
+        "KC_M": "KC_P2",
+        "KC_COMM": "KC_P3",
+        "KC_DOT": "KC_PPLS",
+        "KC_SLSH": "_______",
         "KC_RSFT": "_______",
         "KC_UP": "_______"
       },
@@ -852,7 +852,7 @@
         "KC_LOPT": "_______",
         "KC_LCMD": "_______",
         "MO_FN": "_______",
-        "KC_SPC_L": "_______",
+        "KC_SPC_L": "KC_PDOT",
         "KC_SPC_R": "KC_P0",
         "KC_RCMD": "_______",
         "MO_FN1": "_______",
@@ -876,7 +876,7 @@
       "rgb": {
         "mode": "solid",
         "color": "yellow",
-        "scope": "KC_I, KC_J, KC_K, KC_L"
+        "scope": "active_keys"
       },
       "knob_l": {
         "press": "_______",
@@ -925,9 +925,9 @@
       "row2": {
         "KC_TAB": "_______",
         "KC_Q": "_______",
-        "KC_W": "_______",
-        "KC_E": "_______",
-        "KC_R": "_______",
+        "KC_W": "KC_INS",
+        "KC_E": "KC_HOME",
+        "KC_R": "KC_PGUP",
         "KC_T": "_______",
         "KC_Y": "_______",
         "KC_U": "_______",
@@ -941,9 +941,9 @@
       "row3": {
         "KC_CAPS": "_______",
         "KC_A": "_______",
-        "KC_S": "_______",
-        "KC_D": "_______",
-        "KC_F": "_______",
+        "KC_S": "KC_DEL",
+        "KC_D": "KC_END",
+        "KC_F": "KC_PGDN",
         "KC_G": "_______",
         "KC_H": "_______",
         "KC_J": "KC_LEFT",

@@ -1,115 +1,134 @@
-# Keychron Q11 ISO Nordic — Dvorak Firmware
+# Keychron Q11 ISO Nordic — Svorak Firmware
 
-Custom QMK keymap for the Keychron Q11 with Dvorak layout, Swedish characters (å, ä, ö), and a Unicode-based special character layer triggered by holding Option/Alt.
+Custom QMK keymap for the Keychron Q11 (ISO encoder) with Swedish Dvorak (Svorak) layout and a Unicode special character layer for programming symbols.
 
-## Setup
+## Flashing
 
-### macOS
+### Prerequisites
 
-```bash
-brew install qmk/qmk/qmk
-qmk setup -H .build/qmk_firmware
-```
-
-### WSL / Ubuntu
+**macOS:**
 
 ```bash
-sudo apt update && sudo apt install -y git python3-pip
-python3 -m pip install --user qmk
-# add ~/.local/bin to PATH if qmk command is not found:
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-qmk setup -H .build/qmk_firmware
+brew install qmk/qmk/qmk arm-none-eabi-gcc@8 arm-none-eabi-binutils
 ```
 
-## Build
+> The build uses `arm-none-eabi-gcc@8` automatically. Newer GCC versions (15.x) have broken newlib headers.
 
-| Command          | Description                                          |
-|------------------|------------------------------------------------------|
-| `make`           | Build firmware                                       |
-| `make flash`     | Build and flash to keyboard                          |
-| `make compiledb` | Generate `compile_commands.json` for editor LSP      |
-| `make lint`      | Run QMK lint on the keymap                           |
-| `make clean`     | Remove `.build/` directory and generated files       |
-
-Override the keyboard target if your Q11 variant differs:
-
-```bash
-make KEYBOARD=keychron/q11/iso_encoder
-```
-
-## Layout
-
-The Mac/Win hardware switch selects the default layer at boot. Both use the same Dvorak alpha layout — only the bottom-row modifiers and Unicode input mode differ.
-
-### Base layer (Dvorak)
-
-```
-,------,------,------,------,------,------,------.         ,------,------,------,------,------,------,------.
-| Esc  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |         |  F7  |  F8  |  F9  | F10  | F11  | F12  |  Vol |
-|------+------+------+------+------+------+------|         |------+------+------+------+------+------+------|
-|  `   |   1  |   2  |   3  |   4  |   5  |   6  |         |   7  |   8  |   9  |   0  |   -  |   =  | Bksp |
-|------+------+------+------+------+------+------'         '------+------+------+------+------+------+------|
-| Tab  |   Å  |   Ä  |   Ö  |   P  |   Y  |                      |   F  |   G  |   C  |   R  |   L  |  , " |
-|------+------+------+------+------+------|                      |------+------+------+------+------+------|
-| Caps |   A  |   O  |   E  |   U  |   I  |                      |   D  |   H  |   T  |   N  |   S  | - Ent|
-|------+------+------+------+------+------+------.         ,------+------+------+------+------+------+------|
-|Shift |  <>  |   Q  |   J  |   K  |   X  |      |         |      |   B  |   M  |   W  |   V  |   Z  |Shift |
-`------+------+------+------+------+------+------'         `------+------+------+------+------+------+------'
-         Ctrl   Opt*  Cmd         Space                             Cmd   Opt   App   Ctrl    FN
-
-         Ctrl   Win   Alt*        Space                             Alt   Win   App   Ctrl    FN    ← Win mode
-```
-
-`Opt*` / `Alt*` is the custom key that activates the special character layer.
-Rotary knob controls volume (press = mute).
-
-### Opt/Alt + key (special characters)
-
-Hold `Opt*` and press a key to output a Unicode character instead of the base letter.
-Empty cells (`·`) pass through as normal Alt+key.
-
-```
-,------,------,------,------,------,------,------.         ,------,------,------,------,------,------,------.
-|      |      |      |      |      |      |      |         |      |      |      |      |      |      |      |
-|------+------+------+------+------+------+------|         |------+------+------+------+------+------+------|
-|      |      |      |      |      |      |      |         |      |      |      |      |      |      |      |
-|------+------+------+------+------+------+------'         '------+------+------+------+------+------+------|
-|      |   {  |   }  |   [  |   ]  |   $  |                      |   "  |   ?  |   &  |   <  |   >  |  ␣ ~ |
-|------+------+------+------+------+------|                      |------+------+------+------+------+------|
-|      |   ;  |   /  |   (  |   )  |   |  |                      |   ·  |   .  |   #  |   "  |   ·  |  · · |
-|------+------+------+------+------+------+------.         ,------+------+------+------+------+------+------|
-|      |   ·  |   :  |   =  |   @  |   !  |      |         |      |   \  |   %  |   .  |   ·  |   ·  |      |
-`------+------+------+------+------+------+------'         `------+------+------+------+------+------+------'
-```
-
-Bypass: if Cmd, Ctrl, or Shift are held alongside Opt, special characters are
-disabled and Opt behaves as normal Alt (so shortcuts like Cmd+Opt+key still work).
-
-### GAME layer
-
-Toggle with **FN + H**. Overrides alpha keys with standard QWERTY for gaming.
-`Opt*` becomes plain Alt (no special characters). RGB turns solid red as indicator.
-
-### FN layer (hold FN)
-
-| Key        | Function                                       |
-|------------|------------------------------------------------|
-| F1 – F2    | Brightness down / up                           |
-| F3 – F4    | Mission Control / Launchpad                    |
-| F5 – F6    | RGB brightness down / up                       |
-| F7 – F9    | Previous / Play-Pause / Next                   |
-| F10 – F12  | Mute / Volume down / up                        |
-| Knob       | RGB toggle                                     |
-| A – F row  | RGB controls (mode, brightness, hue, sat, spd) |
-| H          | Toggle GAME layer                              |
-| Right Opt  | Cycle Unicode mode (macOS ↔ WinCompose)        |
-
-## OS prerequisites
-
-### macOS
+**macOS Unicode setup:**
 
 System Settings → Keyboard → Input Sources → add **Unicode Hex Input** and select it as the active input source.
 
-### Windows
+**Windows Unicode setup:**
 
-Install [WinCompose](https://github.com/samhocevar/wincompose) and leave it running. The firmware uses it automatically to send Unicode characters.
+Install [WinCompose](https://github.com/samhocevar/wincompose) and leave it running.
+
+### Build and flash
+
+The Q11 is a split keyboard — each half has its own MCU. Flash both halves with the same firmware:
+
+```bash
+make              # build firmware
+make flash        # build and flash (repeat for each half)
+```
+
+**Flash the left half (primary/USB side):**
+
+1. Unplug USB from the left half
+2. Hold **Escape** while plugging USB back in — this enters DFU mode
+3. Run `make flash`
+
+**Flash the right half:**
+
+1. Unplug USB from the left half, plug it into the right half
+2. Press the **reset button** on the bottom of the right half (small pinhole — use a paperclip) to enter DFU mode
+3. Run `make flash`
+4. Unplug, reconnect normally (USB to left half, TRRS cable between halves)
+
+### Other commands
+
+| Command          | Description                                     |
+|------------------|-------------------------------------------------|
+| `make compiledb` | Generate `compile_commands.json` for editor LSP |
+| `make lint`      | Run QMK lint on the keymap                      |
+| `make clean`     | Remove `.build/` directory and generated files  |
+
+## Layer overview
+
+The Mac/Win hardware slider selects the base layer at boot and sets the Unicode input mode automatically.
+
+| Layer | Name | Activation | RGB |
+|-------|------|-----------|-----|
+| 0 | MAC_SVORAK | Default (Mac switch) | Blue |
+| 1 | MAC_QWERTY | Toggle MC_1 | Cyan |
+| 2 | MAC_SPECIAL | Hold Right Cmd | Purple |
+| 3 | WIN_SVORAK | Default (Win switch) | Blue |
+| 4 | WIN_QWERTY | Toggle MC_1 | Cyan |
+| 5 | WIN_SPECIAL | Hold Right Alt | Purple |
+| 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
+| 7 | FN | Hold FN | Base color + yellow on active keys |
+
+The physical arrow keys in the bottom-right corner always show the OS mode:
+**purple** = Mac, **red** = Windows. This indicator is visible on every layer.
+
+## Layout
+
+See `docs/layout.json` for the full machine-readable layout definition.
+
+### Svorak base layer (Swedish ISO)
+
+```
+ §  1  2  3  4  5  6  7  8  9  0  +  `
+ ⇥  Å  Ä  Ö  P  Y  F  G  C  R  L  ,  `
+ ⇪  A  O  E  U  I  D  H  T  N  S  -  '
+ ⇧  <  .  Q  J  K  X  B  M  W  V  Z  ⇧
+```
+
+### SPECIAL layer (hold Right Cmd / Right Alt)
+
+Programming symbols sent via Unicode:
+
+```
+       {  }  [  ]  $  "  ?  &  <  >     ~
+       ;  /  (  )  |     ^  #  "  ~
+          :  =  @  !  \  %
+```
+
+### NUMPAD layer (hold MC_5)
+
+```
+               /  *  -
+               7  8  9  /  *
+               4  5  6  -  +     Enter
+               1  2  3  +
+         .  0
+```
+
+### FN layer (hold FN)
+
+Left hand navigation, right hand arrows:
+
+```
+      Ins Home PgUp              ↑
+      Del End  PgDn         ←    ↓    →
+```
+
+### QWERTY layer (toggle MC_1)
+
+Standard QWERTY overlay for gaming. Toggle again to return to Svorak.
+
+## Macro keys
+
+| Key | Mac | Windows |
+|-----|-----|---------|
+| MC_1 | Toggle QWERTY | Toggle QWERTY |
+| MC_2 | Screenshot (Cmd+Shift+4) | Print Screen |
+| MC_3 | Lock screen (Ctrl+Cmd+Q) | Lock screen (Win+L) |
+| MC_4 | Calculator | Calculator |
+| MC_5 | Hold for NUMPAD | Hold for NUMPAD |
+
+## Encoders
+
+| Knob | Rotate | Press |
+|------|--------|-------|
+| Left | Back / Forward (Cmd+] / Cmd+[ on Mac, Alt+Right / Alt+Left on Win) | Mute |
+| Right | Volume down / up | Mute |
