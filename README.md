@@ -94,11 +94,11 @@ See `docs/layout.json` for the full machine-readable layout definition.
 
 | Key | Behavior |
 |-----|----------|
-| Physical Caps Lock | Enter (remapped in base layer) |
+| Physical Caps Lock | Enter (remapped in Svorak base layers) |
 | Shift (tap or hold) | Shift modifier |
 | Shift × 2 | Toggle Caps Lock |
 | Shift × 3 | Toggle Caps Word |
-| RGB | Both Shift keys red when Caps Lock or Caps Word is active |
+| RGB | Both Shift keys red when Caps Lock or Caps Word is active (Svorak/Mac QWERTY); Caps Lock key red in Win QWERTY |
 
 ### SPECIAL layer (hold Right Cmd / Right Alt)
 
@@ -190,7 +190,12 @@ Tap either space as normal to type a space character.
 
 Standard QWERTY overlay for gaming. Toggle again to return to Svorak.
 
-On **Windows**, the QWERTY layer overrides the space keys with plain `KC_SPC`, disabling the thumb modifier layers (home row mods) to avoid accidental modifier activations while gaming. On **Mac**, the thumb modifiers remain active in QWERTY.
+On **Windows**, the QWERTY layer is gaming-optimized:
+- Space keys are plain `KC_SPC` (no thumb modifier layers / home row mods)
+- Shift keys are plain (no tap dance) for instant response
+- Physical Caps Lock key works as Caps Lock (lights red when active)
+
+On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is preserved.
 
 ## Macro keys
 

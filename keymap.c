@@ -206,8 +206,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     TG(WIN_QWERTY), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
-    KC_TRNS,        KC_TRNS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
-    KC_TRNS,        KC_TRNS, KC_TRNS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_TRNS, KC_TRNS,
+    KC_TRNS,        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
+    KC_TRNS,        KC_LSFT, KC_TRNS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_TRNS,
     MO(NUMPAD),     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_SPC,                    KC_SPC,           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
@@ -558,10 +558,14 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         }
     }
 
-    // ── Caps Lock / Caps Word indicator (red on both Shift keys when active) ──
+    // ── Caps Lock / Caps Word indicator (red when active) ──
     if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
-        rgb_set(led_min, led_max, 30, RGB_RED);  // LSft key
-        rgb_set(led_min, led_max, 81, RGB_RED);  // RSft key
+        if (IS_LAYER_ON(WIN_QWERTY)) {
+            rgb_set(led_min, led_max, 23, RGB_RED);  // Caps Lock key
+        } else {
+            rgb_set(led_min, led_max, 30, RGB_RED);  // LSft key
+            rgb_set(led_min, led_max, 81, RGB_RED);  // RSft key
+        }
     }
 
     // ── OS indicator on physical arrow keys (always visible) ──
