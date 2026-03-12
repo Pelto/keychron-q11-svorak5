@@ -3,6 +3,12 @@
 # Enable Unicode input support
 UNICODE_ENABLE = yes
 
+# Enable tap dance (multi-tap Shift keys)
+TAP_DANCE_ENABLE = yes
+
+# Enable Caps Word
+CAPS_WORD_ENABLE = yes
+
 # Enable RGB matrix (for per-layer indicators)
 RGB_MATRIX_ENABLE = yes
 

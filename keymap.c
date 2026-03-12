@@ -17,6 +17,7 @@
 //   Install WinCompose: https://github.com/samhocevar/wincompose
 
 #include QMK_KEYBOARD_H
+#include "transactions.h"
 
 // ──────────────────────────────────────────────
 // Layer definitions
@@ -50,6 +51,14 @@ enum custom_keycodes {
     SE_LESS,               // < / >
     SE_DOT,                // . / :  (dot unshifted, colon shifted)
     SE_COMM,               // , / ;  (comma unshifted, semicolon shifted)
+};
+
+// ──────────────────────────────────────────────
+// Tap dance codes
+// ──────────────────────────────────────────────
+enum tap_dance_codes {
+    TD_LSFT,
+    TD_RSFT,
 };
 
 // ──────────────────────────────────────────────
@@ -89,7 +98,7 @@ static void tap_unicode_letter(uint32_t lower, uint32_t upper, keyrecord_t *reco
     if (record->event.pressed) {
         uint8_t mods    = get_mods() | get_weak_mods() | get_oneshot_mods();
         bool    shifted = (mods & MOD_MASK_SHIFT) != 0;
-        bool    caps    = host_keyboard_led_state().caps_lock;
+        bool    caps    = host_keyboard_led_state().caps_lock || is_caps_word_on();
         register_unicode((shifted ^ caps) ? upper : lower);
     }
 }
@@ -122,8 +131,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MUTE,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
     TG(MAC_QWERTY), SE_SECT, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_COMM, KC_RBRC,                    KC_PGDN,
-    LCG(KC_Q),      KC_CAPS, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
-    KC_CALC,        KC_LSFT, SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             KC_RSFT, KC_UP,
+    LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
+    KC_CALC,        TD(TD_LSFT), SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(_FN),          KC_SPC,                    KC_SPC,           MO(MAC_SPECIAL), MO(_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
@@ -153,8 +162,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MUTE,        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,  KC_MUTE,
     TG(WIN_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
-    LGUI(KC_L),     KC_CAPS, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
-    KC_CALC,        KC_LSFT, KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             KC_RSFT, KC_UP,
+    LGUI(KC_L),     KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
+    KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(_FN),          KC_SPC,                    KC_SPC,           MO(WIN_SPECIAL), MO(_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
@@ -205,6 +214,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 // ──────────────────────────────────────────────
+// Tap dance — Shift keys (tap/hold=Shift, ×2=Caps Lock, ×3=Caps Word)
+// ──────────────────────────────────────────────
+typedef struct { uint8_t count; bool registered; } shift_td_state_t;
+
+static shift_td_state_t ltap_state = {0, false};
+static shift_td_state_t rtap_state = {0, false};
+
+static void sft_finished(tap_dance_state_t *state, void *user_data, bool is_left) {
+    shift_td_state_t *s = is_left ? &ltap_state : &rtap_state;
+    s->count = state->count;
+    if (s->count == 1) {
+        register_code(is_left ? KC_LSFT : KC_RSFT);
+        s->registered = true;
+    } else if (s->count == 2) {
+        tap_code(KC_CAPS);
+    } else {
+        caps_word_toggle();
+    }
+}
+
+static void sft_reset(tap_dance_state_t *state, void *user_data, bool is_left) {
+    shift_td_state_t *s = is_left ? &ltap_state : &rtap_state;
+    if (s->registered) {
+        unregister_code(is_left ? KC_LSFT : KC_RSFT);
+        s->registered = false;
+    }
+    s->count = 0;
+}
+
+static void lsft_finished(tap_dance_state_t *state, void *user_data) { sft_finished(state, user_data, true); }
+static void lsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset(state, user_data, true); }
+static void rsft_finished(tap_dance_state_t *state, void *user_data) { sft_finished(state, user_data, false); }
+static void rsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset(state, user_data, false); }
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_LSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lsft_finished, lsft_reset),
+    [TD_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rsft_finished, rsft_reset),
+};
+
+// ──────────────────────────────────────────────
 // Custom keycode handling — Swedish chars via Unicode
 // ──────────────────────────────────────────────
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -220,6 +269,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SE_ACUT: tap_unicode_symbol(0x0060, 0x00B4, record); return false; // ` / ´
         case SE_APOS: tap_unicode_symbol(0x0027, 0x002A, record); return false; // ' / *
         case SE_LESS: tap_unicode_symbol(0x003C, 0x003E, record); return false; // < / >
+
+        // ── Minus / underscore (caps lock or caps word: - → _) ──
+        case KC_MINS:
+            if (record->event.pressed) {
+                if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+                    register_code16(KC_UNDS);
+                } else {
+                    register_code(KC_MINS);
+                }
+            } else {
+                unregister_code16(KC_UNDS);
+                unregister_code(KC_MINS);
+            }
+            return false;
 
         // ── Dot / colon (unshifted = normal KC_DOT, shifted = Unicode colon) ──
         case SE_DOT:
@@ -250,6 +313,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
     return true;
+}
+
+// ──────────────────────────────────────────────
+// Caps Word — keep alive on Swedish characters and standard keys
+// ──────────────────────────────────────────────
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
+        case SE_ARNG: case SE_ADIA: case SE_ODIA:
+            return true;  // uppercase handled by tap_unicode_letter via is_caps_word_on()
+        case KC_BSPC: case KC_DEL: case KC_MINS: case KC_UNDS:
+            return true;  // KC_MINS included to keep Caps Word alive for hyphenated-words
+        default:
+            return false;
+    }
 }
 
 // ──────────────────────────────────────────────
@@ -347,9 +427,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         }
     }
 
-    // ── Caps Lock indicator (red when active) ──
-    if (host_keyboard_led_state().caps_lock) {
-        rgb_set(led_min, led_max, 23, RGB_RED);  // CapsLock key
+    // ── Caps Lock / Caps Word indicator (red on both Shift keys when active) ──
+    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+        rgb_set(led_min, led_max, 30, RGB_RED);  // LSft key
+        rgb_set(led_min, led_max, 81, RGB_RED);  // RSft key
     }
 
     // ── OS indicator on physical arrow keys (always visible) ──
@@ -366,6 +447,32 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
 
     return false;
+}
+
+// ──────────────────────────────────────────────
+// Caps Word split sync — push state to slave half via custom RPC
+// ──────────────────────────────────────────────
+static void caps_word_sync_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data) {
+    bool active = *(const bool *)in_data;
+    if (active) {
+        caps_word_on();
+    } else {
+        caps_word_off();
+    }
+}
+
+void keyboard_post_init_user(void) {
+    transaction_register_rpc(USER_SYNC_CAPS_WORD, caps_word_sync_handler);
+}
+
+void housekeeping_task_user(void) {
+    if (!is_keyboard_master()) return;
+    static bool last_caps_word = false;
+    bool current = is_caps_word_on();
+    if (current != last_caps_word) {
+        last_caps_word = current;
+        transaction_rpc_send(USER_SYNC_CAPS_WORD, sizeof(bool), &current);
+    }
 }
 
 // ──────────────────────────────────────────────

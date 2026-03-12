@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(make compile:*)",
-      "Bash(/usr/bin/make compile:*)"
+      "Bash(/usr/bin/make compile:*)",
+      "Bash(make)"
     ]
   }
 }

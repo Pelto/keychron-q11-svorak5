@@ -5,6 +5,12 @@
 // ── Split sync ───────────────────────────────────────────────────────────────
 // Sync layer state to the slave half so RGB indicators work on both sides.
 #define SPLIT_LAYER_STATE_ENABLE
+// Sync host LED state (Caps Lock, Num Lock, etc.) to the slave half so the
+// right-side Shift key RGB indicator also lights up when Caps Lock is active.
+#define SPLIT_LED_STATE_ENABLE
+// Custom RPC transaction ID for syncing Caps Word state to the slave half.
+// QMK does not sync caps_word natively; we push it via housekeeping_task_user.
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_CAPS_WORD
 
 // ── Unicode input modes ───────────────────────────────────────────────────────
 // Both modes are compiled in. The firmware auto-selects based on the

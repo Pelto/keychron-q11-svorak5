@@ -79,9 +79,19 @@ See `docs/layout.json` for the full machine-readable layout definition.
 ```
  §  1  2  3  4  5  6  7  8  9  0  +  `
  ⇥  Å  Ä  Ö  P  Y  F  G  C  R  L  ,  `
- ⇪  A  O  E  U  I  D  H  T  N  S  -  '
+ ↵  A  O  E  U  I  D  H  T  N  S  -  '
  ⇧  <  .  Q  J  K  X  B  M  W  V  Z  ⇧
 ```
+
+### Key behaviors
+
+| Key | Behavior |
+|-----|----------|
+| Physical Caps Lock | Enter (remapped in base layer) |
+| Shift (tap or hold) | Shift modifier |
+| Shift × 2 | Toggle Caps Lock |
+| Shift × 3 | Toggle Caps Word |
+| RGB | Both Shift keys red when Caps Lock or Caps Word is active |
 
 ### SPECIAL layer (hold Right Cmd / Right Alt)
 

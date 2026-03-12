@@ -71,7 +71,7 @@
         "KC_PGDN": "KC_PGDN"
       },
       "row3": {
-        "KC_CAPS": "KC_CAPS",
+        "KC_CAPS": "KC_ENT",
         "KC_A": "KC_A",
         "KC_S": "KC_O",
         "KC_D": "KC_E",
@@ -88,7 +88,7 @@
         "KC_HOME": "KC_HOME"
       },
       "row4": {
-        "KC_LSFT": "KC_LSFT",
+        "KC_LSFT": "TD(TD_LSFT)",
         "KC_NUBS": "KC_NUBS",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
@@ -100,7 +100,7 @@
         "KC_COMM": "KC_W",
         "KC_DOT": "KC_V",
         "KC_SLSH": "KC_Z",
-        "KC_RSFT": "KC_RSFT",
+        "KC_RSFT": "TD(TD_RSFT)",
         "KC_UP": "KC_UP"
       },
       "row5": {
@@ -443,7 +443,7 @@
         "KC_PGDN": "KC_PGDN"
       },
       "row3": {
-        "KC_CAPS": "KC_CAPS",
+        "KC_CAPS": "KC_ENT",
         "KC_A": "KC_A",
         "KC_S": "KC_O",
         "KC_D": "KC_E",
@@ -460,7 +460,7 @@
         "KC_HOME": "KC_HOME"
       },
       "row4": {
-        "KC_LSFT": "KC_LSFT",
+        "KC_LSFT": "TD(TD_LSFT)",
         "KC_NUBS": "KC_NUBS",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
@@ -472,7 +472,7 @@
         "KC_COMM": "KC_W",
         "KC_DOT": "KC_V",
         "KC_SLSH": "KC_Z",
-        "KC_RSFT": "KC_RSFT",
+        "KC_RSFT": "TD(TD_RSFT)",
         "KC_UP": "KC_UP"
       },
       "row5": {
