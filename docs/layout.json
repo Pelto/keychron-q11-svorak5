@@ -604,8 +604,8 @@
         "KC_LWIN": "_______",
         "KC_LALT": "_______",
         "MO_FN": "_______",
-        "KC_SPC_L": "_______",
-        "KC_SPC_R": "_______",
+        "KC_SPC_L": "KC_SPC",
+        "KC_SPC_R": "KC_SPC",
         "KC_RALT": "_______",
         "MO_FN1": "_______",
         "KC_RCTL": "_______",
@@ -1169,7 +1169,7 @@
     {
       "id": 11,
       "name": "WIN_MOD_L",
-      "activation": "LT — hold Left Space from WIN_SVORAK/WIN_QWERTY. Tap for Space.",
+      "activation": "LT — hold Left Space from WIN_SVORAK only (disabled in WIN_QWERTY for gaming). Tap for Space.",
       "rgb": {
         "mode": "custom",
         "base": "off",
@@ -1188,7 +1188,7 @@
     {
       "id": 12,
       "name": "WIN_MOD_R",
-      "activation": "LT — hold Right Space from WIN_SVORAK/WIN_QWERTY. Tap for Space.",
+      "activation": "LT — hold Right Space from WIN_SVORAK only (disabled in WIN_QWERTY for gaming). Tap for Space.",
       "rgb": {
         "mode": "custom",
         "base": "off",

@@ -190,6 +190,8 @@ Tap either space as normal to type a space character.
 
 Standard QWERTY overlay for gaming. Toggle again to return to Svorak.
 
+On **Windows**, the QWERTY layer overrides the space keys with plain `KC_SPC`, disabling the thumb modifier layers (home row mods) to avoid accidental modifier activations while gaming. On **Mac**, the thumb modifiers remain active in QWERTY.
+
 ## Macro keys
 
 | Key | Mac | Windows |
