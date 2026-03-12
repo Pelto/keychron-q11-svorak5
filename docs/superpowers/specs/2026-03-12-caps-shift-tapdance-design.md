@@ -63,19 +63,26 @@ enum tap_dance_codes {
 };
 ```
 
-State tracking struct (one instance per key):
+State tracking struct, with two static instances (one per key), declared at file scope:
 ```c
-typedef struct { uint8_t count; bool pressed; } shift_td_state_t;
+typedef struct { uint8_t count; bool registered; } shift_td_state_t;
+
+static shift_td_state_t ltap_state = {0, false};
+static shift_td_state_t rtap_state = {0, false};
 ```
 
-`finished` callback logic:
-- `count == 1` → `register_code(KC_LSFT / KC_RSFT)`
-- `count == 2` → `tap_code(KC_CAPS)`
+`finished` callback logic (called when QMK resolves the dance — on TAPPING_TERM expiry, key release, or next-key press):
+- Copy `state->count` into the per-key state struct.
+- `count == 1` → `register_code(KC_LSFT / KC_RSFT)`, set `registered = true`
+- `count == 2` → `tap_code(KC_CAPS)` (toggles OS Caps Lock)
 - `count >= 3` → `caps_word_toggle()`
 
-`reset` callback logic:
-- If `count == 1` was active → `unregister_code(KC_LSFT / KC_RSFT)`
-- Otherwise nothing (Caps Lock and Caps Word are toggle actions)
+`reset` callback logic (called when the key is physically released after `finished`):
+- If `registered == true` → `unregister_code(KC_LSFT / KC_RSFT)`, set `registered = false`
+- Otherwise nothing (Caps Lock and Caps Word are self-contained toggle actions)
+- Clear `count` to 0
+
+The `registered` flag (not a raw count check) is what `reset` uses to determine whether to unregister Shift, ensuring correctness even if QMK resets internal tap dance state before `reset` is called.
 
 ### Keymap changes
 
@@ -104,7 +111,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case SE_ARNG: case SE_ADIA: case SE_ODIA:
             return true;  // uppercase handled by tap_unicode_letter via is_caps_word_on()
         case KC_BSPC: case KC_DEL: case KC_MINS: case KC_UNDS:
-            return true;
+            return true;  // KC_MINS included to keep Caps Word alive for hyphenated-words
         default:
             return false;
     }
