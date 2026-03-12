@@ -8,7 +8,8 @@
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
 //   5: WIN_SPECIAL   — Programming symbols via Unicode (hold RAlt)
 //   6: NUMPAD        — Right-hand numpad (hold MC_5)
-//   7: FN            — Arrow keys on IJKL (hold FN)
+//   7: MAC_FN        — Nav, edit, shortcuts (hold FN, Mac mode)
+//   8: WIN_FN        — Nav, edit, shortcuts (hold FN, Win mode)
 //
 // Mac setup required:
 //   System Preferences → Keyboard → Input Sources → add "Unicode Hex Input"
@@ -30,7 +31,8 @@ enum layers {
     WIN_QWERTY,
     WIN_SPECIAL,
     NUMPAD,
-    _FN,
+    MAC_FN,
+    WIN_FN,
 };
 
 // ──────────────────────────────────────────────
@@ -157,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LSG(KC_4),      KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_COMM, KC_RBRC,                    KC_PGDN,
     LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(_FN),          KC_SPC,                    KC_SPC,           MO(MAC_SPECIAL), MO(_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       KC_SPC,                    KC_SPC,           MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── MAC QWERTY ──────────────────────────────────────────────────────────────────
@@ -188,7 +190,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     LGUI(KC_L),     KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(_FN),          KC_SPC,                    KC_SPC,           MO(WIN_SPECIAL), MO(_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       KC_SPC,                    KC_SPC,           MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── WIN QWERTY ──────────────────────────────────────────────────────────────────
@@ -223,14 +225,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_PDOT,                    KC_P0,            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
-// ── FN LAYER ────────────────────────────────────────────────────────────────────
-// Right: IJKL arrow keys.  Left: WER/SDF navigation.
-[_FN] = LAYOUT_92_iso(
+// ── MAC FN LAYER ─────────────────────────────────────────────────────────────────
+// Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
+// Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right
+[MAC_FN] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_UP,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LGUI(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, LGUI(KC_Z), SGUI(KC_Z), LGUI(KC_C), LGUI(KC_V), LGUI(KC_X), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+// ── WIN FN LAYER ─────────────────────────────────────────────────────────────────
+// Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
+// Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right
+[WIN_FN] = LAYOUT_92_iso(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LCTL(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, LCTL(KC_Z), LCTL(KC_Y), LCTL(KC_C), LCTL(KC_V), LCTL(KC_X), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
@@ -390,27 +405,34 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
 
     // ── Layer colors ──
-    if (IS_LAYER_ON(_FN)) {
-        // Base color with yellow highlights on active keys
+    if (IS_LAYER_ON(MAC_FN) || IS_LAYER_ON(WIN_FN)) {
+        // All off, then per-function colors on active keys
         for (uint8_t i = led_min; i < led_max; i++) {
-            if (IS_LAYER_ON(WIN_QWERTY) || IS_LAYER_ON(MAC_QWERTY)) {
-                rgb_matrix_set_color(i, RGB_CYAN);
-            } else {
-                rgb_matrix_set_color(i, RGB_BLUE);
-            }
+            rgb_matrix_set_color(i, RGB_OFF);
         }
-        // Left: WER/SDF navigation
-        rgb_set(led_min, led_max, 18, RGB_YELLOW);  // W → Ins
-        rgb_set(led_min, led_max, 19, RGB_YELLOW);  // E → Home
-        rgb_set(led_min, led_max, 20, RGB_YELLOW);  // R → PgUp
-        rgb_set(led_min, led_max, 25, RGB_YELLOW);  // S → Del
-        rgb_set(led_min, led_max, 26, RGB_YELLOW);  // D → End
-        rgb_set(led_min, led_max, 27, RGB_YELLOW);  // F → PgDn
-        // Right: IJKL arrows
+        // Left nav cluster: Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn → yellow
+        rgb_set(led_min, led_max, 17, RGB_YELLOW);  // Q → Ins
+        rgb_set(led_min, led_max, 18, RGB_YELLOW);  // W → Home
+        rgb_set(led_min, led_max, 19, RGB_YELLOW);  // E → PgUp
+        rgb_set(led_min, led_max, 24, RGB_YELLOW);  // A → Del
+        rgb_set(led_min, led_max, 25, RGB_YELLOW);  // S → End
+        rgb_set(led_min, led_max, 26, RGB_YELLOW);  // D → PgDn
+        // Right arrows: IJKL → yellow
         rgb_set(led_min, led_max, 61, RGB_YELLOW);  // I → Up
         rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → Left
         rgb_set(led_min, led_max, 69, RGB_YELLOW);  // K → Down
         rgb_set(led_min, led_max, 70, RGB_YELLOW);  // L → Right
+        // Edit shortcuts: F=SelAll  C=Copy  V=Paste  B=Cut → red
+        rgb_set(led_min, led_max, 27, RGB_RED);     // F → Select All
+        rgb_set(led_min, led_max, 34, RGB_RED);     // C → Copy
+        rgb_set(led_min, led_max, 35, RGB_RED);     // V → Paste
+        rgb_set(led_min, led_max, 36, RGB_RED);     // B → Cut
+        // Edit keys: U=Bspc  O=Del → red
+        rgb_set(led_min, led_max, 60, RGB_RED);     // U → Backspace
+        rgb_set(led_min, led_max, 62, RGB_RED);     // O → Delete
+        // Undo/Redo: Z/X → green
+        rgb_set(led_min, led_max, 32, RGB_GREEN);   // Z → Undo
+        rgb_set(led_min, led_max, 33, RGB_GREEN);   // X → Redo
     } else if (IS_LAYER_ON(NUMPAD)) {
         // All off, then yellow on numpad keys only
         for (uint8_t i = led_min; i < led_max; i++) {

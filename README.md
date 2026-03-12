@@ -67,7 +67,8 @@ The Mac/Win hardware slider selects the base layer at boot and sets the Unicode 
 | 4 | WIN_QWERTY | Toggle MC_1 | Cyan |
 | 5 | WIN_SPECIAL | Hold Right Alt | Purple |
 | 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
-| 7 | FN | Hold FN | Base color + yellow on active keys |
+| 7 | MAC_FN | Hold FN (Mac mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
+| 8 | WIN_FN | Hold FN (Win mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
 
 The physical arrow keys in the bottom-right corner always show the OS mode:
 **purple** = Mac, **red** = Windows. This indicator is visible on every layer.
@@ -117,12 +118,43 @@ Programming symbols (Mac: plain US keycodes; Win: via WinCompose):
 
 ### FN layer (hold FN)
 
-Left hand navigation, right hand arrows:
+Mac and Win have separate layers with identical layout but OS-specific shortcuts.
+
+Left hand — navigation cluster and shortcuts:
 
 ```
-      Ins Home PgUp              ↑
-      Del End  PgDn         ←    ↓    →
+ Ins Home PgUp
+ Del End  PgDn  SelAll
+Undo Redo Copy Paste Cut
 ```
+
+Right hand — arrows and edit:
+
+```
+Bspc  ↑  Del
+ ←    ↓   →
+```
+
+| Key | Mac | Windows |
+|-----|-----|---------|
+| Q | Insert | Insert |
+| W | Home | Home |
+| E | Page Up | Page Up |
+| A | Delete | Delete |
+| S | End | End |
+| D | Page Down | Page Down |
+| F | Cmd+A (Select All) | Ctrl+A |
+| Z | Cmd+Z (Undo) | Ctrl+Z |
+| X | Cmd+Shift+Z (Redo) | Ctrl+Y |
+| C | Cmd+C (Copy) | Ctrl+C |
+| V | Cmd+V (Paste) | Ctrl+V |
+| B | Cmd+X (Cut) | Ctrl+X |
+| U | Backspace | Backspace |
+| I | ↑ | ↑ |
+| O | Delete | Delete |
+| J | ← | ← |
+| K | ↓ | ↓ |
+| L | → | → |
 
 ### QWERTY layer (toggle MC_1)
 
