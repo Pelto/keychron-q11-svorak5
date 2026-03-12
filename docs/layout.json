@@ -315,7 +315,7 @@
         "KC_O": "LSFT(KC_COMM)",
         "KC_P": "LSFT(KC_DOT)",
         "KC_LBRC": "_______",
-        "KC_RBRC": "LSFT(KC_GRV)",
+        "KC_RBRC": "hex(\"~\")",
         "KC_PGDN": "_______"
       },
       "row3": {
@@ -329,7 +329,7 @@
         "KC_J": "LSFT(KC_6)",
         "KC_K": "LSFT(KC_3)",
         "KC_L": "LSFT(KC_QUOT)",
-        "KC_SCLN": "LSFT(KC_GRV)",
+        "KC_SCLN": "hex(\"~\")",
         "KC_QUOT": "_______",
         "KC_NUHS": "_______",
         "KC_ENT": "_______",

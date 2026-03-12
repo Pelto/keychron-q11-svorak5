@@ -81,7 +81,7 @@ enum tap_dance_codes {
 #define U_PIPE LSFT(KC_BSLS)  // |
 #define U_CIRC LSFT(KC_6)     // ^
 #define U_HASH LSFT(KC_3)     // #
-#define U_TILD LSFT(KC_GRV)   // ~
+#define U_TILD UC(0x007E)      // ~ (KC_GRV gives ± on Mac ISO/Swedish layout)
 #define U_AT   LSFT(KC_2)     // @
 #define U_BSLS KC_BSLS         // backslash
 #define U_PERC LSFT(KC_5)     // %
