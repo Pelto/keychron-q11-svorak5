@@ -67,7 +67,7 @@ The Mac/Win hardware slider selects the base layer at boot and sets the Unicode 
 | 4 | WIN_QWERTY | Toggle MC_1 | Cyan |
 | 5 | WIN_SPECIAL | Hold Right Alt | Purple |
 | 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
-| 7 | MAC_FN | Hold FN (Mac mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
+| 7 | MAC_FN | Hold FN (Mac mode) | Off + red F keys, yellow nav/arrows, red edit/shortcuts, green undo/redo |
 | 8 | WIN_FN | Hold FN (Win mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
 | 9 | MAC_MOD_L | Hold Left Space (Mac) | Off + colored home row mods |
 | 10 | MAC_MOD_R | Hold Right Space (Mac) | Off + colored home row mods |
@@ -123,6 +123,14 @@ Programming symbols (Mac: plain US keycodes; Win: via WinCompose):
 ### FN layer (hold FN)
 
 Mac and Win have separate layers with identical layout but OS-specific shortcuts.
+
+On **Mac**, the base layer uses media/system keys in the top row (brightness, Mission Control, etc.). Holding FN overrides these with actual F keys:
+
+```
+F1  F2  F3  F4  F5  F6  F7  F8  F9  F10  F11  F12
+```
+
+On **Win**, the base layer already has F1–F12, so the FN layer is transparent there.
 
 Left hand — navigation cluster and shortcuts:
 

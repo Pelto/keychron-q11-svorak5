@@ -237,7 +237,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
 // Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right
 [MAC_FN] = LAYOUT_92_iso(
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LGUI(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
@@ -503,6 +503,21 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         // Undo/Redo: Z/X → green
         rgb_set(led_min, led_max, 32, RGB_GREEN);   // Z → Undo
         rgb_set(led_min, led_max, 33, RGB_GREEN);   // X → Redo
+        // F keys: F1-F12 → red (Mac only; Win base already has F keys)
+        if (IS_LAYER_ON(MAC_FN)) {
+            rgb_set(led_min, led_max,  1, RGB_RED);  // F1
+            rgb_set(led_min, led_max,  2, RGB_RED);  // F2
+            rgb_set(led_min, led_max,  3, RGB_RED);  // F3
+            rgb_set(led_min, led_max,  4, RGB_RED);  // F4
+            rgb_set(led_min, led_max,  5, RGB_RED);  // F5
+            rgb_set(led_min, led_max,  6, RGB_RED);  // F6
+            rgb_set(led_min, led_max, 43, RGB_RED);  // F7
+            rgb_set(led_min, led_max, 44, RGB_RED);  // F8
+            rgb_set(led_min, led_max, 45, RGB_RED);  // F9
+            rgb_set(led_min, led_max, 46, RGB_RED);  // F10
+            rgb_set(led_min, led_max, 47, RGB_RED);  // F11
+            rgb_set(led_min, led_max, 48, RGB_RED);  // F12
+        }
     } else if (IS_LAYER_ON(NUMPAD)) {
         // All off, then yellow on numpad keys only
         for (uint8_t i = led_min; i < led_max; i++) {
