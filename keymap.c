@@ -3,7 +3,7 @@
 // Layer stack (higher index = higher priority):
 //   0: MAC_SVORAK   — Swedish Dvorak (default when Mac switch)
 //   1: MAC_QWERTY   — QWERTY overlay (toggle via MC_1)
-//   2: MAC_SPECIAL   — Programming symbols via Unicode (hold RCmd)
+//   2: MAC_SPECIAL   — Programming symbols — plain US keycodes (hold RCmd)
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
 //   5: WIN_SPECIAL   — Programming symbols via Unicode (hold RAlt)
@@ -61,34 +61,58 @@ enum tap_dance_codes {
     TD_RSFT,
 };
 
-// ──────────────────────────────────────────────
-// Unicode codepoints for SPECIAL layers
-// ──────────────────────────────────────────────
-#define U_LCBR UC(0x007B)  // {
-#define U_RCBR UC(0x007D)  // }
-#define U_LBRC UC(0x005B)  // [
-#define U_RBRC UC(0x005D)  // ]
-#define U_DLR  UC(0x0024)  // $
-#define U_DQUO UC(0x0022)  // "
-#define U_QUES UC(0x003F)  // ?
-#define U_AMPR UC(0x0026)  // &
-#define U_LABK UC(0x003C)  // <
-#define U_RABK UC(0x003E)  // >
-#define U_SEMI UC(0x003B)  // ;
-#define U_SLSH UC(0x002F)  // /
-#define U_LPRN UC(0x0028)  // (
-#define U_RPRN UC(0x0029)  // )
-#define U_PIPE UC(0x007C)  // |
-#define U_CIRC UC(0x005E)  // ^
-#define U_HASH UC(0x0023)  // #
-#define U_TILD UC(0x007E)  // ~
-#define U_DOT  UC(0x002E)  // .
-#define U_AT   UC(0x0040)  // @
-#define U_BSLS UC(0x005C)  // backslash
-#define U_PERC UC(0x0025)  // %
-#define U_COLN UC(0x003A)  // :
-#define U_EQL  UC(0x003D)  // =
-#define U_EXLM UC(0x0021)  // !
+// ── Mac Special — plain US keycodes, bypasses Unicode Hex Input ──
+#define U_LCBR LSFT(KC_LBRC)  // {
+#define U_RCBR LSFT(KC_RBRC)  // }
+#define U_LBRC KC_LBRC         // [
+#define U_RBRC KC_RBRC         // ]
+#define U_DLR  LSFT(KC_4)     // $
+#define U_DQUO LSFT(KC_QUOT)  // "
+#define U_QUES LSFT(KC_SLSH)  // ?
+#define U_AMPR LSFT(KC_7)     // &
+#define U_LABK LSFT(KC_COMM)  // <
+#define U_RABK LSFT(KC_DOT)   // >
+#define U_SEMI KC_SCLN         // ;
+#define U_SLSH KC_SLSH         // /
+#define U_LPRN LSFT(KC_9)     // (
+#define U_RPRN LSFT(KC_0)     // )
+#define U_PIPE LSFT(KC_BSLS)  // |
+#define U_CIRC LSFT(KC_6)     // ^
+#define U_HASH LSFT(KC_3)     // #
+#define U_TILD LSFT(KC_GRV)   // ~
+#define U_AT   LSFT(KC_2)     // @
+#define U_BSLS KC_BSLS         // backslash
+#define U_PERC LSFT(KC_5)     // %
+#define U_COLN LSFT(KC_SCLN)  // :
+#define U_EQL  KC_EQL          // =
+#define U_EXLM LSFT(KC_1)     // !
+#define U_GRV  KC_GRV          // `
+// ── Win Special — UC() via WinCompose, unchanged ──
+#define UW_LCBR UC(0x007B)  // {
+#define UW_RCBR UC(0x007D)  // }
+#define UW_LBRC UC(0x005B)  // [
+#define UW_RBRC UC(0x005D)  // ]
+#define UW_DLR  UC(0x0024)  // $
+#define UW_DQUO UC(0x0022)  // "
+#define UW_QUES UC(0x003F)  // ?
+#define UW_AMPR UC(0x0026)  // &
+#define UW_LABK UC(0x003C)  // <
+#define UW_RABK UC(0x003E)  // >
+#define UW_SEMI UC(0x003B)  // ;
+#define UW_SLSH UC(0x002F)  // /
+#define UW_LPRN UC(0x0028)  // (
+#define UW_RPRN UC(0x0029)  // )
+#define UW_PIPE UC(0x007C)  // |
+#define UW_CIRC UC(0x005E)  // ^
+#define UW_HASH UC(0x0023)  // #
+#define UW_TILD UC(0x007E)  // ~
+#define UW_AT   UC(0x0040)  // @
+#define UW_BSLS UC(0x005C)  // backslash
+#define UW_PERC UC(0x0025)  // %
+#define UW_COLN UC(0x003A)  // :
+#define UW_EQL  UC(0x003D)  // =
+#define UW_EXLM UC(0x0021)  // !
+#define UW_GRV  UC(0x0060)  // `
 
 // ──────────────────────────────────────────────
 // Helpers — send Unicode with shift / caps-lock awareness
@@ -147,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── MAC SPECIAL ─────────────────────────────────────────────────────────────────
-// Programming symbols via Unicode hex input (macOS)
+// Programming symbols — plain US keycodes (macOS)
 [MAC_SPECIAL] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
@@ -182,9 +206,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [WIN_SPECIAL] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, U_LCBR,  U_RCBR,  U_LBRC,  U_RBRC,  U_DLR,   U_DQUO,  U_QUES,  U_AMPR,  U_LABK,  U_RABK,  KC_TRNS, U_TILD,                   KC_TRNS,
-    KC_TRNS, KC_TRNS, U_SEMI,  U_SLSH,  U_LPRN,  U_RPRN,  U_PIPE,  KC_TRNS, U_CIRC,  U_HASH,  U_DQUO,  U_TILD,  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, U_COLN,  U_EQL,   U_AT,    U_EXLM,  U_BSLS,  U_PERC,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, UW_LCBR, UW_RCBR, UW_LBRC, UW_RBRC, UW_DLR,  UW_DQUO, UW_QUES, UW_AMPR, UW_LABK, UW_RABK, KC_TRNS, UW_TILD,                  KC_TRNS,
+    KC_TRNS, KC_TRNS, UW_SEMI, UW_SLSH, UW_LPRN, UW_RPRN, UW_PIPE, KC_TRNS, UW_CIRC, UW_HASH, UW_DQUO, UW_TILD, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, UW_COLN, UW_EQL,  UW_AT,   UW_EXLM, UW_BSLS, UW_PERC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 

@@ -18,6 +18,8 @@ brew install qmk/qmk/qmk arm-none-eabi-gcc@8 arm-none-eabi-binutils
 
 System Settings → Keyboard → Input Sources → add **Unicode Hex Input** and select it as the active input source.
 
+> Required for Swedish characters (å/Å, ä/Ä, ö/Ö and symbols). The SPECIAL layer uses plain US keycodes and does not need it.
+
 **Windows Unicode setup:**
 
 Install [WinCompose](https://github.com/samhocevar/wincompose) and leave it running.
@@ -95,7 +97,7 @@ See `docs/layout.json` for the full machine-readable layout definition.
 
 ### SPECIAL layer (hold Right Cmd / Right Alt)
 
-Programming symbols sent via Unicode:
+Programming symbols (Mac: plain US keycodes; Win: via WinCompose):
 
 ```
        {  }  [  ]  $  "  ?  &  <  >     ~
