@@ -108,8 +108,8 @@
         "KC_LOPT": "KC_LOPT",
         "KC_LCMD": "KC_LCMD",
         "MO_FN": "MO(MAC_FN)",
-        "KC_SPC_L": "KC_SPC",
-        "KC_SPC_R": "KC_SPC",
+        "KC_SPC_L": "LT(MAC_MOD_L, KC_SPC)",
+        "KC_SPC_R": "LT(MAC_MOD_R, KC_SPC)",
         "KC_RCMD": "MO(MAC_SPECIAL)",
         "MO_FN1": "MO(MAC_FN)",
         "KC_RCTL": "KC_RCTL",
@@ -480,8 +480,8 @@
         "KC_LWIN": "KC_LWIN",
         "KC_LALT": "KC_LALT",
         "MO_FN": "MO(WIN_FN)",
-        "KC_SPC_L": "KC_SPC",
-        "KC_SPC_R": "KC_SPC",
+        "KC_SPC_L": "LT(WIN_MOD_L, KC_SPC)",
+        "KC_SPC_R": "LT(WIN_MOD_R, KC_SPC)",
         "KC_RALT": "MO(WIN_SPECIAL)",
         "MO_FN1": "MO(WIN_FN)",
         "KC_RCTL": "KC_RCTL",
@@ -1123,6 +1123,84 @@
         "MC_3": "_______",
         "MC_4": "_______",
         "MC_5": "_______"
+      }
+    }
+    ,
+    {
+      "id": 9,
+      "name": "MAC_MOD_L",
+      "activation": "LT — hold Left Space from MAC_SVORAK/MAC_QWERTY. Tap for Space.",
+      "note": "Cmd/Ctrl on index (F/J), Opt/Alt on ring (S/L) — matches standard keyboard conventions for max cross-platform muscle memory.",
+      "rgb": {
+        "mode": "custom",
+        "base": "off",
+        "KC_A": "blue (Shift)",
+        "KC_S": "magenta (Opt)",
+        "KC_D": "green (Ctrl)",
+        "KC_F": "yellow (Cmd)"
+      },
+      "row3": {
+        "KC_A": "KC_LSFT",
+        "KC_S": "KC_LALT",
+        "KC_D": "KC_LCTL",
+        "KC_F": "KC_LGUI"
+      }
+    },
+    {
+      "id": 10,
+      "name": "MAC_MOD_R",
+      "activation": "LT — hold Right Space from MAC_SVORAK/MAC_QWERTY. Tap for Space.",
+      "rgb": {
+        "mode": "custom",
+        "base": "off",
+        "KC_J": "yellow (Cmd)",
+        "KC_K": "green (Ctrl)",
+        "KC_L": "magenta (Opt)",
+        "KC_SCLN": "blue (Shift)"
+      },
+      "row3": {
+        "KC_J": "KC_RGUI",
+        "KC_K": "KC_RCTL",
+        "KC_L": "KC_RALT",
+        "KC_SCLN": "KC_RSFT"
+      }
+    },
+    {
+      "id": 11,
+      "name": "WIN_MOD_L",
+      "activation": "LT — hold Left Space from WIN_SVORAK/WIN_QWERTY. Tap for Space.",
+      "rgb": {
+        "mode": "custom",
+        "base": "off",
+        "KC_A": "blue (Shift)",
+        "KC_S": "magenta (Alt)",
+        "KC_D": "green (Win)",
+        "KC_F": "yellow (Ctrl)"
+      },
+      "row3": {
+        "KC_A": "KC_LSFT",
+        "KC_S": "KC_LALT",
+        "KC_D": "KC_LGUI",
+        "KC_F": "KC_LCTL"
+      }
+    },
+    {
+      "id": 12,
+      "name": "WIN_MOD_R",
+      "activation": "LT — hold Right Space from WIN_SVORAK/WIN_QWERTY. Tap for Space.",
+      "rgb": {
+        "mode": "custom",
+        "base": "off",
+        "KC_J": "yellow (Ctrl)",
+        "KC_K": "green (Win)",
+        "KC_L": "magenta (Alt)",
+        "KC_SCLN": "blue (Shift)"
+      },
+      "row3": {
+        "KC_J": "KC_RCTL",
+        "KC_K": "KC_RGUI",
+        "KC_L": "KC_RALT",
+        "KC_SCLN": "KC_RSFT"
       }
     }
   ]

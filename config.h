@@ -12,6 +12,15 @@
 // QMK does not sync caps_word natively; we push it via housekeeping_task_user.
 #define SPLIT_TRANSACTION_IDS_USER USER_SYNC_CAPS_WORD
 
+// ── Tap-hold behaviour ────────────────────────────────────────────────────────
+// Hold is triggered when another key is pressed AND fully released while the
+// LT() key is still held. This is more forgiving than HOLD_ON_OTHER_KEY_PRESS
+// for fast typing: a natural space-to-next-letter roll (next letter not yet
+// released when space lifts) registers as a tap. Intentional modifier use
+// (hold space → press shortcut → release shortcut → release space) still
+// triggers hold correctly because the shortcut completes its cycle first.
+#define PERMISSIVE_HOLD
+
 // ── Unicode input modes ───────────────────────────────────────────────────────
 // Both modes are compiled in. The firmware auto-selects based on the
 // Mac/Win switch at boot (see dip_switch_update_user in keymap.c).

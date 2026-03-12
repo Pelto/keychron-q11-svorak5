@@ -3,13 +3,17 @@
 // Layer stack (higher index = higher priority):
 //   0: MAC_SVORAK   — Swedish Dvorak (default when Mac switch)
 //   1: MAC_QWERTY   — QWERTY overlay (toggle via MC_1)
-//   2: MAC_SPECIAL   — Programming symbols — plain US keycodes (hold RCmd)
+//   2: MAC_SPECIAL  — Programming symbols — plain US keycodes (hold RCmd)
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
-//   5: WIN_SPECIAL   — Programming symbols via Unicode (hold RAlt)
-//   6: NUMPAD        — Right-hand numpad (hold MC_5)
-//   7: MAC_FN        — Nav, edit, shortcuts (hold FN, Mac mode)
-//   8: WIN_FN        — Nav, edit, shortcuts (hold FN, Win mode)
+//   5: WIN_SPECIAL  — Programming symbols via Unicode (hold RAlt)
+//   6: NUMPAD       — Right-hand numpad (hold MC_5)
+//   7: MAC_FN       — Nav, edit, shortcuts (hold FN, Mac mode)
+//   8: WIN_FN       — Nav, edit, shortcuts (hold FN, Win mode)
+//   9: MAC_MOD_L   — Left home row mods: A=Shift S=Opt D=Ctrl F=Cmd (hold Left Space, Mac)
+//  10: MAC_MOD_R   — Right home row mods: J=Cmd K=Ctrl L=Opt Ö=Shift (hold Right Space, Mac)
+//  11: WIN_MOD_L   — Left home row mods: A=Shift S=Alt D=Win F=Ctrl (hold Left Space, Win)
+//  12: WIN_MOD_R   — Right home row mods: J=Ctrl K=Win L=Alt Ö=Shift (hold Right Space, Win)
 //
 // Mac setup required:
 //   System Preferences → Keyboard → Input Sources → add "Unicode Hex Input"
@@ -33,6 +37,10 @@ enum layers {
     NUMPAD,
     MAC_FN,
     WIN_FN,
+    MAC_MOD_L,
+    MAC_MOD_R,
+    WIN_MOD_L,
+    WIN_MOD_R,
 };
 
 // ──────────────────────────────────────────────
@@ -159,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LSG(KC_4),      KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_COMM, KC_RBRC,                    KC_PGDN,
     LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       KC_SPC,                    KC_SPC,           MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── MAC QWERTY ──────────────────────────────────────────────────────────────────
@@ -190,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     LGUI(KC_L),     KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       KC_SPC,                    KC_SPC,           MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       LT(WIN_MOD_L, KC_SPC),     LT(WIN_MOD_R, KC_SPC),    MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── WIN QWERTY ──────────────────────────────────────────────────────────────────
@@ -246,6 +254,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LCTL(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, LCTL(KC_Z), LCTL(KC_Y), LCTL(KC_C), LCTL(KC_V), LCTL(KC_X), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+// ── MAC MOD LEFT ─────────────────────────────────────────────────────────────────
+// Hold left Space: physical A=Shift  S=Opt  D=Ctrl  F=Cmd
+[MAC_MOD_L] = LAYOUT_92_iso(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_LSFT, KC_LALT, KC_LCTL, KC_LGUI, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+// ── MAC MOD RIGHT ────────────────────────────────────────────────────────────────
+// Hold right Space: physical J=Cmd  K=Ctrl  L=Opt  Ö=Shift
+[MAC_MOD_R] = LAYOUT_92_iso(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_RGUI, KC_RCTL, KC_RALT, KC_RSFT, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+// ── WIN MOD LEFT ─────────────────────────────────────────────────────────────────
+// Hold left Space: physical A=Shift  S=Alt  D=Win  F=Ctrl
+[WIN_MOD_L] = LAYOUT_92_iso(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_LSFT, KC_LALT, KC_LGUI, KC_LCTL, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+// ── WIN MOD RIGHT ────────────────────────────────────────────────────────────────
+// Hold right Space: physical J=Ctrl  K=Win  L=Alt  Ö=Shift
+[WIN_MOD_R] = LAYOUT_92_iso(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_RCTL, KC_RGUI, KC_RALT, KC_RSFT, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
@@ -405,7 +457,25 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
 
     // ── Layer colors ──
-    if (IS_LAYER_ON(MAC_FN) || IS_LAYER_ON(WIN_FN)) {
+    if (IS_LAYER_ON(MAC_MOD_L) || IS_LAYER_ON(WIN_MOD_L)) {
+        // Left side: off + mod indicator colors
+        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_matrix_set_color(i, RGB_OFF);
+        rgb_set(led_min, led_max, 24, RGB_BLUE);    // A → Shift
+        rgb_set(led_min, led_max, 25, RGB_MAGENTA); // S → Opt (Mac) / Alt (Win)
+        rgb_set(led_min, led_max, 26, RGB_GREEN);   // D → Ctrl (Mac) / Win (Win)
+        rgb_set(led_min, led_max, 27, RGB_YELLOW);  // F → Cmd (Mac) / Ctrl (Win)
+        // Right side: unchanged base color
+        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_matrix_set_color(i, RGB_BLUE);
+    } else if (IS_LAYER_ON(MAC_MOD_R) || IS_LAYER_ON(WIN_MOD_R)) {
+        // Left side: unchanged base color
+        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_matrix_set_color(i, RGB_BLUE);
+        // Right side: off + mod indicator colors
+        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_matrix_set_color(i, RGB_OFF);
+        rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → Cmd (Mac) / Ctrl (Win)
+        rgb_set(led_min, led_max, 69, RGB_GREEN);   // K → Ctrl (Mac) / Win (Win)
+        rgb_set(led_min, led_max, 70, RGB_MAGENTA); // L → Opt (Mac) / Alt (Win)
+        rgb_set(led_min, led_max, 71, RGB_BLUE);    // Ö → Shift
+    } else if (IS_LAYER_ON(MAC_FN) || IS_LAYER_ON(WIN_FN)) {
         // All off, then per-function colors on active keys
         for (uint8_t i = led_min; i < led_max; i++) {
             rgb_matrix_set_color(i, RGB_OFF);

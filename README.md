@@ -69,6 +69,10 @@ The Mac/Win hardware slider selects the base layer at boot and sets the Unicode 
 | 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
 | 7 | MAC_FN | Hold FN (Mac mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
 | 8 | WIN_FN | Hold FN (Win mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
+| 9 | MAC_MOD_L | Hold Left Space (Mac) | Off + colored home row mods |
+| 10 | MAC_MOD_R | Hold Right Space (Mac) | Off + colored home row mods |
+| 11 | WIN_MOD_L | Hold Left Space (Win) | Off + colored home row mods |
+| 12 | WIN_MOD_R | Hold Right Space (Win) | Off + colored home row mods |
 
 The physical arrow keys in the bottom-right corner always show the OS mode:
 **purple** = Mac, **red** = Windows. This indicator is visible on every layer.
@@ -155,6 +159,24 @@ Bspc  ↑  Del
 | J | ← | ← |
 | K | ↓ | ↓ |
 | L | → | → |
+
+### Thumb modifier layers (hold Left or Right Space)
+
+Home row modifier layers for one-handed shortcuts. Hold a space key to activate modifiers on that side, then press a key with the other hand.
+
+The key insight: **Cmd (Mac) and Ctrl (Win) are on the same physical finger (index)**, and **Opt (Mac) and Alt (Win) are on the same finger (ring)** — matching standard keyboard conventions and preserving muscle memory across platforms.
+
+| Physical key | Svorak | Mac | Windows | RGB |
+|---|---|---|---|---|
+| A / Ö | A / S | Shift | Shift | Blue |
+| S / L | O / N | Opt | Alt | Magenta |
+| D / K | E / T | Ctrl | Win | Green |
+| F / J | U / H | Cmd | Ctrl | Yellow |
+
+- **Left Space** activates left side (A S D F) — press the shortcut key with your right hand
+- **Right Space** activates right side (J K L Ö) — press the shortcut key with your left hand
+
+Tap either space as normal to type a space character.
 
 ### QWERTY layer (toggle MC_1)
 
