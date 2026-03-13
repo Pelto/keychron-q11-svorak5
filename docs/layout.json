@@ -884,7 +884,8 @@
         "arrows": "yellow",
         "edit_bspc_del": "red",
         "edit_shortcuts": "red",
-        "undo_redo": "green"
+        "undo_redo": "green",
+        "word_nav": "green"
       },
       "knob_l": {
         "press": "_______",
@@ -971,8 +972,8 @@
         "KC_C": "LGUI(KC_C)",
         "KC_V": "LGUI(KC_V)",
         "KC_B": "LGUI(KC_X)",
-        "KC_N": "_______",
-        "KC_M": "_______",
+        "KC_N": "LALT(KC_LEFT)",
+        "KC_M": "LALT(KC_RGHT)",
         "KC_COMM": "_______",
         "KC_DOT": "_______",
         "KC_SLSH": "_______",
@@ -1012,7 +1013,8 @@
         "arrows": "yellow",
         "edit_bspc_del": "red",
         "edit_shortcuts": "red",
-        "undo_redo": "green"
+        "undo_redo": "green",
+        "word_nav": "green"
       },
       "knob_l": {
         "press": "_______",
@@ -1099,8 +1101,8 @@
         "KC_C": "LCTL(KC_C)",
         "KC_V": "LCTL(KC_V)",
         "KC_B": "LCTL(KC_X)",
-        "KC_N": "_______",
-        "KC_M": "_______",
+        "KC_N": "LCTL(KC_LEFT)",
+        "KC_M": "LCTL(KC_RGHT)",
         "KC_COMM": "_______",
         "KC_DOT": "_______",
         "KC_SLSH": "_______",

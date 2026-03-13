@@ -140,11 +140,12 @@ Left hand — navigation cluster and shortcuts:
 Undo Redo Copy Paste Cut
 ```
 
-Right hand — arrows and edit:
+Right hand — arrows, edit, and word navigation:
 
 ```
 Bspc  ↑  Del
  ←    ↓   →
+ W←  W→
 ```
 
 | Key | Mac | Windows |
@@ -161,6 +162,8 @@ Bspc  ↑  Del
 | C | Cmd+C (Copy) | Ctrl+C |
 | V | Cmd+V (Paste) | Ctrl+V |
 | B | Cmd+X (Cut) | Ctrl+X |
+| N | Word Left (Opt+←) | Word Left (Ctrl+←) |
+| M | Word Right (Opt+→) | Word Right (Ctrl+→) |
 | U | Backspace | Backspace |
 | I | ↑ | ↑ |
 | O | Delete | Delete |
