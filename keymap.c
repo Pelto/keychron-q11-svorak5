@@ -356,10 +356,62 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         // ── Swedish symbols (shift only) ──
         case SE_SECT: tap_unicode_symbol(0x00A7, 0x00B0, record); return false; // § / °
-        case SE_PLUS: tap_unicode_symbol(0x002B, 0x003F, record); return false; // + / ?
-        case SE_ACUT: tap_unicode_symbol(0x0060, 0x00B4, record); return false; // ` / ´
-        case SE_APOS: tap_unicode_symbol(0x0027, 0x002A, record); return false; // ' / *
-        case SE_LESS: tap_unicode_symbol(0x003C, 0x003E, record); return false; // < / >
+        case SE_PLUS: // + / ?
+            if (record->event.pressed) {
+                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
+                if (mods & MOD_MASK_SHIFT) {
+                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
+                    register_code16(S(KC_SLSH));
+                    set_mods(mods);
+                } else {
+                    register_code16(S(KC_EQL));
+                }
+            } else {
+                unregister_code16(S(KC_SLSH));
+                unregister_code16(S(KC_EQL));
+            }
+            return false;
+        case SE_ACUT: // ` / ´
+            if (record->event.pressed) {
+                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
+                if (mods & MOD_MASK_SHIFT) {
+                    register_unicode(0x00B4); // ´ — not on US layout
+                } else {
+                    register_code(KC_GRV);
+                }
+            } else {
+                unregister_code(KC_GRV);
+            }
+            return false;
+        case SE_APOS: // ' / *
+            if (record->event.pressed) {
+                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
+                if (mods & MOD_MASK_SHIFT) {
+                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
+                    register_code16(S(KC_8));
+                    set_mods(mods);
+                } else {
+                    register_code(KC_QUOT);
+                }
+            } else {
+                unregister_code16(S(KC_8));
+                unregister_code(KC_QUOT);
+            }
+            return false;
+        case SE_LESS: // < / >
+            if (record->event.pressed) {
+                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
+                if (mods & MOD_MASK_SHIFT) {
+                    // shift already held → S(KC_DOT) = >
+                    register_code(KC_DOT);
+                } else {
+                    register_code16(S(KC_COMM));
+                }
+            } else {
+                unregister_code(KC_DOT);
+                unregister_code16(S(KC_COMM));
+            }
+            return false;
 
         // ── Minus / underscore (caps lock or caps word: - → _) ──
         case KC_MINS:
@@ -375,30 +427,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        // ── Dot / colon (unshifted = normal KC_DOT, shifted = Unicode colon) ──
+        // ── Dot / colon (unshifted = normal KC_DOT, shifted = colon) ──
         case SE_DOT:
             if (record->event.pressed) {
                 uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
                 if (mods & MOD_MASK_SHIFT) {
-                    register_unicode(0x003A); // :
+                    // shift already held → S(KC_SCLN) = :
+                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
+                    register_code16(S(KC_SCLN));
+                    set_mods(mods);
                 } else {
                     register_code(KC_DOT);
                 }
             } else {
+                unregister_code16(S(KC_SCLN));
                 unregister_code(KC_DOT);
             }
             return false;
 
-        // ── Comma / semicolon (unshifted = normal KC_COMM, shifted = Unicode ;) ──
+        // ── Comma / semicolon (unshifted = normal KC_COMM, shifted = semicolon) ──
         case SE_COMM:
             if (record->event.pressed) {
                 uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
                 if (mods & MOD_MASK_SHIFT) {
-                    register_unicode(0x003B); // ;
+                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
+                    register_code(KC_SCLN);
+                    set_mods(mods);
                 } else {
                     register_code(KC_COMM);
                 }
             } else {
+                unregister_code(KC_SCLN);
                 unregister_code(KC_COMM);
             }
             return false;
