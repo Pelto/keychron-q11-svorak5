@@ -82,7 +82,7 @@ enum tap_dance_codes {
 #define U_CIRC LSFT(KC_RBRC)      // ^
 #define U_HASH LSFT(KC_3)         // #
 #define U_TILD LALT(KC_RBRC)       // ~
-#define U_AT   LALT(KC_NUHS)      // @
+#define U_AT   LALT(KC_2)          // @
 #define U_BSLS LSFT(LALT(KC_7))   // backslash
 #define U_PERC LSFT(KC_5)         // %
 #define U_COLN LSFT(KC_DOT)       // :
