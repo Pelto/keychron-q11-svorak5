@@ -3,7 +3,7 @@
 // Layer stack (higher index = higher priority):
 //   0: MAC_SVORAK   — Swedish Dvorak (default when Mac switch)
 //   1: MAC_QWERTY   — QWERTY overlay (toggle via MC_1)
-//   2: MAC_SPECIAL  — Programming symbols — plain US keycodes (hold RCmd)
+//   2: MAC_SPECIAL  — Programming symbols via Swedish keyboard combos (hold RCmd)
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
 //   5: WIN_SPECIAL  — Programming symbols via Unicode (hold RAlt)
@@ -16,7 +16,7 @@
 //  12: WIN_MOD_R   — Right home row mods: J=Ctrl K=Win L=Alt Ö=Shift (hold Right Space, Win)
 //
 // Mac setup required:
-//   System Preferences → Keyboard → Input Sources → add "Unicode Hex Input"
+//   System Preferences → Keyboard → Input Sources → "Swedish" (or "Swedish – Pro")
 //
 // Windows setup required:
 //   Install WinCompose: https://github.com/samhocevar/wincompose
@@ -44,23 +44,14 @@ enum layers {
 };
 
 // ──────────────────────────────────────────────
-// Custom keycodes — Swedish characters via Unicode
+// Custom keycodes
 // ──────────────────────────────────────────────
-// On Mac the active input source must be "Unicode Hex Input" for the SPECIAL
-// layer to work.  That input source uses a US keyboard mapping, so all keys
-// that differ between Swedish and US need to send their characters via
-// register_unicode() instead of relying on the OS layout.
+// Both Mac and Win assume Swedish keyboard input at the OS level.
+// Most Swedish characters map directly to plain keycodes (KC_LBRC = å,
+// KC_QUOT = ä, KC_SCLN = ö, etc.).  Only the ´/` dead-key pair needs
+// custom handling to produce literal characters.
 enum custom_keycodes {
-    SE_SECT = SAFE_RANGE,  // § / °
-    SE_PLUS,               // + / ?
-    SE_ACUT,               // ` / ´
-    SE_ARNG,               // å / Å
-    SE_ADIA,               // ä / Ä
-    SE_ODIA,               // ö / Ö
-    SE_APOS,               // ' / *
-    SE_LESS,               // < / >
-    SE_DOT,                // . / :  (dot unshifted, colon shifted)
-    SE_COMM,               // , / ;  (comma unshifted, semicolon shifted)
+    SE_ACUT = SAFE_RANGE,  // ` / ´ (dead key + space on Swedish layout)
 };
 
 // ──────────────────────────────────────────────
@@ -71,32 +62,32 @@ enum tap_dance_codes {
     TD_RSFT,
 };
 
-// ── Mac Special — plain US keycodes, bypasses Unicode Hex Input ──
-#define U_LCBR LSFT(KC_LBRC)  // {
-#define U_RCBR LSFT(KC_RBRC)  // }
-#define U_LBRC KC_LBRC         // [
-#define U_RBRC KC_RBRC         // ]
-#define U_DLR  LSFT(KC_4)     // $
-#define U_DQUO LSFT(KC_QUOT)  // "
-#define U_QUES LSFT(KC_SLSH)  // ?
-#define U_AMPR LSFT(KC_7)     // &
-#define U_LABK LSFT(KC_COMM)  // <
-#define U_RABK LSFT(KC_DOT)   // >
-#define U_SEMI KC_SCLN         // ;
-#define U_SLSH KC_SLSH         // /
-#define U_LPRN LSFT(KC_9)     // (
-#define U_RPRN LSFT(KC_0)     // )
-#define U_PIPE LSFT(KC_BSLS)  // |
-#define U_CIRC LSFT(KC_6)     // ^
-#define U_HASH LSFT(KC_3)     // #
-#define U_TILD UC(0x007E)      // ~ (KC_GRV gives ± on Mac ISO/Swedish layout)
-#define U_AT   LSFT(KC_2)     // @
-#define U_BSLS KC_BSLS         // backslash
-#define U_PERC LSFT(KC_5)     // %
-#define U_COLN LSFT(KC_SCLN)  // :
-#define U_EQL  KC_EQL          // =
-#define U_EXLM LSFT(KC_1)     // !
-#define U_GRV  KC_GRV          // `
+// ── Mac Special — Swedish keyboard combos (Option+key, Shift+key) ──
+// Reference: qmk_firmware/quantum/keymap_extras/keymap_swedish_mac_iso.h
+#define U_LCBR LSFT(LALT(KC_8))  // {
+#define U_RCBR LSFT(LALT(KC_9))  // }
+#define U_LBRC LALT(KC_8)         // [
+#define U_RBRC LALT(KC_9)         // ]
+#define U_DLR  LALT(KC_4)         // $
+#define U_DQUO LSFT(KC_2)         // "
+#define U_QUES LSFT(KC_MINS)      // ?
+#define U_AMPR LSFT(KC_6)         // &
+#define U_LABK KC_NUBS             // <
+#define U_RABK LSFT(KC_NUBS)      // >
+#define U_SEMI LSFT(KC_COMM)      // ;
+#define U_SLSH LSFT(KC_7)         // /
+#define U_LPRN LSFT(KC_8)         // (
+#define U_RPRN LSFT(KC_9)         // )
+#define U_PIPE LALT(KC_7)          // |
+#define U_CIRC LSFT(KC_RBRC)      // ^
+#define U_HASH LSFT(KC_3)         // #
+#define U_TILD LALT(KC_RBRC)       // ~
+#define U_AT   LALT(KC_NUHS)      // @
+#define U_BSLS LSFT(LALT(KC_7))   // backslash
+#define U_PERC LSFT(KC_5)         // %
+#define U_COLN LSFT(KC_DOT)       // :
+#define U_EQL  LSFT(KC_0)         // =
+#define U_EXLM LSFT(KC_1)         // !
 // ── Win Special — UC() via WinCompose, unchanged ──
 #define UW_LCBR UC(0x007B)  // {
 #define UW_RCBR UC(0x007D)  // }
@@ -125,28 +116,6 @@ enum tap_dance_codes {
 #define UW_GRV  UC(0x0060)  // `
 
 // ──────────────────────────────────────────────
-// Helpers — send Unicode with shift / caps-lock awareness
-// ──────────────────────────────────────────────
-// Letters: Shift XOR CapsLock selects upper-case.
-static void tap_unicode_letter(uint32_t lower, uint32_t upper, keyrecord_t *record) {
-    if (record->event.pressed) {
-        uint8_t mods    = get_mods() | get_weak_mods() | get_oneshot_mods();
-        bool    shifted = (mods & MOD_MASK_SHIFT) != 0;
-        bool    caps    = host_keyboard_led_state().caps_lock || is_caps_word_on();
-        register_unicode((shifted ^ caps) ? upper : lower);
-    }
-}
-
-// Symbols: only Shift selects the alternate character.
-static void tap_unicode_symbol(uint32_t lower, uint32_t upper, keyrecord_t *record) {
-    if (record->event.pressed) {
-        uint8_t mods    = get_mods() | get_weak_mods() | get_oneshot_mods();
-        bool    shifted = (mods & MOD_MASK_SHIFT) != 0;
-        register_unicode(shifted ? upper : lower);
-    }
-}
-
-// ──────────────────────────────────────────────
 // Keymaps
 // ──────────────────────────────────────────────
 // LAYOUT_92_iso row structure (92 keys):
@@ -163,10 +132,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ── MAC SVORAK ──────────────────────────────────────────────────────────────────
 [MAC_SVORAK] = LAYOUT_92_iso(
     KC_MUTE,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
-    TG(MAC_QWERTY), SE_SECT, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, SE_ACUT, KC_BSPC,           KC_PGUP,
-    LSG(KC_4),      KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_COMM, KC_RBRC,                    KC_PGDN,
-    LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, SE_APOS, KC_ENT,            KC_HOME,
-    KC_CALC,        TD(TD_LSFT), SE_LESS, SE_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
+    TG(MAC_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, SE_ACUT, KC_BSPC,           KC_PGUP,
+    LSG(KC_4),      KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
+    LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
+    KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
@@ -174,20 +143,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [MAC_QWERTY] = LAYOUT_92_iso(
     KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     TG(MAC_QWERTY), KC_GRV,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    SE_ARNG, KC_RBRC,                     KC_TRNS,
-    KC_TRNS,        KC_TRNS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    SE_ODIA, SE_ADIA, SE_APOS, KC_TRNS,           KC_TRNS,
-    KC_TRNS,        KC_TRNS, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_MINS,          KC_TRNS, KC_TRNS,
+    KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
+    KC_TRNS,        KC_TRNS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
+    KC_TRNS,        KC_TRNS, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_TRNS, KC_TRNS,
     MO(NUMPAD),     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                   KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 // ── MAC SPECIAL ─────────────────────────────────────────────────────────────────
-// Programming symbols — plain US keycodes (macOS)
+// Programming symbols — Swedish keyboard combos (macOS)
 [MAC_SPECIAL] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS, KC_TRNS, U_LCBR,  U_RCBR,  U_LBRC,  U_RBRC,  U_DLR,   U_DQUO,  U_QUES,  U_AMPR,  U_LABK,  U_RABK,  KC_TRNS, U_TILD,                   KC_TRNS,
     KC_TRNS, KC_TRNS, U_SEMI,  U_SLSH,  U_LPRN,  U_RPRN,  U_PIPE,  KC_TRNS, U_CIRC,  U_HASH,  U_DQUO,  U_TILD,  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, U_COLN,  KC_EQL,  U_AT,    U_EXLM,  U_BSLS,  U_PERC,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, U_COLN,  U_EQL,   U_AT,    U_EXLM,  U_BSLS,  U_PERC,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
@@ -345,120 +314,40 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 // ──────────────────────────────────────────────
-// Custom keycode handling — Swedish chars via Unicode
+// Custom keycode handling
 // ──────────────────────────────────────────────
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        // ── Swedish letters (shift XOR caps-lock) ──
-        case SE_ARNG: tap_unicode_letter(0x00E5, 0x00C5, record); return false; // å / Å
-        case SE_ADIA: tap_unicode_letter(0x00E4, 0x00C4, record); return false; // ä / Ä
-        case SE_ODIA: tap_unicode_letter(0x00F6, 0x00D6, record); return false; // ö / Ö
-
-        // ── Swedish symbols (shift only) ──
-        case SE_SECT: tap_unicode_symbol(0x00A7, 0x00B0, record); return false; // § / °
-        case SE_PLUS: // + / ?
-            if (record->event.pressed) {
-                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
-                if (mods & MOD_MASK_SHIFT) {
-                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
-                    register_code16(S(KC_SLSH));
-                    set_mods(mods);
-                } else {
-                    register_code16(S(KC_EQL));
-                }
-            } else {
-                unregister_code16(S(KC_SLSH));
-                unregister_code16(S(KC_EQL));
-            }
-            return false;
+        // ── Grave / acute (dead key + space for literal character) ──
         case SE_ACUT: // ` / ´
             if (record->event.pressed) {
                 uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
                 if (mods & MOD_MASK_SHIFT) {
-                    register_unicode(0x00B4); // ´ — not on US layout
-                } else {
-                    register_code(KC_GRV);
-                }
-            } else {
-                unregister_code(KC_GRV);
-            }
-            return false;
-        case SE_APOS: // ' / *
-            if (record->event.pressed) {
-                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
-                if (mods & MOD_MASK_SHIFT) {
+                    // ´ — strip shift, tap dead acute (KC_EQL on Swedish), space
                     del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
-                    register_code16(S(KC_8));
+                    tap_code(KC_EQL);
+                    tap_code(KC_SPC);
                     set_mods(mods);
                 } else {
-                    register_code(KC_QUOT);
+                    // ` — tap dead grave (Shift+KC_EQL on Swedish), space
+                    tap_code16(S(KC_EQL));
+                    tap_code(KC_SPC);
                 }
-            } else {
-                unregister_code16(S(KC_8));
-                unregister_code(KC_QUOT);
-            }
-            return false;
-        case SE_LESS: // < / >
-            if (record->event.pressed) {
-                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
-                if (mods & MOD_MASK_SHIFT) {
-                    // shift already held → S(KC_DOT) = >
-                    register_code(KC_DOT);
-                } else {
-                    register_code16(S(KC_COMM));
-                }
-            } else {
-                unregister_code(KC_DOT);
-                unregister_code16(S(KC_COMM));
             }
             return false;
 
         // ── Minus / underscore (caps lock or caps word: - → _) ──
-        case KC_MINS:
+        // KC_SLSH = - on Swedish layout, S(KC_SLSH) = _
+        case KC_SLSH:
             if (record->event.pressed) {
                 if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
-                    register_code16(KC_UNDS);
+                    register_code16(S(KC_SLSH));
                 } else {
-                    register_code(KC_MINS);
+                    register_code(KC_SLSH);
                 }
             } else {
-                unregister_code16(KC_UNDS);
-                unregister_code(KC_MINS);
-            }
-            return false;
-
-        // ── Dot / colon (unshifted = normal KC_DOT, shifted = colon) ──
-        case SE_DOT:
-            if (record->event.pressed) {
-                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
-                if (mods & MOD_MASK_SHIFT) {
-                    // shift already held → S(KC_SCLN) = :
-                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
-                    register_code16(S(KC_SCLN));
-                    set_mods(mods);
-                } else {
-                    register_code(KC_DOT);
-                }
-            } else {
-                unregister_code16(S(KC_SCLN));
-                unregister_code(KC_DOT);
-            }
-            return false;
-
-        // ── Comma / semicolon (unshifted = normal KC_COMM, shifted = semicolon) ──
-        case SE_COMM:
-            if (record->event.pressed) {
-                uint8_t mods = get_mods() | get_weak_mods() | get_oneshot_mods();
-                if (mods & MOD_MASK_SHIFT) {
-                    del_mods(MOD_MASK_SHIFT); del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT);
-                    register_code(KC_SCLN);
-                    set_mods(mods);
-                } else {
-                    register_code(KC_COMM);
-                }
-            } else {
-                unregister_code(KC_SCLN);
-                unregister_code(KC_COMM);
+                unregister_code16(S(KC_SLSH));
+                unregister_code(KC_SLSH);
             }
             return false;
     }
@@ -473,10 +362,11 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_A ... KC_Z:
             add_weak_mods(MOD_BIT(KC_LSFT));
             return true;
-        case SE_ARNG: case SE_ADIA: case SE_ODIA:
-            return true;  // uppercase handled by tap_unicode_letter via is_caps_word_on()
-        case KC_BSPC: case KC_DEL: case KC_MINS: case KC_UNDS:
-            return true;  // KC_MINS included to keep Caps Word alive for hyphenated-words
+        case KC_LBRC: case KC_QUOT: case KC_SCLN:  // å, ä, ö on Swedish layout
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
+        case KC_BSPC: case KC_DEL: case KC_SLSH:
+            return true;  // KC_SLSH = - on Swedish; _ handled in process_record_user
         default:
             return false;
     }
@@ -672,7 +562,9 @@ void housekeeping_task_user(void) {
 // ──────────────────────────────────────────────
 // DIP switch — Mac/Win hardware slider
 // The board default maps to layers 0/2. We override to
-// target our actual layer indices and set Unicode mode.
+// target our actual layer indices.  Mac uses native Swedish
+// keystrokes (no Unicode); Win uses WinCompose for the
+// SPECIAL layer.
 // Returning false prevents the board's dip_switch_update_kb
 // from running its own default_layer_set.
 // ──────────────────────────────────────────────
@@ -683,7 +575,6 @@ bool dip_switch_update_user(uint8_t index, bool active) {
         layer_off(WIN_QWERTY);
         if (active) {
             default_layer_set(1UL << MAC_SVORAK);
-            set_unicode_input_mode(UNICODE_MODE_MACOS);
         } else {
             default_layer_set(1UL << WIN_SVORAK);
             set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);

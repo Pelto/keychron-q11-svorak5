@@ -1,6 +1,6 @@
 # Keychron Q11 ISO Nordic — Svorak Firmware
 
-Custom QMK keymap for the Keychron Q11 (ISO encoder) with Swedish Dvorak (Svorak) layout and a Unicode special character layer for programming symbols.
+Custom QMK keymap for the Keychron Q11 (ISO encoder) with Swedish Dvorak (Svorak) layout and a special character layer for programming symbols. Mac uses native Swedish keyboard combos; Windows uses WinCompose for Unicode.
 
 ## Flashing
 
@@ -14,11 +14,11 @@ brew install qmk/qmk/qmk arm-none-eabi-gcc@8 arm-none-eabi-binutils
 
 > The build uses `arm-none-eabi-gcc@8` automatically. Newer GCC versions (15.x) have broken newlib headers.
 
-**macOS Unicode setup:**
+**macOS keyboard setup:**
 
-System Settings → Keyboard → Input Sources → add **Unicode Hex Input** and select it as the active input source.
+System Settings → Keyboard → Input Sources → select **Swedish** (or **Swedish – Pro**) as the active input source.
 
-> Required for Swedish characters (å/Å, ä/Ä, ö/Ö and symbols). The SPECIAL layer uses plain US keycodes and does not need it.
+> The firmware sends native Swedish keycodes. No Unicode Hex Input needed.
 
 **Windows Unicode setup:**
 
@@ -56,7 +56,7 @@ make flash        # build and flash (repeat for each half)
 
 ## Layer overview
 
-The Mac/Win hardware slider selects the base layer at boot and sets the Unicode input mode automatically.
+The Mac/Win hardware slider selects the base layer at boot. Windows mode also sets WinCompose as the Unicode input mode.
 
 | Layer | Name | Activation | RGB |
 |-------|------|-----------|-----|
@@ -102,7 +102,7 @@ See `docs/layout.json` for the full machine-readable layout definition.
 
 ### SPECIAL layer (hold Right Cmd / Right Alt)
 
-Programming symbols (Mac: plain US keycodes; Win: via WinCompose):
+Programming symbols (Mac: Swedish keyboard combos; Win: via WinCompose):
 
 ```
        {  }  [  ]  $  "  ?  &  <  >     ~
