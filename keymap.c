@@ -273,7 +273,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 // ──────────────────────────────────────────────
-// Tap dance — Shift keys (tap/hold=Shift, ×2=Caps Lock, ×3=Caps Word)
+// Tap dance — Shift keys (tap/hold=Shift, ×2=Caps Word, ×3=Caps Lock)
 // ──────────────────────────────────────────────
 typedef struct { uint8_t count; bool registered; } shift_td_state_t;
 
@@ -287,9 +287,9 @@ static void sft_finished(tap_dance_state_t *state, void *user_data, bool is_left
         register_code(is_left ? KC_LSFT : KC_RSFT);
         s->registered = true;
     } else if (s->count == 2) {
-        tap_code(KC_CAPS);
-    } else {
         caps_word_toggle();
+    } else {
+        tap_code(KC_CAPS);
     }
 }
 

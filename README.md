@@ -96,8 +96,8 @@ See `docs/layout.json` for the full machine-readable layout definition.
 |-----|----------|
 | Physical Caps Lock | Enter (remapped in Svorak base layers) |
 | Shift (tap or hold) | Shift modifier |
-| Shift × 2 | Toggle Caps Lock |
-| Shift × 3 | Toggle Caps Word |
+| Shift × 2 | Toggle Caps Word |
+| Shift × 3 | Toggle Caps Lock |
 | RGB | Both Shift keys red when Caps Lock or Caps Word is active (Svorak/Mac QWERTY); Caps Lock key red in Win QWERTY |
 
 ### SPECIAL layer (hold Right Cmd / Right Alt)
