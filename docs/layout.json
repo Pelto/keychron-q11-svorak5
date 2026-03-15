@@ -90,7 +90,7 @@
       "_row3_note": "KC_SLSH = '-' on Swedish, KC_NUHS = apostrophe on Swedish ISO",
       "row4": {
         "KC_LSFT": "TD(TD_LSFT)",
-        "KC_NUBS": "KC_NUBS",
+        "KC_NUBS": "MO(NUMPAD)",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
@@ -104,7 +104,7 @@
         "KC_RSFT": "TD(TD_RSFT)",
         "KC_UP": "KC_UP"
       },
-      "_row4_note": "KC_NUBS = '<' on Swedish ISO, KC_DOT = '.' unshifted / ':' shifted on Swedish",
+      "_row4_note": "KC_NUBS = MO(NUMPAD) (Svorak never uses <>, repurposed as numpad activator), KC_DOT = '.' unshifted / ':' shifted on Swedish",
       "row5": {
         "KC_LCTL": "KC_LCTL",
         "KC_LOPT": "KC_LOPT",
@@ -463,7 +463,7 @@
       },
       "row4": {
         "KC_LSFT": "TD(TD_LSFT)",
-        "KC_NUBS": "KC_NUBS",
+        "KC_NUBS": "MO(NUMPAD)",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
@@ -502,7 +502,7 @@
     {
       "id": 4,
       "name": "WIN_QWERTY",
-      "activation": "TG(WIN_QWERTY) via MC_1 from WIN_SVORAK. MC_1 again to toggle off. Gaming-optimized: plain shift keys (no tap dance), Caps Lock on physical Caps key.",
+      "activation": "TG(WIN_QWERTY) via MC_1 from WIN_SVORAK. MC_1 again to toggle off. Gaming-optimized: plain shift keys (no tap dance), Caps Lock on physical Caps key. KC_NUBS explicit to prevent fall-through to WIN_SVORAK's MO(NUMPAD).",
       "rgb": {
         "mode": "solid",
         "color": "cyan",
@@ -588,7 +588,7 @@
       },
       "row4": {
         "KC_LSFT": "KC_LSFT",
-        "KC_NUBS": "_______",
+        "KC_NUBS": "KC_NUBS",
         "KC_Z": "KC_Z",
         "KC_X": "KC_X",
         "KC_C": "KC_C",
@@ -751,7 +751,7 @@
     {
       "id": 6,
       "name": "NUMPAD",
-      "activation": "MO — hold MC_5 from any layer. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
+      "activation": "MO — hold MC_5 or KC_NUBS (Svorak only) from any layer. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
       "rgb": {
         "mode": "solid",
         "color": "yellow",

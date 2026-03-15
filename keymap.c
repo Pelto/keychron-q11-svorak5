@@ -134,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TG(MAC_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
-    KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
+    KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
@@ -165,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TG(WIN_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     LGUI(KC_L),     KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
-    KC_CALC,        TD(TD_LSFT), KC_NUBS, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
+    KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       LT(WIN_MOD_L, KC_SPC),     LT(WIN_MOD_R, KC_SPC),    MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
@@ -175,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TG(WIN_QWERTY), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
     KC_TRNS,        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
-    KC_TRNS,        KC_LSFT, KC_TRNS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_TRNS,
+    KC_TRNS,        KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_TRNS,
     MO(NUMPAD),     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_SPC,                    KC_SPC,           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 

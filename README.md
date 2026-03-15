@@ -87,7 +87,7 @@ See `docs/layout.json` for the full machine-readable layout definition.
  §  1  2  3  4  5  6  7  8  9  0  +  `
  ⇥  Å  Ä  Ö  P  Y  F  G  C  R  L  ,  `
  ↵  A  O  E  U  I  D  H  T  N  S  -  '
- ⇧  <  .  Q  J  K  X  B  M  W  V  Z  ⇧
+ ⇧  ▲  .  Q  J  K  X  B  M  W  V  Z  ⇧
 ```
 
 ### Key behaviors
@@ -110,7 +110,7 @@ Programming symbols via native Swedish keyboard combos (same layout on Mac and W
           :  =  @  !  \  %
 ```
 
-### NUMPAD layer (hold MC_5)
+### NUMPAD layer (hold MC_5 or `<>` key)
 
 ```
                /  *  -
@@ -209,6 +209,7 @@ On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is p
 | MC_3 | Lock screen (Ctrl+Cmd+Q) | Lock screen (Win+L) |
 | MC_4 | Calculator | Calculator |
 | MC_5 | Hold for NUMPAD | Hold for NUMPAD |
+| `<>` key | Hold for NUMPAD (Svorak only) | Hold for NUMPAD (Svorak only) |
 
 ## Encoders
 
