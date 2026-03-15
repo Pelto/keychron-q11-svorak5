@@ -198,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, KC_PAST, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P4,   KC_P5,   KC_P6,   KC_PMNS, KC_PPLS, KC_TRNS, KC_TRNS, KC_PENT,          KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P1,   KC_P2,   KC_P3,   KC_PPLS, KC_TRNS,          KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_PDOT,                    KC_P0,            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_P0,            KC_PDOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 // ── MAC FN LAYER ─────────────────────────────────────────────────────────────────
@@ -492,8 +492,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_set(led_min, led_max, 77, RGB_YELLOW);  // M → P2
         rgb_set(led_min, led_max, 78, RGB_YELLOW);  // , → P3
         rgb_set(led_min, led_max, 79, RGB_YELLOW);  // . → P+
-        rgb_set(led_min, led_max, 42, RGB_YELLOW);  // Space_L → P.
         rgb_set(led_min, led_max, 83, RGB_YELLOW);  // Space_R → P0
+        rgb_set(led_min, led_max, 84, RGB_YELLOW);  // RWin → P.
     } else if (IS_LAYER_ON(WIN_SPECIAL) || IS_LAYER_ON(MAC_SPECIAL)) {
         for (uint8_t i = led_min; i < led_max; i++) {
             rgb_matrix_set_color(i, RGB_MAGENTA);

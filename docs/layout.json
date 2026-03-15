@@ -751,7 +751,7 @@
     {
       "id": 6,
       "name": "NUMPAD",
-      "activation": "MO — hold MC_5 from any layer. KC_SPC_R = KC_P0.",
+      "activation": "MO — hold MC_5 from any layer. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
       "rgb": {
         "mode": "solid",
         "color": "yellow",
@@ -855,9 +855,9 @@
         "KC_LOPT": "_______",
         "KC_LCMD": "_______",
         "MO_FN": "_______",
-        "KC_SPC_L": "KC_PDOT",
+        "KC_SPC_L": "_______",
         "KC_SPC_R": "KC_P0",
-        "KC_RCMD": "_______",
+        "KC_RCMD": "KC_PDOT",
         "MO_FN1": "_______",
         "KC_RCTL": "_______",
         "KC_LEFT": "_______",
