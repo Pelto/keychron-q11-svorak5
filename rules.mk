@@ -1,8 +1,5 @@
 # rules.mk — Keychron Q11 custom keymap
 
-# Enable Unicode input support
-UNICODE_ENABLE = yes
-
 # Enable tap dance (multi-tap Shift keys)
 TAP_DANCE_ENABLE = yes
 

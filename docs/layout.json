@@ -627,7 +627,7 @@
     {
       "id": 5,
       "name": "WIN_SPECIAL",
-      "activation": "MO — hold KC_RALT from WIN_SVORAK only. Sends Unicode via WinCompose.",
+      "activation": "MO — hold KC_RALT from WIN_SVORAK only. Native Swedish keyboard combos.",
       "rgb": {
         "mode": "solid",
         "color": "purple",

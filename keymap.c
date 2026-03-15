@@ -6,7 +6,7 @@
 //   2: MAC_SPECIAL  — Programming symbols via Swedish keyboard combos (hold RCmd)
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
-//   5: WIN_SPECIAL  — Programming symbols via Unicode (hold RAlt)
+//   5: WIN_SPECIAL  — Programming symbols via Swedish keyboard combos (hold RAlt)
 //   6: NUMPAD       — Right-hand numpad (hold MC_5)
 //   7: MAC_FN       — Nav, edit, shortcuts (hold FN, Mac mode)
 //   8: WIN_FN       — Nav, edit, shortcuts (hold FN, Win mode)
@@ -19,7 +19,7 @@
 //   System Preferences → Keyboard → Input Sources → "Swedish" (or "Swedish – Pro")
 //
 // Windows setup required:
-//   Install WinCompose: https://github.com/samhocevar/wincompose
+//   Control Panel → Region → Language → Add "Swedish"
 
 #include QMK_KEYBOARD_H
 #include "transactions.h"
@@ -88,32 +88,31 @@ enum tap_dance_codes {
 #define U_COLN LSFT(KC_DOT)       // :
 #define U_EQL  LSFT(KC_0)         // =
 #define U_EXLM LSFT(KC_1)         // !
-// ── Win Special — UC() via WinCompose, unchanged ──
-#define UW_LCBR UC(0x007B)  // {
-#define UW_RCBR UC(0x007D)  // }
-#define UW_LBRC UC(0x005B)  // [
-#define UW_RBRC UC(0x005D)  // ]
-#define UW_DLR  UC(0x0024)  // $
-#define UW_DQUO UC(0x0022)  // "
-#define UW_QUES UC(0x003F)  // ?
-#define UW_AMPR UC(0x0026)  // &
-#define UW_LABK UC(0x003C)  // <
-#define UW_RABK UC(0x003E)  // >
-#define UW_SEMI UC(0x003B)  // ;
-#define UW_SLSH UC(0x002F)  // /
-#define UW_LPRN UC(0x0028)  // (
-#define UW_RPRN UC(0x0029)  // )
-#define UW_PIPE UC(0x007C)  // |
-#define UW_CIRC UC(0x005E)  // ^
-#define UW_HASH UC(0x0023)  // #
-#define UW_TILD UC(0x007E)  // ~
-#define UW_AT   UC(0x0040)  // @
-#define UW_BSLS UC(0x005C)  // backslash
-#define UW_PERC UC(0x0025)  // %
-#define UW_COLN UC(0x003A)  // :
-#define UW_EQL  UC(0x003D)  // =
-#define UW_EXLM UC(0x0021)  // !
-#define UW_GRV  UC(0x0060)  // `
+// ── Win Special — native Swedish keyboard combos ──
+#define UW_LCBR RALT(KC_7)          // {
+#define UW_RCBR RALT(KC_0)          // }
+#define UW_LBRC RALT(KC_8)          // [
+#define UW_RBRC RALT(KC_9)          // ]
+#define UW_DLR  RALT(KC_4)          // $
+#define UW_DQUO LSFT(KC_2)          // "
+#define UW_QUES LSFT(KC_MINS)       // ?
+#define UW_AMPR LSFT(KC_6)          // &
+#define UW_LABK KC_NUBS              // <
+#define UW_RABK LSFT(KC_NUBS)       // >
+#define UW_SEMI LSFT(KC_COMM)       // ;
+#define UW_SLSH LSFT(KC_7)          // /
+#define UW_LPRN LSFT(KC_8)          // (
+#define UW_RPRN LSFT(KC_9)          // )
+#define UW_PIPE RALT(KC_NUBS)        // |
+#define UW_CIRC LSFT(KC_RBRC)       // ^
+#define UW_HASH LSFT(KC_3)          // #
+#define UW_TILD RALT(KC_RBRC)        // ~
+#define UW_AT   RALT(KC_2)           // @
+#define UW_BSLS RALT(KC_MINS)        // backslash
+#define UW_PERC LSFT(KC_5)          // %
+#define UW_COLN LSFT(KC_DOT)        // :
+#define UW_EQL  LSFT(KC_0)          // =
+#define UW_EXLM LSFT(KC_1)          // !
 
 // ──────────────────────────────────────────────
 // Keymaps
@@ -181,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── WIN SPECIAL ─────────────────────────────────────────────────────────────────
-// Programming symbols via WinCompose
+// Programming symbols via native Swedish keyboard combos
 [WIN_SPECIAL] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
@@ -191,7 +190,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
-// ── NUMPAD ──────────────────────────────────────────────────────────────────────
+// ── NUMPAD ─────────────────────────────────────────────────────────────────────
 // Right-hand numpad overlay. Hold MC_5 to activate.
 [NUMPAD] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -565,9 +564,7 @@ void housekeeping_task_user(void) {
 // ──────────────────────────────────────────────
 // DIP switch — Mac/Win hardware slider
 // The board default maps to layers 0/2. We override to
-// target our actual layer indices.  Mac uses native Swedish
-// keystrokes (no Unicode); Win uses WinCompose for the
-// SPECIAL layer.
+// target our actual layer indices.
 // Returning false prevents the board's dip_switch_update_kb
 // from running its own default_layer_set.
 // ──────────────────────────────────────────────
@@ -580,7 +577,6 @@ bool dip_switch_update_user(uint8_t index, bool active) {
             default_layer_set(1UL << MAC_SVORAK);
         } else {
             default_layer_set(1UL << WIN_SVORAK);
-            set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
         }
     }
     return false;

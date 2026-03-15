@@ -20,12 +20,3 @@
 // (hold space → press shortcut → release shortcut → release space) still
 // triggers hold correctly because the shortcut completes its cycle first.
 #define PERMISSIVE_HOLD
-
-// ── Unicode input modes ───────────────────────────────────────────────────────
-// Mac uses native Swedish keystrokes — no Unicode input mode needed.
-// Win uses WinCompose for the SPECIAL layer symbols.
-#define UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE
-
-// Persist the last used Unicode mode across power cycles (uses EEPROM).
-// Set to false if you want the switch to always be the source of truth.
-#define UNICODE_CYCLE_PERSIST false

@@ -15,7 +15,7 @@ Known discrepancy: the QMK file says `@` = `A(KC_NUHS)` but on macOS
 Sequoia with Swedish input, `@` is actually `A(KC_2)`. Always verify
 against the OS keyboard viewer when in doubt.
 
-The Win layers use WinCompose (UC() macros) and are unaffected by OS input source.
+The Win layers use native Swedish keyboard combos (AltGr+key, Shift+key) — same approach as Mac but using RALT instead of LALT for AltGr, and some different key positions (e.g. `{` = RALT(KC_7), `\` = RALT(KC_MINS)).
 
 ## Always update on feature changes
 
