@@ -287,10 +287,25 @@ static void sft_finished(tap_dance_state_t *state, void *user_data, bool is_left
     if (s->count == 1) {
         register_code(is_left ? KC_LSFT : KC_RSFT);
         s->registered = true;
-    } else if (s->count == 2) {
-        caps_word_toggle();
-    } else {
-        tap_code(KC_CAPS);
+    } else if (s->count >= 2) {
+        // If any caps mode is active, turn everything off
+        bool was_active = false;
+        if (host_keyboard_led_state().caps_lock) {
+            tap_code(KC_CAPS);
+            was_active = true;
+        }
+        if (is_caps_word_on()) {
+            caps_word_off();
+            was_active = true;
+        }
+        // If nothing was active, activate the requested mode
+        if (!was_active) {
+            if (s->count == 2) {
+                caps_word_on();
+            } else {
+                tap_code(KC_CAPS);
+            }
+        }
     }
 }
 
