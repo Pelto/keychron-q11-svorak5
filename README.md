@@ -18,7 +18,7 @@ brew install qmk/qmk/qmk arm-none-eabi-gcc@8 arm-none-eabi-binutils
 
 System Settings → Keyboard → Input Sources → select **Swedish** (or **Swedish – Pro**) as the active input source.
 
-> The firmware sends native Swedish keycodes. No Unicode Hex Input needed.
+> The firmware sends native Swedish keycodes.
 
 **Windows keyboard setup:**
 
@@ -56,7 +56,7 @@ make flash        # build and flash (repeat for each half)
 
 ## Layer overview
 
-The Mac/Win hardware slider selects the base layer at boot.
+The Mac/Win hardware slider selects the base layer.
 
 | Layer | Name | Activation | RGB |
 |-------|------|-----------|-----|
@@ -66,9 +66,9 @@ The Mac/Win hardware slider selects the base layer at boot.
 | 3 | WIN_SVORAK | Default (Win switch) | Blue |
 | 4 | WIN_QWERTY | Toggle MC_1 | Cyan |
 | 5 | WIN_SPECIAL | Hold Right Alt | Purple |
-| 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
-| 7 | MAC_FN | Hold FN (Mac mode) | Off + red F keys, yellow nav/arrows, red edit/shortcuts, green undo/redo |
-| 8 | WIN_FN | Hold FN (Win mode) | Off + red media keys, yellow nav/arrows, red edit/shortcuts, green undo/redo |
+| 6 | NUMPAD | Hold MC_5 or `<>` key | Yellow (numpad keys only, rest off) |
+| 7 | MAC_FN | Hold FN (Mac mode) | Off + red F keys, yellow nav/arrows, red edit/shortcuts, green undo/redo/word-nav |
+| 8 | WIN_FN | Hold FN (Win mode) | Off + red media keys, yellow nav/arrows, red edit/shortcuts, green undo/redo/word-nav |
 | 9 | MAC_MOD_L | Hold Left Space (Mac) | Off + colored home row mods |
 | 10 | MAC_MOD_R | Hold Right Space (Mac) | Off + colored home row mods |
 | 11 | WIN_MOD_L | Hold Left Space (Win) | Off + colored home row mods |
@@ -85,7 +85,7 @@ See `docs/layout.json` for the full machine-readable layout definition.
 
 ```
  §  1  2  3  4  5  6  7  8  9  0  +  `
- ⇥  Å  Ä  Ö  P  Y  F  G  C  R  L  ,  `
+ ⇥  Å  Ä  Ö  P  Y  F  G  C  R  L  ,  ¨
  ↵  A  O  E  U  I  D  H  T  N  S  -  '
  ⇧  ▲  .  Q  J  K  X  B  M  W  V  Z  ⇧
 ```
@@ -117,7 +117,7 @@ Programming symbols via native Swedish keyboard combos (same layout on Mac and W
                7  8  9  /  *
                4  5  6  -  +     Enter
                1  2  3  +
-         .  0
+         0  .
 ```
 
 ### FN layer (hold FN)
@@ -179,7 +179,7 @@ Bspc  ↑  Del
 
 Home row modifier layers for one-handed shortcuts. Hold a space key to activate modifiers on that side, then press a key with the other hand.
 
-The key insight: **Cmd (Mac) and Ctrl (Win) are on the same physical finger (index)**, and **Opt (Mac) and Alt (Win) are on the same finger (ring)** — matching standard keyboard conventions and preserving muscle memory across platforms.
+**Cmd (Mac) and Ctrl (Win) are on the same physical finger (index)**, and **Opt (Mac) and Alt (Win) are on the same finger (ring)** — matching standard keyboard conventions and preserving muscle memory across platforms.
 
 | Physical key | Svorak | Mac | Windows | RGB |
 |---|---|---|---|---|
@@ -219,5 +219,5 @@ On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is p
 
 | Knob | Rotate | Press |
 |------|--------|-------|
-| Left | Back / Forward (Cmd+] / Cmd+[ on Mac, Alt+Right / Alt+Left on Win) | Mute |
+| Left | Back / Forward (Cmd+[ / Cmd+] on Mac, Alt+Left / Alt+Right on Win) | Mute |
 | Right | Volume down / up | Mute |
