@@ -68,7 +68,7 @@ The Mac/Win hardware slider selects the base layer at boot.
 | 5 | WIN_SPECIAL | Hold Right Alt | Purple |
 | 6 | NUMPAD | Hold MC_5 | Yellow (numpad keys only, rest off) |
 | 7 | MAC_FN | Hold FN (Mac mode) | Off + red F keys, yellow nav/arrows, red edit/shortcuts, green undo/redo |
-| 8 | WIN_FN | Hold FN (Win mode) | Off + yellow nav/arrows, red edit/shortcuts, green undo/redo |
+| 8 | WIN_FN | Hold FN (Win mode) | Off + red media keys, yellow nav/arrows, red edit/shortcuts, green undo/redo |
 | 9 | MAC_MOD_L | Hold Left Space (Mac) | Off + colored home row mods |
 | 10 | MAC_MOD_R | Hold Right Space (Mac) | Off + colored home row mods |
 | 11 | WIN_MOD_L | Hold Left Space (Win) | Off + colored home row mods |
@@ -130,7 +130,11 @@ On **Mac**, the base layer uses media/system keys in the top row (brightness, Mi
 F1  F2  F3  F4  F5  F6  F7  F8  F9  F10  F11  F12
 ```
 
-On **Win**, the base layer already has F1–F12, so the FN layer is transparent there.
+On **Win**, the base layer already has F1–F12. Holding FN overrides these with the same media/system keys as the Mac base layer:
+
+```
+BriDn BriUp MCtl LPad RGB- RGB+ Prev Play Next Mute Vol- Vol+
+```
 
 Left hand — navigation cluster and shortcuts:
 

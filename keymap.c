@@ -214,10 +214,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── WIN FN LAYER ─────────────────────────────────────────────────────────────────
+// Top row: Brightness, Mission Ctl, Launchpad, RGB, Media, Volume (same as Mac base)
 // Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
 // Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right  N=WordLeft  M=WordRight
 [WIN_FN] = LAYOUT_92_iso(
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LCTL(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
@@ -454,21 +455,20 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         // Word navigation: N/M → green
         rgb_set(led_min, led_max, 76, RGB_GREEN);   // N → Word Left
         rgb_set(led_min, led_max, 77, RGB_GREEN);   // M → Word Right
-        // F keys: F1-F12 → red (Mac only; Win base already has F keys)
-        if (IS_LAYER_ON(MAC_FN)) {
-            rgb_set(led_min, led_max,  1, RGB_RED);  // F1
-            rgb_set(led_min, led_max,  2, RGB_RED);  // F2
-            rgb_set(led_min, led_max,  3, RGB_RED);  // F3
-            rgb_set(led_min, led_max,  4, RGB_RED);  // F4
-            rgb_set(led_min, led_max,  5, RGB_RED);  // F5
-            rgb_set(led_min, led_max,  6, RGB_RED);  // F6
-            rgb_set(led_min, led_max, 43, RGB_RED);  // F7
-            rgb_set(led_min, led_max, 44, RGB_RED);  // F8
-            rgb_set(led_min, led_max, 45, RGB_RED);  // F9
-            rgb_set(led_min, led_max, 46, RGB_RED);  // F10
-            rgb_set(led_min, led_max, 47, RGB_RED);  // F11
-            rgb_set(led_min, led_max, 48, RGB_RED);  // F12
-        }
+        // F keys / media keys on top row
+        // Mac FN: F1-F12 (red)  Win FN: media/brightness (red)
+        rgb_set(led_min, led_max,  1, RGB_RED);  // F1 / BriDn
+        rgb_set(led_min, led_max,  2, RGB_RED);  // F2 / BriUp
+        rgb_set(led_min, led_max,  3, RGB_RED);  // F3 / MCtl
+        rgb_set(led_min, led_max,  4, RGB_RED);  // F4 / LPad
+        rgb_set(led_min, led_max,  5, RGB_RED);  // F5 / RGB-
+        rgb_set(led_min, led_max,  6, RGB_RED);  // F6 / RGB+
+        rgb_set(led_min, led_max, 43, RGB_RED);  // F7 / Prev
+        rgb_set(led_min, led_max, 44, RGB_RED);  // F8 / Play
+        rgb_set(led_min, led_max, 45, RGB_RED);  // F9 / Next
+        rgb_set(led_min, led_max, 46, RGB_RED);  // F10 / Mute
+        rgb_set(led_min, led_max, 47, RGB_RED);  // F11 / VolDn
+        rgb_set(led_min, led_max, 48, RGB_RED);  // F12 / VolUp
     } else if (IS_LAYER_ON(NUMPAD)) {
         // All off, then yellow on numpad keys only
         for (uint8_t i = led_min; i < led_max; i++) {
