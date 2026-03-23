@@ -55,6 +55,14 @@ enum custom_keycodes {
 };
 
 // ──────────────────────────────────────────────
+// SOCD Cleaner — Snap Tap for WASD gaming keys
+// ──────────────────────────────────────────────
+socd_cleaner_t socd_opposing_pairs[] = {
+    {{KC_W, KC_S}, SOCD_CLEANER_LAST},
+    {{KC_A, KC_D}, SOCD_CLEANER_LAST},
+};
+
+// ──────────────────────────────────────────────
 // Tap dance codes
 // ──────────────────────────────────────────────
 enum tap_dance_codes {
@@ -140,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ── MAC QWERTY ──────────────────────────────────────────────────────────────────
 [MAC_QWERTY] = LAYOUT_92_iso(
-    KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    SOCDTOG,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     TG(MAC_QWERTY), KC_GRV,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
@@ -171,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ── WIN QWERTY ──────────────────────────────────────────────────────────────────
 [WIN_QWERTY] = LAYOUT_92_iso(
-    KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    SOCDTOG,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     TG(WIN_QWERTY), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
     KC_TRNS,        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
@@ -518,6 +526,12 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         for (uint8_t i = led_min; i < led_max; i++) {
             rgb_matrix_set_color(i, RGB_CYAN);
         }
+        if (socd_cleaner_enabled) {
+            rgb_set(led_min, led_max, 18, RGB_RED);  // W
+            rgb_set(led_min, led_max, 24, RGB_RED);  // A
+            rgb_set(led_min, led_max, 25, RGB_RED);  // S
+            rgb_set(led_min, led_max, 26, RGB_RED);  // D
+        }
     } else {
         // Base Svorak layer
         for (uint8_t i = led_min; i < led_max; i++) {
@@ -565,6 +579,7 @@ static void caps_word_sync_handler(uint8_t in_buflen, const void *in_data, uint8
 
 void keyboard_post_init_user(void) {
     transaction_register_rpc(USER_SYNC_CAPS_WORD, caps_word_sync_handler);
+    socd_cleaner_enabled = false;
 }
 
 void housekeeping_task_user(void) {
@@ -596,6 +611,22 @@ bool dip_switch_update_user(uint8_t index, bool active) {
         }
     }
     return false;
+}
+
+// ──────────────────────────────────────────────
+// Layer state — auto-enable SOCD in QWERTY modes
+// ──────────────────────────────────────────────
+layer_state_t layer_state_set_user(layer_state_t state) {
+    static bool was_in_qwerty = false;
+    bool in_qwerty = IS_LAYER_ON_STATE(state, MAC_QWERTY)
+                  || IS_LAYER_ON_STATE(state, WIN_QWERTY);
+    if (in_qwerty && !was_in_qwerty) {
+        socd_cleaner_enabled = true;   // entering QWERTY: enable
+    } else if (!in_qwerty && was_in_qwerty) {
+        socd_cleaner_enabled = false;  // leaving QWERTY: disable
+    }
+    was_in_qwerty = in_qwerty;
+    return state;
 }
 
 // ──────────────────────────────────────────────
