@@ -137,7 +137,7 @@
         "scope": "all"
       },
       "knob_l": {
-        "press": "_______",
+        "press": "SOCDTOG",
         "cw": "_______",
         "ccw": "_______"
       },
@@ -510,7 +510,7 @@
         "caps_lock_indicator": "red on Caps Lock key (LED 23)"
       },
       "knob_l": {
-        "press": "_______",
+        "press": "SOCDTOG",
         "cw": "_______",
         "ccw": "_______"
       },

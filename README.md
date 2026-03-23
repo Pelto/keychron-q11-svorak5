@@ -204,6 +204,14 @@ On **Windows**, the QWERTY layer is gaming-optimized:
 
 On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is preserved.
 
+#### Snap Tap (SOCD filtering)
+
+Both QWERTY layers include Snap Tap (Simultaneous Opposing Cardinal Directions filtering) on the WASD keys. When two opposing directional keys are held at the same time (W+S or A+D), the last pressed key wins — releasing it reactivates the previously held key.
+
+- **Auto-enables** when entering a QWERTY layer; auto-disables when leaving
+- **Toggle**: press the left encoder knob while in QWERTY mode
+- **Visual indicator**: WASD keys glow red when Snap Tap is active (over the cyan base color)
+
 ## Macro keys
 
 | Key | Mac | Windows |
@@ -219,5 +227,5 @@ On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is p
 
 | Knob | Rotate | Press |
 |------|--------|-------|
-| Left | Back / Forward (Cmd+[ / Cmd+] on Mac, Alt+Left / Alt+Right on Win) | Mute |
+| Left | Back / Forward (Cmd+[ / Cmd+] on Mac, Alt+Left / Alt+Right on Win) | Mute (Svorak layers) / Toggle Snap Tap (QWERTY layers) |
 | Right | Volume down / up | Mute |
