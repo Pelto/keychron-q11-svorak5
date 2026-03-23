@@ -12,6 +12,9 @@
 KEYBOARD ?= keychron/q11/iso_encoder
 KEYMAP   ?= custom
 QMK_HOME ?= .build/qmk_firmware
+# The getreuer/qmk-modules repo structure mirrors QMK's expected module path:
+#   repo/socd_cleaner/ -> modules/getreuer/socd_cleaner/
+MODULES_DIR ?= $(QMK_HOME)/modules/getreuer
 
 # Homebrew arm-none-eabi-gcc 15.x is missing newlib headers.
 # Use gcc@8 and ensure binutils is in PATH.
@@ -22,7 +25,7 @@ ifneq ($(ARM_GCC8),)
 endif
 
 KEYMAP_DIR := $(QMK_HOME)/keyboards/$(KEYBOARD)/keymaps/$(KEYMAP)
-SRC_FILES  := keymap.c config.h rules.mk
+SRC_FILES  := keymap.c keymap.json config.h rules.mk
 
 .PHONY: all compile flash compiledb lint link clean
 
@@ -32,8 +35,12 @@ all: compile
 $(QMK_HOME):
 	git clone --depth 1 https://github.com/qmk/qmk_firmware.git $@
 
+# Clone community modules (getreuer — includes socd_cleaner and other modules, only socd_cleaner is used)
+$(MODULES_DIR):
+	git clone --depth 1 https://github.com/getreuer/qmk-modules.git $@
+
 # Symlink keymap files into the QMK tree
-link: | $(QMK_HOME)
+link: | $(QMK_HOME) $(MODULES_DIR)
 	@mkdir -p $(KEYMAP_DIR)
 	@$(foreach f,$(SRC_FILES),ln -snf $(CURDIR)/$(f) $(KEYMAP_DIR)/$(f);)
 
