@@ -195,8 +195,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [NUMPAD] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, KC_PAST, KC_TRNS, KC_TRNS,                   KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P4,   KC_P5,   KC_P6,   KC_PMNS, KC_PPLS, KC_TRNS, KC_TRNS, KC_PENT,          KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P4,   KC_P5,   KC_P6,   KC_PMNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PENT,          KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P1,   KC_P2,   KC_P3,   KC_PPLS, KC_TRNS,          KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_P0,            KC_PDOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
@@ -485,28 +485,29 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_set(led_min, led_max, 47, RGB_RED);  // F11 / VolDn
         rgb_set(led_min, led_max, 48, RGB_RED);  // F12 / VolUp
     } else if (IS_LAYER_ON(NUMPAD)) {
-        // All off, then yellow on numpad keys only
+        // All off, then color-code numpad keys
         for (uint8_t i = led_min; i < led_max; i++) {
             rgb_matrix_set_color(i, RGB_OFF);
         }
-        rgb_set(led_min, led_max, 51, RGB_YELLOW);  // 7 → P/
-        rgb_set(led_min, led_max, 52, RGB_YELLOW);  // 8 → P*
-        rgb_set(led_min, led_max, 53, RGB_YELLOW);  // 9 → P-
+        // Red — symbols
+        rgb_set(led_min, led_max, 51, RGB_RED);     // 7 → P/
+        rgb_set(led_min, led_max, 52, RGB_RED);     // 8 → P*
+        rgb_set(led_min, led_max, 53, RGB_RED);     // 9 → P-
+        rgb_set(led_min, led_max, 62, RGB_RED);     // O → P/
+        rgb_set(led_min, led_max, 70, RGB_RED);     // L → P-
+        rgb_set(led_min, led_max, 79, RGB_RED);     // . → P+
+        // Green — enter
+        rgb_set(led_min, led_max, 74, RGB_GREEN);   // Enter → PEnter
+        // Yellow — numbers and dot
         rgb_set(led_min, led_max, 59, RGB_YELLOW);  // Y → P7
         rgb_set(led_min, led_max, 60, RGB_YELLOW);  // U → P8
         rgb_set(led_min, led_max, 61, RGB_YELLOW);  // I → P9
-        rgb_set(led_min, led_max, 62, RGB_YELLOW);  // O → P/
-        rgb_set(led_min, led_max, 63, RGB_YELLOW);  // P → P*
         rgb_set(led_min, led_max, 67, RGB_YELLOW);  // H → P4
         rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → P5
         rgb_set(led_min, led_max, 69, RGB_YELLOW);  // K → P6
-        rgb_set(led_min, led_max, 70, RGB_YELLOW);  // L → P-
-        rgb_set(led_min, led_max, 71, RGB_YELLOW);  // ; → P+
-        rgb_set(led_min, led_max, 74, RGB_YELLOW);  // Enter → PEnter
         rgb_set(led_min, led_max, 76, RGB_YELLOW);  // N → P1
         rgb_set(led_min, led_max, 77, RGB_YELLOW);  // M → P2
         rgb_set(led_min, led_max, 78, RGB_YELLOW);  // , → P3
-        rgb_set(led_min, led_max, 79, RGB_YELLOW);  // . → P+
         rgb_set(led_min, led_max, 83, RGB_YELLOW);  // Space_R → P0
         rgb_set(led_min, led_max, 84, RGB_YELLOW);  // RWin → P.
     } else if (IS_LAYER_ON(WIN_SPECIAL) || IS_LAYER_ON(MAC_SPECIAL)) {

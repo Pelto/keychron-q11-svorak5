@@ -753,8 +753,12 @@
       "name": "NUMPAD",
       "activation": "MO — hold MC_5 or KC_NUBS (Svorak only) from any layer. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
       "rgb": {
-        "mode": "solid",
-        "color": "yellow",
+        "mode": "per_key",
+        "colors": {
+          "numbers_and_dot": "yellow",
+          "symbols": "red",
+          "enter": "green"
+        },
         "scope": "numpad_keys"
       },
       "knob_l": {
@@ -812,7 +816,7 @@
         "KC_U": "KC_P8",
         "KC_I": "KC_P9",
         "KC_O": "KC_PSLS",
-        "KC_P": "KC_PAST",
+        "KC_P": "_______",
         "KC_LBRC": "_______",
         "KC_RBRC": "_______",
         "KC_PGDN": "_______"
@@ -828,7 +832,7 @@
         "KC_J": "KC_P5",
         "KC_K": "KC_P6",
         "KC_L": "KC_PMNS",
-        "KC_SCLN": "KC_PPLS",
+        "KC_SCLN": "_______",
         "KC_QUOT": "_______",
         "KC_NUHS": "_______",
         "KC_ENT": "KC_PENT",

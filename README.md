@@ -114,8 +114,8 @@ Programming symbols via native Swedish keyboard combos (same layout on Mac and W
 
 ```
                /  *  -
-               7  8  9  /  *
-               4  5  6  -  +     Enter
+               7  8  9  /
+               4  5  6  -        Enter
                1  2  3  +
          0  .
 ```
