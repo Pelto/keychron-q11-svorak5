@@ -2,6 +2,8 @@
 
 Custom QMK keymap for the Keychron Q11 (ISO encoder) with Swedish Dvorak (Svorak) layout and a special character layer for programming symbols. Both Mac and Windows use native Swedish keyboard combos.
 
+**Hardware:** STM32L432 — 256 KB flash, 64 KB RAM. The STM32 DFU bootloader lives in system ROM (not flash). QMK reserves 4 KB for EEPROM wear-leveling, leaving **252 KB** for firmware. Current build: ~60 KB (~24%).
+
 ## Flashing
 
 ### Prerequisites
