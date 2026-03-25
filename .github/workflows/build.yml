@@ -34,11 +34,16 @@ jobs:
       - name: Setup QMK firmware
         run: qmk setup -y -H .build/qmk_firmware
 
+      - name: Clone SOCD cleaner module
+        run: |
+          git clone --depth 1 https://github.com/getreuer/qmk-modules.git \
+            .build/qmk_firmware/modules/getreuer
+
       - name: Copy keymap into QMK tree
         run: |
           KEYMAP_DIR=".build/qmk_firmware/keyboards/${KEYBOARD}/keymaps/${KEYMAP}"
           mkdir -p "${KEYMAP_DIR}"
-          cp keymap.c config.h rules.mk "${KEYMAP_DIR}/"
+          cp keymap.c keymap.json config.h rules.mk "${KEYMAP_DIR}/"
 
       - name: Compile firmware
         run: qmk compile -kb $KEYBOARD -km $KEYMAP -j $(nproc)
