@@ -382,6 +382,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // ──────────────────────────────────────────────
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
+        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+            return true;  // Keep caps word alive during tap dance resolution
         case KC_A ... KC_Z:
             add_weak_mods(MOD_BIT(KC_LSFT));
             return true;
