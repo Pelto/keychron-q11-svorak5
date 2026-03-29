@@ -8,9 +8,19 @@
 // Sync host LED state (Caps Lock, Num Lock, etc.) to the slave half so the
 // right-side Shift key RGB indicator also lights up when Caps Lock is active.
 #define SPLIT_LED_STATE_ENABLE
-// Custom RPC transaction ID for syncing Caps Word state to the slave half.
-// QMK does not sync caps_word natively; we push it via housekeeping_task_user.
-#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_CAPS_WORD
+// Custom RPC transaction IDs for syncing state to the slave half.
+// QMK does not sync caps_word or keypress hit data natively; we push
+// them via housekeeping_task_user.
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_CAPS_WORD, USER_SYNC_FADE
+// Increase RPC buffer size to fit last_hit_t (41 bytes) for fade sync.
+#define RPC_M2S_BUFFER_SIZE 64
+#define RPC_S2M_BUFFER_SIZE 64
+
+// ── RGB reactive fade ────────────────────────────────────────────────────────
+// Enable keypress hit tracking so g_last_hit_tracker is populated.
+// We read it directly in rgb_matrix_indicators_advanced_user to blend
+// a white flash that fades back to the layer's base color.
+#define RGB_MATRIX_KEYPRESSES
 
 // ── Tap-hold behaviour ────────────────────────────────────────────────────────
 // Hold is triggered when another key is pressed AND fully released while the

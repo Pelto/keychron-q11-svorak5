@@ -1,5 +1,13 @@
 {
   "_comment": "Layer stack — higher index = higher priority. TG = toggle, MO = momentary hold. _______ = transparent, passes through to layer below.",
+  "rgb_effects": {
+    "keypress_fade": {
+      "enabled": true,
+      "description": "White flash on keypress that fades back to layer base color over ~400 ms",
+      "duration_ms": 400,
+      "excludes": ["caps_lock_indicator", "os_indicator", "socd_indicator"]
+    }
+  },
   "layers": [
     {
       "id": 0,
