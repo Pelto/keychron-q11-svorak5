@@ -79,6 +79,10 @@ The Mac/Win hardware slider selects the base layer.
 The physical arrow keys in the bottom-right corner always show the OS mode:
 **purple** = Mac, **red** = Windows. This indicator is visible on every layer.
 
+**Keypress fade effect**: When any key is pressed, its LED flashes white and
+smoothly fades back to the layer's base color over ~400 ms. Persistent status
+indicators (Caps Lock, OS arrows, SOCD) are not affected by the fade.
+
 ## Layout
 
 See `docs/layout.json` for the full machine-readable layout definition.

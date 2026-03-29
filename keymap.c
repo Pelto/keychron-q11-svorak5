@@ -427,106 +427,137 @@ static inline void rgb_set(uint8_t led_min, uint8_t led_max,
     if (i >= led_min && i < led_max) rgb_matrix_set_color(i, r, g, b);
 }
 
+// ── Reactive fade: white flash → base color over FADE_DURATION ms ──
+#define FADE_DURATION 400
+
+// Fade-aware LED setter.  If this LED was recently pressed, blend from
+// white toward (r,g,b) based on elapsed ticks in g_last_hit_tracker.
+static inline void rgb_set_fade(uint8_t led_min, uint8_t led_max,
+                                uint8_t i, uint8_t r, uint8_t g, uint8_t b) {
+    if (i < led_min || i >= led_max) return;
+
+    // Find the most recent hit on this LED
+    uint16_t min_tick = UINT16_MAX;
+    for (uint8_t j = 0; j < g_last_hit_tracker.count; j++) {
+        if (g_last_hit_tracker.index[j] == i
+            && g_last_hit_tracker.tick[j] < min_tick) {
+            min_tick = g_last_hit_tracker.tick[j];
+        }
+    }
+
+    if (min_tick < FADE_DURATION) {
+        // progress: 0 (just pressed, fully white) → 255 (fade complete)
+        uint8_t p = (uint16_t)min_tick * 255 / FADE_DURATION;
+        // Lerp each channel: white (255) → base color
+        rgb_matrix_set_color(i,
+            255 - (uint16_t)(255 - r) * p / 255,
+            255 - (uint16_t)(255 - g) * p / 255,
+            255 - (uint16_t)(255 - b) * p / 255);
+    } else {
+        rgb_matrix_set_color(i, r, g, b);
+    }
+}
+
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
 
     // ── Layer colors ──
     if (IS_LAYER_ON(MAC_MOD_L) || IS_LAYER_ON(WIN_MOD_L)) {
         // Left side: off + mod indicator colors
-        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_matrix_set_color(i, RGB_OFF);
-        rgb_set(led_min, led_max, 24, RGB_BLUE);    // A → Shift
-        rgb_set(led_min, led_max, 25, RGB_MAGENTA); // S → Opt (Mac) / Alt (Win)
-        rgb_set(led_min, led_max, 26, RGB_GREEN);   // D → Ctrl (Mac) / Win (Win)
-        rgb_set(led_min, led_max, 27, RGB_YELLOW);  // F → Cmd (Mac) / Ctrl (Win)
+        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_set_fade(led_min, led_max, i, RGB_OFF);
+        rgb_set_fade(led_min, led_max, 24, RGB_BLUE);    // A → Shift
+        rgb_set_fade(led_min, led_max, 25, RGB_MAGENTA); // S → Opt (Mac) / Alt (Win)
+        rgb_set_fade(led_min, led_max, 26, RGB_GREEN);   // D → Ctrl (Mac) / Win (Win)
+        rgb_set_fade(led_min, led_max, 27, RGB_YELLOW);  // F → Cmd (Mac) / Ctrl (Win)
         // Right side: unchanged base color
-        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_matrix_set_color(i, RGB_BLUE);
+        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_set_fade(led_min, led_max, i, RGB_BLUE);
     } else if (IS_LAYER_ON(MAC_MOD_R) || IS_LAYER_ON(WIN_MOD_R)) {
         // Left side: unchanged base color
-        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_matrix_set_color(i, RGB_BLUE);
+        for (uint8_t i = led_min; i < led_max && i < 43; i++) rgb_set_fade(led_min, led_max, i, RGB_BLUE);
         // Right side: off + mod indicator colors
-        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_matrix_set_color(i, RGB_OFF);
-        rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → Cmd (Mac) / Ctrl (Win)
-        rgb_set(led_min, led_max, 69, RGB_GREEN);   // K → Ctrl (Mac) / Win (Win)
-        rgb_set(led_min, led_max, 70, RGB_MAGENTA); // L → Opt (Mac) / Alt (Win)
-        rgb_set(led_min, led_max, 71, RGB_BLUE);    // Ö → Shift
+        for (uint8_t i = (led_min < 43 ? 43 : led_min); i < led_max; i++) rgb_set_fade(led_min, led_max, i, RGB_OFF);
+        rgb_set_fade(led_min, led_max, 68, RGB_YELLOW);  // J → Cmd (Mac) / Ctrl (Win)
+        rgb_set_fade(led_min, led_max, 69, RGB_GREEN);   // K → Ctrl (Mac) / Win (Win)
+        rgb_set_fade(led_min, led_max, 70, RGB_MAGENTA); // L → Opt (Mac) / Alt (Win)
+        rgb_set_fade(led_min, led_max, 71, RGB_BLUE);    // Ö → Shift
     } else if (IS_LAYER_ON(MAC_FN) || IS_LAYER_ON(WIN_FN)) {
         // All off, then per-function colors on active keys
         for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, RGB_OFF);
+            rgb_set_fade(led_min, led_max, i, RGB_OFF);
         }
         // Left nav cluster: Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn → yellow
-        rgb_set(led_min, led_max, 17, RGB_YELLOW);  // Q → Ins
-        rgb_set(led_min, led_max, 18, RGB_YELLOW);  // W → Home
-        rgb_set(led_min, led_max, 19, RGB_YELLOW);  // E → PgUp
-        rgb_set(led_min, led_max, 24, RGB_YELLOW);  // A → Del
-        rgb_set(led_min, led_max, 25, RGB_YELLOW);  // S → End
-        rgb_set(led_min, led_max, 26, RGB_YELLOW);  // D → PgDn
+        rgb_set_fade(led_min, led_max, 17, RGB_YELLOW);  // Q → Ins
+        rgb_set_fade(led_min, led_max, 18, RGB_YELLOW);  // W → Home
+        rgb_set_fade(led_min, led_max, 19, RGB_YELLOW);  // E → PgUp
+        rgb_set_fade(led_min, led_max, 24, RGB_YELLOW);  // A → Del
+        rgb_set_fade(led_min, led_max, 25, RGB_YELLOW);  // S → End
+        rgb_set_fade(led_min, led_max, 26, RGB_YELLOW);  // D → PgDn
         // Right arrows: IJKL → yellow
-        rgb_set(led_min, led_max, 61, RGB_YELLOW);  // I → Up
-        rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → Left
-        rgb_set(led_min, led_max, 69, RGB_YELLOW);  // K → Down
-        rgb_set(led_min, led_max, 70, RGB_YELLOW);  // L → Right
+        rgb_set_fade(led_min, led_max, 61, RGB_YELLOW);  // I → Up
+        rgb_set_fade(led_min, led_max, 68, RGB_YELLOW);  // J → Left
+        rgb_set_fade(led_min, led_max, 69, RGB_YELLOW);  // K → Down
+        rgb_set_fade(led_min, led_max, 70, RGB_YELLOW);  // L → Right
         // Edit shortcuts: F=SelAll  C=Copy  V=Paste  B=Cut → red
-        rgb_set(led_min, led_max, 27, RGB_RED);     // F → Select All
-        rgb_set(led_min, led_max, 34, RGB_RED);     // C → Copy
-        rgb_set(led_min, led_max, 35, RGB_RED);     // V → Paste
-        rgb_set(led_min, led_max, 36, RGB_RED);     // B → Cut
+        rgb_set_fade(led_min, led_max, 27, RGB_RED);     // F → Select All
+        rgb_set_fade(led_min, led_max, 34, RGB_RED);     // C → Copy
+        rgb_set_fade(led_min, led_max, 35, RGB_RED);     // V → Paste
+        rgb_set_fade(led_min, led_max, 36, RGB_RED);     // B → Cut
         // Edit keys: U=Bspc  O=Del → red
-        rgb_set(led_min, led_max, 60, RGB_RED);     // U → Backspace
-        rgb_set(led_min, led_max, 62, RGB_RED);     // O → Delete
+        rgb_set_fade(led_min, led_max, 60, RGB_RED);     // U → Backspace
+        rgb_set_fade(led_min, led_max, 62, RGB_RED);     // O → Delete
         // Undo/Redo: Z/X → green
-        rgb_set(led_min, led_max, 32, RGB_GREEN);   // Z → Undo
-        rgb_set(led_min, led_max, 33, RGB_GREEN);   // X → Redo
+        rgb_set_fade(led_min, led_max, 32, RGB_GREEN);   // Z → Undo
+        rgb_set_fade(led_min, led_max, 33, RGB_GREEN);   // X → Redo
         // Word navigation: N/M → green
-        rgb_set(led_min, led_max, 76, RGB_GREEN);   // N → Word Left
-        rgb_set(led_min, led_max, 77, RGB_GREEN);   // M → Word Right
+        rgb_set_fade(led_min, led_max, 76, RGB_GREEN);   // N → Word Left
+        rgb_set_fade(led_min, led_max, 77, RGB_GREEN);   // M → Word Right
         // F keys / media keys on top row
         // Mac FN: F1-F12 (red)  Win FN: media/brightness (red)
-        rgb_set(led_min, led_max,  1, RGB_RED);  // F1 / BriDn
-        rgb_set(led_min, led_max,  2, RGB_RED);  // F2 / BriUp
-        rgb_set(led_min, led_max,  3, RGB_RED);  // F3 / MCtl
-        rgb_set(led_min, led_max,  4, RGB_RED);  // F4 / LPad
-        rgb_set(led_min, led_max,  5, RGB_RED);  // F5 / RGB-
-        rgb_set(led_min, led_max,  6, RGB_RED);  // F6 / RGB+
-        rgb_set(led_min, led_max, 43, RGB_RED);  // F7 / Prev
-        rgb_set(led_min, led_max, 44, RGB_RED);  // F8 / Play
-        rgb_set(led_min, led_max, 45, RGB_RED);  // F9 / Next
-        rgb_set(led_min, led_max, 46, RGB_RED);  // F10 / Mute
-        rgb_set(led_min, led_max, 47, RGB_RED);  // F11 / VolDn
-        rgb_set(led_min, led_max, 48, RGB_RED);  // F12 / VolUp
+        rgb_set_fade(led_min, led_max,  1, RGB_RED);  // F1 / BriDn
+        rgb_set_fade(led_min, led_max,  2, RGB_RED);  // F2 / BriUp
+        rgb_set_fade(led_min, led_max,  3, RGB_RED);  // F3 / MCtl
+        rgb_set_fade(led_min, led_max,  4, RGB_RED);  // F4 / LPad
+        rgb_set_fade(led_min, led_max,  5, RGB_RED);  // F5 / RGB-
+        rgb_set_fade(led_min, led_max,  6, RGB_RED);  // F6 / RGB+
+        rgb_set_fade(led_min, led_max, 43, RGB_RED);  // F7 / Prev
+        rgb_set_fade(led_min, led_max, 44, RGB_RED);  // F8 / Play
+        rgb_set_fade(led_min, led_max, 45, RGB_RED);  // F9 / Next
+        rgb_set_fade(led_min, led_max, 46, RGB_RED);  // F10 / Mute
+        rgb_set_fade(led_min, led_max, 47, RGB_RED);  // F11 / VolDn
+        rgb_set_fade(led_min, led_max, 48, RGB_RED);  // F12 / VolUp
     } else if (IS_LAYER_ON(NUMPAD)) {
         // All off, then color-code numpad keys
         for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, RGB_OFF);
+            rgb_set_fade(led_min, led_max, i, RGB_OFF);
         }
         // Red — symbols
-        rgb_set(led_min, led_max, 51, RGB_RED);     // 7 → P/
-        rgb_set(led_min, led_max, 52, RGB_RED);     // 8 → P*
-        rgb_set(led_min, led_max, 53, RGB_RED);     // 9 → P-
-        rgb_set(led_min, led_max, 62, RGB_RED);     // O → P/
-        rgb_set(led_min, led_max, 70, RGB_RED);     // L → P-
-        rgb_set(led_min, led_max, 79, RGB_RED);     // . → P+
+        rgb_set_fade(led_min, led_max, 51, RGB_RED);     // 7 → P/
+        rgb_set_fade(led_min, led_max, 52, RGB_RED);     // 8 → P*
+        rgb_set_fade(led_min, led_max, 53, RGB_RED);     // 9 → P-
+        rgb_set_fade(led_min, led_max, 62, RGB_RED);     // O → P/
+        rgb_set_fade(led_min, led_max, 70, RGB_RED);     // L → P-
+        rgb_set_fade(led_min, led_max, 79, RGB_RED);     // . → P+
         // Green — enter
-        rgb_set(led_min, led_max, 74, RGB_GREEN);   // Enter → PEnter
+        rgb_set_fade(led_min, led_max, 74, RGB_GREEN);   // Enter → PEnter
         // Yellow — numbers and dot
-        rgb_set(led_min, led_max, 59, RGB_YELLOW);  // Y → P7
-        rgb_set(led_min, led_max, 60, RGB_YELLOW);  // U → P8
-        rgb_set(led_min, led_max, 61, RGB_YELLOW);  // I → P9
-        rgb_set(led_min, led_max, 67, RGB_YELLOW);  // H → P4
-        rgb_set(led_min, led_max, 68, RGB_YELLOW);  // J → P5
-        rgb_set(led_min, led_max, 69, RGB_YELLOW);  // K → P6
-        rgb_set(led_min, led_max, 76, RGB_YELLOW);  // N → P1
-        rgb_set(led_min, led_max, 77, RGB_YELLOW);  // M → P2
-        rgb_set(led_min, led_max, 78, RGB_YELLOW);  // , → P3
-        rgb_set(led_min, led_max, 83, RGB_YELLOW);  // Space_R → P0
-        rgb_set(led_min, led_max, 84, RGB_YELLOW);  // RWin → P.
+        rgb_set_fade(led_min, led_max, 59, RGB_YELLOW);  // Y → P7
+        rgb_set_fade(led_min, led_max, 60, RGB_YELLOW);  // U → P8
+        rgb_set_fade(led_min, led_max, 61, RGB_YELLOW);  // I → P9
+        rgb_set_fade(led_min, led_max, 67, RGB_YELLOW);  // H → P4
+        rgb_set_fade(led_min, led_max, 68, RGB_YELLOW);  // J → P5
+        rgb_set_fade(led_min, led_max, 69, RGB_YELLOW);  // K → P6
+        rgb_set_fade(led_min, led_max, 76, RGB_YELLOW);  // N → P1
+        rgb_set_fade(led_min, led_max, 77, RGB_YELLOW);  // M → P2
+        rgb_set_fade(led_min, led_max, 78, RGB_YELLOW);  // , → P3
+        rgb_set_fade(led_min, led_max, 83, RGB_YELLOW);  // Space_R → P0
+        rgb_set_fade(led_min, led_max, 84, RGB_YELLOW);  // RWin → P.
     } else if (IS_LAYER_ON(WIN_SPECIAL) || IS_LAYER_ON(MAC_SPECIAL)) {
         for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, RGB_MAGENTA);
+            rgb_set_fade(led_min, led_max, i, RGB_MAGENTA);
         }
     } else if (IS_LAYER_ON(WIN_QWERTY) || IS_LAYER_ON(MAC_QWERTY)) {
         for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, RGB_CYAN);
+            rgb_set_fade(led_min, led_max, i, RGB_CYAN);
         }
         if (socd_cleaner_enabled) {
             rgb_set(led_min, led_max, 18, RGB_RED);  // W
@@ -537,7 +568,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     } else {
         // Base Svorak layer
         for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, RGB_BLUE);
+            rgb_set_fade(led_min, led_max, i, RGB_BLUE);
         }
     }
 
@@ -568,8 +599,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 // ──────────────────────────────────────────────
-// Caps Word split sync — push state to slave half via custom RPC
+// Split sync — push state to slave half via custom RPC
 // ──────────────────────────────────────────────
+
+// Caps Word handler — slave receives on/off state from master.
 static void caps_word_sync_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data) {
     bool active = *(const bool *)in_data;
     if (active) {
@@ -579,19 +612,33 @@ static void caps_word_sync_handler(uint8_t in_buflen, const void *in_data, uint8
     }
 }
 
+// Fade tracker handler — slave receives g_last_hit_tracker snapshot
+// from master so the right half can render keypress fade effects.
+static void fade_sync_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data) {
+    if (in_buflen == sizeof(last_hit_t)) {
+        memcpy(&g_last_hit_tracker, in_data, sizeof(last_hit_t));
+    }
+}
+
 void keyboard_post_init_user(void) {
     transaction_register_rpc(USER_SYNC_CAPS_WORD, caps_word_sync_handler);
+    transaction_register_rpc(USER_SYNC_FADE, fade_sync_handler);
     socd_cleaner_enabled = false;
 }
 
 void housekeeping_task_user(void) {
     if (!is_keyboard_master()) return;
+
+    // Sync Caps Word state (only on change)
     static bool last_caps_word = false;
     bool current = is_caps_word_on();
     if (current != last_caps_word) {
         last_caps_word = current;
         transaction_rpc_send(USER_SYNC_CAPS_WORD, sizeof(bool), &current);
     }
+
+    // Sync fade hit tracker (every cycle — tick data changes constantly)
+    transaction_rpc_send(USER_SYNC_FADE, sizeof(last_hit_t), &g_last_hit_tracker);
 }
 
 // ──────────────────────────────────────────────
