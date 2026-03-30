@@ -68,6 +68,7 @@ socd_cleaner_t socd_opposing_pairs[] = {
 enum tap_dance_codes {
     TD_LSFT,
     TD_RSFT,
+    TD_LOCK,
 };
 
 // ── Mac Special — Swedish keyboard combos (Option+key, Shift+key) ──
@@ -141,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MUTE,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
     TG(MAC_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
-    LCG(KC_Q),      KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
+    TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
@@ -172,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MUTE,        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,  KC_MUTE,
     TG(WIN_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
-    LGUI(KC_L),     KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
+    TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
     KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
     MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       LT(WIN_MOD_L, KC_SPC),     LT(WIN_MOD_R, KC_SPC),    MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
@@ -331,9 +332,32 @@ static void lsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset
 static void rsft_finished(tap_dance_state_t *state, void *user_data) { sft_finished(state, user_data, false); }
 static void rsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset(state, user_data, false); }
 
+// ── Lock tap dance (×1=Lock, ×2=Sleep, ×3=Shut down) ──
+static void lock_td_finished(tap_dance_state_t *state, void *user_data) {
+    bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
+    if (state->count == 1) {
+        if (is_mac) {
+            register_code(KC_LCTL);
+            register_code(KC_LGUI);
+            tap_code(KC_Q);
+            unregister_code(KC_LGUI);
+            unregister_code(KC_LCTL);
+        } else {
+            register_code(KC_LGUI);
+            tap_code(KC_L);
+            unregister_code(KC_LGUI);
+        }
+    } else if (state->count == 2) {
+        tap_code(KC_SLEP);
+    } else {
+        tap_code(KC_PWR);
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
     [TD_LSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lsft_finished, lsft_reset),
     [TD_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rsft_finished, rsft_reset),
+    [TD_LOCK]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lock_td_finished, NULL),
 };
 
 // ──────────────────────────────────────────────
