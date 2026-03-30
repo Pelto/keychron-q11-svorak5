@@ -336,17 +336,7 @@ static void rsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset
 static void lock_td_finished(tap_dance_state_t *state, void *user_data) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
     if (state->count == 1) {
-        if (is_mac) {
-            register_code(KC_LCTL);
-            register_code(KC_LGUI);
-            tap_code(KC_Q);
-            unregister_code(KC_LGUI);
-            unregister_code(KC_LCTL);
-        } else {
-            register_code(KC_LGUI);
-            tap_code(KC_L);
-            unregister_code(KC_LGUI);
-        }
+        tap_code16(is_mac ? LCG(KC_Q) : LGUI(KC_L));
     } else if (state->count == 2) {
         tap_code(KC_SLEP);
     } else {
