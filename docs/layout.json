@@ -130,7 +130,7 @@
       "macro": {
         "MC_1": "TG(MAC_QWERTY)",
         "MC_2": "LSG(KC_4)",
-        "MC_3": "LCG(KC_Q)",
+        "MC_3": "TD(TD_LOCK)",
         "MC_4": "KC_CALC",
         "MC_5": "MO(NUMPAD)"
       }
@@ -502,7 +502,7 @@
       "macro": {
         "MC_1": "TG(WIN_QWERTY)",
         "MC_2": "KC_PSCR",
-        "MC_3": "LGUI(KC_L)",
+        "MC_3": "TD(TD_LOCK)",
         "MC_4": "KC_CALC",
         "MC_5": "MO(NUMPAD)"
       }

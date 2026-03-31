@@ -224,7 +224,9 @@ Both QWERTY layers include Snap Tap (Simultaneous Opposing Cardinal Directions f
 |-----|-----|---------|
 | MC_1 | Toggle QWERTY | Toggle QWERTY |
 | MC_2 | Screenshot (Cmd+Shift+4) | Print Screen |
-| MC_3 | Lock screen (Ctrl+Cmd+Q) | Lock screen (Win+L) |
+| MC_3 × 1 | Lock screen (Ctrl+Cmd+Q) | Lock screen (Win+L) |
+| MC_3 × 2 | Sleep (USB HID System Sleep) | Sleep (USB HID System Sleep) |
+| MC_3 × 3 | Shut down dialog (USB HID System Power) | Shut down (USB HID System Power) |
 | MC_4 | Calculator | Calculator |
 | MC_5 | Hold for NUMPAD | Hold for NUMPAD |
 | `<>` key | Hold for NUMPAD (Svorak only) | Hold for NUMPAD (Svorak only) |
