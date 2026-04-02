@@ -1,3 +1,4 @@
+.claude/settings.local.json
 .build/
 .cache/compile_commands.json
 .cache/
