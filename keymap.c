@@ -338,9 +338,11 @@ static void lock_td_finished(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
         tap_code16(is_mac ? LCG(KC_Q) : LGUI(KC_L));
     } else if (state->count == 2) {
-        tap_code(KC_SLEP);
+        // Mac: Opt+Cmd+Eject = sleep; Win: HID System Sleep
+        tap_code16(is_mac ? LALT(LGUI(KC_EJCT)) : KC_SLEP);
     } else {
-        tap_code(KC_PWR);
+        // Mac: Ctrl+Opt+Cmd+Eject = shut down; Win: HID System Power
+        tap_code16(is_mac ? LCTL(LALT(LGUI(KC_EJCT))) : KC_PWR);
     }
 }
 
