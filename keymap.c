@@ -23,6 +23,7 @@
 
 #include QMK_KEYBOARD_H
 #include "transactions.h"
+#include "os_detection.h"
 
 // ──────────────────────────────────────────────
 // Layer definitions
@@ -676,6 +677,32 @@ bool dip_switch_update_user(uint8_t index, bool active) {
         }
     }
     return false;
+}
+
+// ──────────────────────────────────────────────
+// OS Detection — auto-switch Mac/Win on USB connect
+// Fires ~1s after connection. The DIP switch still works
+// as a manual override at any time.
+// ──────────────────────────────────────────────
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            layer_off(MAC_QWERTY);
+            layer_off(WIN_QWERTY);
+            default_layer_set(1UL << MAC_SVORAK);
+            break;
+        case OS_WINDOWS:
+            layer_off(MAC_QWERTY);
+            layer_off(WIN_QWERTY);
+            default_layer_set(1UL << WIN_SVORAK);
+            break;
+        case OS_LINUX:
+        case OS_UNSURE:
+            // Keep current state (from DIP switch)
+            break;
+    }
+    return true;
 }
 
 // ──────────────────────────────────────────────

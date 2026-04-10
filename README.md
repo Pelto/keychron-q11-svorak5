@@ -58,7 +58,9 @@ make flash        # build and flash (repeat for each half)
 
 ## Layer overview
 
-The Mac/Win hardware slider selects the base layer.
+The keyboard auto-detects the host OS (Mac or Windows) on USB connection and selects the matching base layer. The hardware slider still works as a manual override — flipping it switches layers immediately. On Linux or if detection is uncertain, the slider position is used.
+
+Detection happens ~1 second after connection via USB descriptor fingerprinting.
 
 | Layer | Name | Activation | RGB |
 |-------|------|-----------|-----|

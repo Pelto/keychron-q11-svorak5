@@ -12,7 +12,7 @@
     {
       "id": 0,
       "name": "MAC_SVORAK",
-      "activation": "Default when hardware switch is MAC. Requires Swedish input source at OS level.",
+      "activation": "Default when macOS detected via USB, or hardware switch in MAC position. Requires Swedish input source at OS level.",
       "rgb": {
         "mode": "solid",
         "color": "blue",
@@ -386,7 +386,7 @@
     {
       "id": 3,
       "name": "WIN_SVORAK",
-      "activation": "Default when hardware switch is WIN",
+      "activation": "Default when Windows detected via USB, or hardware switch in WIN position.",
       "rgb": {
         "mode": "solid",
         "color": "blue",

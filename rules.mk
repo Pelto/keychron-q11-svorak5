@@ -12,6 +12,9 @@ RGB_MATRIX_ENABLE = yes
 # Enable the rotary encoder (knob)
 ENCODER_ENABLE = yes
 
+# Enable OS detection (auto-switch Mac/Win layers on USB connect)
+OS_DETECTION_ENABLE = yes
+
 # Optional: enable console output for debugging
 # Uncomment during development, disable before final flash
 # CONSOLE_ENABLE = yes
