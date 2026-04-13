@@ -54,9 +54,25 @@ lint: link
 	cd $(QMK_HOME) && qmk lint -kb $(KEYBOARD) -km $(KEYMAP)
 
 # Generate compile_commands.json for clangd / LSP
+# QMK's --compiledb omits the user's keymap.c because the build uses a
+# generated wrapper; append an entry cloned from default_keyboard.c so
+# clangd can resolve community module symbols in keymap.c.
 compiledb: link
 	qmk compile -kb $(KEYBOARD) -km $(KEYMAP) --compiledb
 	ln -snf $(QMK_HOME)/compile_commands.json compile_commands.json
+	@# Clone a neighbouring entry's flags and force-include
+	@# community_modules_introspection.h so clangd can resolve symbols
+	@# (e.g. socd_cleaner_t) that are only in scope because QMK's build
+	@# wraps keymap.c inside keymap_introspection.c.
+	@python3 -c "import json, pathlib; \
+db_path = pathlib.Path('$(QMK_HOME)/compile_commands.json'); \
+user_keymap = str(pathlib.Path.cwd() / 'keymap.c'); \
+db = json.loads(db_path.read_text()); \
+template = next(e for e in db if e['file'].endswith('src/default_keyboard.c')); \
+db = [e for e in db if e['file'] != user_keymap]; \
+args = list(template['arguments']) + ['-include', 'community_modules_introspection.h']; \
+db.append({'arguments': args, 'directory': template['directory'], 'file': user_keymap}); \
+db_path.write_text(json.dumps(db, indent=2))"
 
 clean:
 	rm -rf .build compile_commands.json

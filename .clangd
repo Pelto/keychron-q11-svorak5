@@ -1,0 +1,20 @@
+# clangd config — the compile DB is generated for arm-none-eabi-gcc, so we
+# strip ARM-only driver flags that host clang rejects, and let clangd query
+# arm-none-eabi-gcc for its built-in defines and system header paths.
+
+CompileFlags:
+  Remove:
+    - -mcpu=*
+    - -mthumb
+    - -mno-thumb-interwork
+    - -mno-unaligned-access
+    - -mfloat-abi=*
+    - -mfpu=*
+    - -fsingle-precision-constant
+    - -fno-builtin-printf
+    - -Werror
+    # GCC dumps these into the DB to redirect to its internal builtins;
+    # clang has __has_include natively but not __has_include__, so the
+    # redirect breaks any header that uses __has_include_next.
+    - "-D__has_include(STR)=*"
+    - "-D__has_include_next(STR)=*"

@@ -1,0 +1,15 @@
+{
+    // Use clangd (reads compile_commands.json) and disable the Microsoft
+    // C/C++ extension's IntelliSense to avoid conflicting diagnostics.
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "clangd.arguments": [
+        "--header-insertion=never",
+        "--compile-commands-dir=${workspaceFolder}",
+        "--query-driver=/opt/homebrew/**/arm-none-eabi-gcc,/usr/**/arm-none-eabi-gcc"
+    ],
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c",
+        "*.inc": "c"
+    }
+}
