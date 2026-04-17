@@ -7,7 +7,7 @@
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
 //   5: WIN_SPECIAL  — Programming symbols via Swedish keyboard combos (hold RAlt)
-//   6: NUMPAD       — Right-hand numpad (hold MC_5)
+//   6: NUMPAD       — Right-hand numpad (hold NUMPAD key; double-tap to lock, tap to unlock)
 //   7: MAC_FN       — Nav, edit, shortcuts (hold FN, Mac mode)
 //   8: WIN_FN       — Nav, edit, shortcuts (hold FN, Win mode)
 //   9: MAC_MOD_L   — Left home row mods: A=Shift S=Opt D=Ctrl F=Cmd (hold Left Space, Mac)
@@ -70,6 +70,7 @@ enum tap_dance_codes {
     TD_LSFT,
     TD_RSFT,
     TD_LOCK,
+    TD_NUMPAD,
 };
 
 // ── Mac Special — Swedish keyboard combos (Option+key, Shift+key) ──
@@ -144,8 +145,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TG(MAC_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
-    KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    KC_CALC,        TD(TD_LSFT), TD(TD_NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
+    TD(TD_NUMPAD),  KC_LCTL, KC_LOPT, KC_LCMD, MO(MAC_FN),       LT(MAC_MOD_L, KC_SPC),     LT(MAC_MOD_R, KC_SPC),    MO(MAC_SPECIAL), MO(MAC_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── MAC QWERTY ──────────────────────────────────────────────────────────────────
@@ -155,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
     KC_TRNS,        KC_TRNS, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_TRNS, KC_TRNS,
-    MO(NUMPAD),     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                   KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    TD(TD_NUMPAD),  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                   KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 // ── MAC SPECIAL ─────────────────────────────────────────────────────────────────
@@ -175,8 +176,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TG(WIN_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
-    KC_CALC,        TD(TD_LSFT), MO(NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
-    MO(NUMPAD),     KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       LT(WIN_MOD_L, KC_SPC),     LT(WIN_MOD_R, KC_SPC),    MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+    KC_CALC,        TD(TD_LSFT), TD(TD_NUMPAD), KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,             TD(TD_RSFT), KC_UP,
+    TD(TD_NUMPAD),  KC_LCTL, KC_LWIN, KC_LALT, MO(WIN_FN),       LT(WIN_MOD_L, KC_SPC),     LT(WIN_MOD_R, KC_SPC),    MO(WIN_SPECIAL), MO(WIN_FN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
 ),
 
 // ── WIN QWERTY ──────────────────────────────────────────────────────────────────
@@ -186,7 +187,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,        KC_TRNS, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                     KC_TRNS,
     KC_TRNS,        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_TRNS,           KC_TRNS,
     KC_TRNS,        KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_TRNS,
-    MO(NUMPAD),     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_SPC,                    KC_SPC,           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    TD(TD_NUMPAD),  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_SPC,                    KC_SPC,           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 // ── WIN SPECIAL ─────────────────────────────────────────────────────────────────
@@ -201,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── NUMPAD ─────────────────────────────────────────────────────────────────────
-// Right-hand numpad overlay. Hold MC_5 to activate.
+// Right-hand numpad overlay. Hold NUMPAD key for momentary, double-tap to lock.
 [NUMPAD] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
@@ -333,6 +334,46 @@ static void lsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset
 static void rsft_finished(tap_dance_state_t *state, void *user_data) { sft_finished(state, user_data, false); }
 static void rsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset(state, user_data, false); }
 
+// ── NUMPAD tap dance (hold=momentary, ×2=lock on, ×1 while locked=unlock) ──
+typedef enum { NP_NONE, NP_TAP, NP_HOLD, NP_DOUBLE } np_td_state_t;
+static np_td_state_t numpad_td_state = NP_NONE;
+static bool numpad_locked = false;
+
+static np_td_state_t numpad_td_current(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        return (state->interrupted || !state->pressed) ? NP_TAP : NP_HOLD;
+    }
+    if (state->count >= 2) return NP_DOUBLE;
+    return NP_NONE;
+}
+
+static void numpad_td_finished(tap_dance_state_t *state, void *user_data) {
+    numpad_td_state = numpad_td_current(state);
+    switch (numpad_td_state) {
+        case NP_HOLD:
+            layer_on(NUMPAD);
+            break;
+        case NP_DOUBLE:
+            numpad_locked = true;
+            layer_on(NUMPAD);
+            break;
+        case NP_TAP:
+            if (numpad_locked) {
+                numpad_locked = false;
+                layer_off(NUMPAD);
+            }
+            break;
+        default: break;
+    }
+}
+
+static void numpad_td_reset(tap_dance_state_t *state, void *user_data) {
+    if (numpad_td_state == NP_HOLD && !numpad_locked) {
+        layer_off(NUMPAD);
+    }
+    numpad_td_state = NP_NONE;
+}
+
 // ── Lock tap dance (×1=Lock, ×2=Sleep, ×3=Shut down) ──
 static void lock_td_finished(tap_dance_state_t *state, void *user_data) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
@@ -351,6 +392,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_LSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lsft_finished, lsft_reset),
     [TD_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rsft_finished, rsft_reset),
     [TD_LOCK]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lock_td_finished, NULL),
+    [TD_NUMPAD] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, numpad_td_finished, numpad_td_reset),
 };
 
 // ──────────────────────────────────────────────
@@ -670,6 +712,9 @@ bool dip_switch_update_user(uint8_t index, bool active) {
         // Clear any stale QWERTY toggles so RGB stays in sync
         layer_off(MAC_QWERTY);
         layer_off(WIN_QWERTY);
+        // Release any NUMPAD lock so state doesn't leak across OS switch
+        numpad_locked = false;
+        layer_off(NUMPAD);
         if (active) {
             default_layer_set(1UL << MAC_SVORAK);
         } else {
@@ -690,11 +735,15 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
         case OS_IOS:
             layer_off(MAC_QWERTY);
             layer_off(WIN_QWERTY);
+            numpad_locked = false;
+            layer_off(NUMPAD);
             default_layer_set(1UL << MAC_SVORAK);
             break;
         case OS_WINDOWS:
             layer_off(MAC_QWERTY);
             layer_off(WIN_QWERTY);
+            numpad_locked = false;
+            layer_off(NUMPAD);
             default_layer_set(1UL << WIN_SVORAK);
             break;
         case OS_LINUX:
