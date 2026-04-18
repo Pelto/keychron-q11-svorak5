@@ -70,7 +70,7 @@ Detection happens ~1 second after connection via USB descriptor fingerprinting.
 | 3 | WIN_SVORAK | Default (Win switch) | Blue |
 | 4 | WIN_QWERTY | Toggle MC_1 | Cyan |
 | 5 | WIN_SPECIAL | Hold Right Alt | Purple |
-| 6 | NUMPAD | Hold MC_5 or `<>` key | Yellow (numpad keys only, rest off) |
+| 6 | NUMPAD | Hold NUMPAD key (double-tap to lock) | Yellow (numpad keys only, rest off) |
 | 7 | MAC_FN | Hold FN (Mac mode) | Off + red F keys, yellow nav/arrows, red edit/shortcuts, green undo/redo/word-nav |
 | 8 | WIN_FN | Hold FN (Win mode) | Off + red media keys, yellow nav/arrows, red edit/shortcuts, green undo/redo/word-nav |
 | 9 | MAC_MOD_L | Hold Left Space (Mac) | Off + colored home row mods |
@@ -118,7 +118,7 @@ Programming symbols via native Swedish keyboard combos (same layout on Mac and W
           :  =  @  !  \  %
 ```
 
-### NUMPAD layer (hold MC_5 or `<>` key)
+### NUMPAD layer (hold NUMPAD key or `<>` key)
 
 ```
                /  *  -
@@ -127,6 +127,13 @@ Programming symbols via native Swedish keyboard combos (same layout on Mac and W
                1  2  3  +
          0  .
 ```
+
+**Activation:**
+- **Hold** NUMPAD key (bottom-left corner or `<>` key) — momentary while held
+- **Double-tap** NUMPAD key — lock layer on; keep typing numbers with both hands free
+- **Tap** NUMPAD key while locked — unlock
+
+OS-slider flip or auto-detected OS change also clears the lock.
 
 ### FN layer (hold FN)
 
@@ -230,8 +237,8 @@ Both QWERTY layers include Snap Tap (Simultaneous Opposing Cardinal Directions f
 | MC_3 × 2 | Sleep (Opt+Cmd+Eject) | Sleep (USB HID System Sleep) |
 | MC_3 × 3 | Shut down (Ctrl+Opt+Cmd+Eject) | Shut down (USB HID System Power) |
 | MC_4 | Calculator | Calculator |
-| MC_5 | Hold for NUMPAD | Hold for NUMPAD |
-| `<>` key | Hold for NUMPAD (Svorak only) | Hold for NUMPAD (Svorak only) |
+| NUMPAD key (bottom-left) | Hold = momentary NUMPAD; double-tap = lock; tap = unlock | Same |
+| `<>` key (Svorak only) | Hold = momentary NUMPAD; double-tap = lock; tap = unlock | Same |
 
 ## Encoders
 

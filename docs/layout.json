@@ -98,7 +98,7 @@
       "_row3_note": "KC_SLSH = '-' on Swedish, KC_NUHS = apostrophe on Swedish ISO",
       "row4": {
         "KC_LSFT": "TD(TD_LSFT)",
-        "KC_NUBS": "MO(NUMPAD)",
+        "KC_NUBS": "TD(TD_NUMPAD)",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
@@ -112,7 +112,7 @@
         "KC_RSFT": "TD(TD_RSFT)",
         "KC_UP": "KC_UP"
       },
-      "_row4_note": "KC_NUBS = MO(NUMPAD) (Svorak never uses <>, repurposed as numpad activator), KC_DOT = '.' unshifted / ':' shifted on Swedish",
+      "_row4_note": "KC_NUBS = TD(TD_NUMPAD) (Svorak never uses <>, repurposed as numpad activator), KC_DOT = '.' unshifted / ':' shifted on Swedish",
       "row5": {
         "KC_LCTL": "KC_LCTL",
         "KC_LOPT": "KC_LOPT",
@@ -132,7 +132,7 @@
         "MC_2": "LSG(KC_4)",
         "MC_3": "TD(TD_LOCK)",
         "MC_4": "KC_CALC",
-        "MC_5": "MO(NUMPAD)"
+        "MC_5": "TD(TD_NUMPAD)"
       }
     },
     {
@@ -256,7 +256,7 @@
         "MC_2": "_______",
         "MC_3": "_______",
         "MC_4": "_______",
-        "MC_5": "MO(NUMPAD)"
+        "MC_5": "TD(TD_NUMPAD)"
       }
     },
     {
@@ -471,7 +471,7 @@
       },
       "row4": {
         "KC_LSFT": "TD(TD_LSFT)",
-        "KC_NUBS": "MO(NUMPAD)",
+        "KC_NUBS": "TD(TD_NUMPAD)",
         "KC_Z": "KC_DOT",
         "KC_X": "KC_Q",
         "KC_C": "KC_J",
@@ -504,13 +504,13 @@
         "MC_2": "KC_PSCR",
         "MC_3": "TD(TD_LOCK)",
         "MC_4": "KC_CALC",
-        "MC_5": "MO(NUMPAD)"
+        "MC_5": "TD(TD_NUMPAD)"
       }
     },
     {
       "id": 4,
       "name": "WIN_QWERTY",
-      "activation": "TG(WIN_QWERTY) via MC_1 from WIN_SVORAK. MC_1 again to toggle off. Gaming-optimized: plain shift keys (no tap dance), Caps Lock on physical Caps key. KC_NUBS explicit to prevent fall-through to WIN_SVORAK's MO(NUMPAD).",
+      "activation": "TG(WIN_QWERTY) via MC_1 from WIN_SVORAK. MC_1 again to toggle off. Gaming-optimized: plain shift keys (no tap dance), Caps Lock on physical Caps key. KC_NUBS explicit to prevent fall-through to WIN_SVORAK's TD(TD_NUMPAD).",
       "rgb": {
         "mode": "solid",
         "color": "cyan",
@@ -629,7 +629,7 @@
         "MC_2": "_______",
         "MC_3": "_______",
         "MC_4": "_______",
-        "MC_5": "MO(NUMPAD)"
+        "MC_5": "TD(TD_NUMPAD)"
       }
     },
     {
@@ -759,7 +759,7 @@
     {
       "id": 6,
       "name": "NUMPAD",
-      "activation": "MO — hold MC_5 or KC_NUBS (Svorak only) from any layer. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
+      "activation": "Tap dance TD_NUMPAD on MC_5 bottom-left position and (Svorak only) on KC_NUBS `<>` key: hold = momentary; double-tap = lock layer on; tap while locked = unlock. Lock also cleared by DIP switch or OS auto-detection change. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
       "rgb": {
         "mode": "per_key",
         "colors": {
