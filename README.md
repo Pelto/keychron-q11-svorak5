@@ -208,6 +208,16 @@ Home row modifier layers for one-handed shortcuts. Hold a space key to activate 
 
 Tap either space as normal to type a space character.
 
+#### Pre-press grace window
+
+Pressing the modifier key *before* the space (e.g. F first, then Space) is also handled correctly. When one of the eight home-row mod-target letters is pressed on the Svorak base layer, the keypress is held back for 35 ms. If a Space LT key arrives in that window, the letter is upgraded to the corresponding modifier and Space's tap output is suppressed. Otherwise the letter flushes normally.
+
+Caveats:
+- Only active on the Svorak base layers — QWERTY, FN, NUMPAD, and SPECIAL pass through unchanged.
+- Adds ~35 ms latency to the eight Svorak home-row letters (A O E U H T N S) — barely perceptible during normal typing.
+- Caps Word does not auto-shift these letters when they're emitted via the deferred path.
+- Tweak `DH_TERM` in `keymap.c` to adjust the grace window.
+
 ### QWERTY layer (toggle MC_1)
 
 Standard QWERTY overlay for gaming. Toggle again to return to Svorak.

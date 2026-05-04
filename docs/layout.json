@@ -1150,6 +1150,7 @@
       "name": "MAC_MOD_L",
       "activation": "LT — hold Left Space from MAC_SVORAK/MAC_QWERTY. Tap for Space.",
       "note": "Cmd/Ctrl on index (F/J), Opt/Alt on ring (S/L) — matches standard keyboard conventions for max cross-platform muscle memory.",
+      "deferred_mod": "On Svorak base only: pressing one of the eight home-row mod-target letters (A/O/E/U or H/T/N/S) defers the keypress for DH_TERM (35 ms). If a Space LT arrives within that window, the letter is upgraded to its corresponding modifier and Space's tap output is suppressed — making `F then Space` work the same as `Space then F`. See process_record_user / dh_handle in keymap.c.",
       "rgb": {
         "mode": "custom",
         "base": "off",

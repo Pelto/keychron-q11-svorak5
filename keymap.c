@@ -396,9 +396,183 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 // ──────────────────────────────────────────────
+// Deferred home-row mod (rescues pre-pressed mod-target letters)
+// ──────────────────────────────────────────────
+// Without this, pressing F before Space sends F's letter ("u" on Svorak)
+// immediately, because the mod layer isn't active yet at the moment F is
+// pressed. By the time Space activates the layer, the letter is already
+// emitted and the next keypress falls through as a plain letter too.
+//
+// Fix: when one of the eight Svorak home-row mod-target letters is pressed
+// on the base layer, hold the keypress back for DH_TERM ms before emitting.
+// If a Space LT key arrives during that window, register the corresponding
+// modifier instead and suppress Space's tap output. Otherwise flush the
+// letter normally. The window is short enough (35 ms) that legitimate
+// typing barely notices the latency.
+//
+// Limited to MAC_SVORAK / WIN_SVORAK base layers — other layers (FN, NUMPAD,
+// QWERTY/SOCD) pass through untouched.
+#define DH_TERM 35
+
+typedef enum {
+    DH_IDLE,
+    DH_PENDING,         // letter buffered, waiting for SPC/timeout/release
+    DH_LETTER,          // flushed as letter, waiting for its release
+    DH_MOD_FULL,        // upgraded; both letter key and SPC LT held
+    DH_MOD_SPC_GONE,    // SPC released first; letter still held with mod
+    DH_AWAIT_SPC_REL,   // letter released first; consume the eventual SPC release
+} dh_state_t;
+
+static dh_state_t dh_state = DH_IDLE;
+static uint16_t   dh_kc       = KC_NO;
+static keypos_t   dh_pos;
+static uint16_t   dh_time     = 0;
+static uint8_t    dh_mod      = 0;
+static uint8_t    dh_layer    = 0;
+static uint16_t   dh_spc_kc   = KC_NO;
+static keypos_t   dh_spc_pos;
+
+static bool dh_is_mac(void) {
+    return (default_layer_state & (1UL << MAC_SVORAK)) != 0;
+}
+
+static bool dh_on_svorak_base(void) {
+    uint8_t top = get_highest_layer(layer_state | default_layer_state);
+    return top == MAC_SVORAK || top == WIN_SVORAK;
+}
+
+static uint8_t dh_layer_l(void) { return dh_is_mac() ? MAC_MOD_L : WIN_MOD_L; }
+static uint8_t dh_layer_r(void) { return dh_is_mac() ? MAC_MOD_R : WIN_MOD_R; }
+
+static uint16_t dh_mod_at(keypos_t pos, uint8_t layer) {
+    uint16_t kc = keymap_key_to_keycode(layer, pos);
+    switch (kc) {
+        case KC_LSFT: case KC_RSFT:
+        case KC_LCTL: case KC_RCTL:
+        case KC_LALT: case KC_RALT:
+        case KC_LGUI: case KC_RGUI:
+            return kc;
+    }
+    return KC_NO;
+}
+
+static bool dh_is_spc_lt_l(uint16_t kc) {
+    return kc == LT(MAC_MOD_L, KC_SPC) || kc == LT(WIN_MOD_L, KC_SPC);
+}
+static bool dh_is_spc_lt_r(uint16_t kc) {
+    return kc == LT(MAC_MOD_R, KC_SPC) || kc == LT(WIN_MOD_R, KC_SPC);
+}
+
+static bool dh_same_pos(keypos_t a, keypos_t b) {
+    return a.row == b.row && a.col == b.col;
+}
+
+// Process events while the buffer is active. Returns true if the event was
+// consumed (caller should `return false` from process_record_user), false to
+// continue normal pipeline processing.
+static bool dh_handle(uint16_t keycode, keyrecord_t *record) {
+    bool      pressed = record->event.pressed;
+    keypos_t  pos     = record->event.key;
+
+    switch (dh_state) {
+        case DH_IDLE:
+            return false;
+
+        case DH_PENDING:
+            if (pressed) {
+                uint8_t target = dh_is_spc_lt_l(keycode) ? dh_layer_l()
+                               : dh_is_spc_lt_r(keycode) ? dh_layer_r()
+                               : 0;
+                if (target != 0) {
+                    uint16_t mod = dh_mod_at(dh_pos, target);
+                    if (mod != KC_NO) {
+                        register_code(mod);
+                        layer_on(target);
+                        dh_mod     = mod;
+                        dh_layer   = target;
+                        dh_spc_kc  = keycode;
+                        dh_spc_pos = pos;
+                        dh_state   = DH_MOD_FULL;
+                        return true;  // suppress LT processing entirely
+                    }
+                }
+                // Any other key (or SPC with no mod at this position): flush
+                // the letter and let the new event continue normally.
+                register_code16(dh_kc);
+                dh_state = DH_LETTER;
+                return false;
+            }
+            // Release while pending
+            if (dh_same_pos(pos, dh_pos)) {
+                tap_code16(dh_kc);
+                dh_state = DH_IDLE;
+                return true;
+            }
+            return false;
+
+        case DH_LETTER:
+            if (!pressed && dh_same_pos(pos, dh_pos)) {
+                unregister_code16(dh_kc);
+                dh_state = DH_IDLE;
+                return true;
+            }
+            return false;
+
+        case DH_MOD_FULL:
+            if (!pressed) {
+                if (dh_same_pos(pos, dh_pos)) {
+                    unregister_code(dh_mod);
+                    layer_off(dh_layer);
+                    dh_state = DH_AWAIT_SPC_REL;
+                    return true;
+                }
+                if (dh_same_pos(pos, dh_spc_pos)) {
+                    layer_off(dh_layer);
+                    dh_state = DH_MOD_SPC_GONE;
+                    return true;
+                }
+            }
+            return false;
+
+        case DH_MOD_SPC_GONE:
+            if (!pressed && dh_same_pos(pos, dh_pos)) {
+                unregister_code(dh_mod);
+                dh_state = DH_IDLE;
+                return true;
+            }
+            return false;
+
+        case DH_AWAIT_SPC_REL:
+            if (!pressed && dh_same_pos(pos, dh_spc_pos)) {
+                dh_state = DH_IDLE;
+                return true;
+            }
+            return false;
+    }
+    return false;
+}
+
+// ──────────────────────────────────────────────
 // Custom keycode handling
 // ──────────────────────────────────────────────
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (dh_handle(keycode, record)) return false;
+
+    // Maybe start deferring on a fresh mod-target press.
+    if (dh_state == DH_IDLE && record->event.pressed
+        && dh_on_svorak_base()
+        && keycode >= KC_A && keycode <= KC_Z) {
+        keypos_t pos = record->event.key;
+        if (dh_mod_at(pos, dh_layer_l()) != KC_NO
+         || dh_mod_at(pos, dh_layer_r()) != KC_NO) {
+            dh_kc    = keycode;
+            dh_pos   = pos;
+            dh_time  = timer_read();
+            dh_state = DH_PENDING;
+            return false;
+        }
+    }
+
     switch (keycode) {
         // ── Grave / acute (dead key + space for literal character) ──
         case SE_ACUT: // ` / ´
@@ -687,6 +861,12 @@ void keyboard_post_init_user(void) {
 
 void housekeeping_task_user(void) {
     if (!is_keyboard_master()) return;
+
+    // Flush a pending deferred letter once the grace window has elapsed.
+    if (dh_state == DH_PENDING && timer_elapsed(dh_time) >= DH_TERM) {
+        register_code16(dh_kc);
+        dh_state = DH_LETTER;
+    }
 
     // Sync Caps Word state (only on change)
     static bool last_caps_word = false;
