@@ -12,6 +12,7 @@
 KEYBOARD ?= keychron/q11/iso_encoder
 KEYMAP   ?= custom
 QMK_HOME ?= .build/qmk_firmware
+QMK_VERSION ?= 0.32.14
 # The getreuer/qmk-modules repo structure mirrors QMK's expected module path:
 #   repo/socd_cleaner/ -> modules/getreuer/socd_cleaner/
 MODULES_DIR ?= $(QMK_HOME)/modules/getreuer
@@ -31,9 +32,10 @@ SRC_FILES  := keymap.c keymap.json config.h rules.mk
 
 all: compile
 
-# Clone QMK firmware (shallow — submodules fetched on demand by QMK make)
+# Clone QMK firmware pinned to a specific tag (shallow — submodules fetched on demand by QMK make).
+# Bump QMK_VERSION above to upgrade; `make clean` then rebuild to pick it up.
 $(QMK_HOME):
-	git clone --depth 1 https://github.com/qmk/qmk_firmware.git $@
+	git clone --depth 1 --branch $(QMK_VERSION) https://github.com/qmk/qmk_firmware.git $@
 
 # Clone community modules (getreuer — includes socd_cleaner and other modules, only socd_cleaner is used)
 $(MODULES_DIR):
