@@ -213,12 +213,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── MAC FN LAYER ─────────────────────────────────────────────────────────────────
-// Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
+// Left:  Q/W/E=Ins/Home/PgUp  R=Refresh  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
 // Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right  N=WordLeft  M=WordRight
 [MAC_FN] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, LGUI(KC_R), KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LGUI(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, LGUI(KC_Z), SGUI(KC_Z), LGUI(KC_C), LGUI(KC_V), LGUI(KC_X), LALT(KC_LEFT), LALT(KC_RGHT), KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
@@ -226,12 +226,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ── WIN FN LAYER ─────────────────────────────────────────────────────────────────
 // Top row: Brightness, Mission Ctl, Launchpad, RGB, Media, Volume (same as Mac base)
-// Left:  Q/W/E=Ins/Home/PgUp  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
+// Left:  Q/W/E=Ins/Home/PgUp  R=Refresh  A/S/D=Del/End/PgDn  F=SelAll  Z/X=Undo/Redo  C/V/B=Copy/Paste/Cut
 // Right: U=Bspc  I=Up  O=Del  J=Left  K=Down  L=Right  N=WordLeft  M=WordRight
 [WIN_FN] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_INS,  KC_HOME, KC_PGUP, LCTL(KC_R), KC_TRNS, KC_TRNS, KC_BSPC, KC_UP,   KC_DEL,  KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
     KC_TRNS, KC_TRNS, KC_DEL,  KC_END,  KC_PGDN, LCTL(KC_A), KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, LCTL(KC_Z), LCTL(KC_Y), LCTL(KC_C), LCTL(KC_V), LCTL(KC_X), LCTL(KC_LEFT), LCTL(KC_RGHT), KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                    KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
@@ -548,6 +548,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_set_fade(led_min, led_max, 17, RGB_YELLOW);  // Q → Ins
         rgb_set_fade(led_min, led_max, 18, RGB_YELLOW);  // W → Home
         rgb_set_fade(led_min, led_max, 19, RGB_YELLOW);  // E → PgUp
+        rgb_set_fade(led_min, led_max, 20, RGB_RED);     // R → Refresh
         rgb_set_fade(led_min, led_max, 24, RGB_YELLOW);  // A → Del
         rgb_set_fade(led_min, led_max, 25, RGB_YELLOW);  // S → End
         rgb_set_fade(led_min, led_max, 26, RGB_YELLOW);  // D → PgDn
