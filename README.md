@@ -154,8 +154,8 @@ BriDn BriUp MCtl LPad RGB- RGB+ Prev Play Next Mute Vol- Vol+
 Left hand — navigation cluster and shortcuts:
 
 ```
- Ins Home PgUp
- Del End  PgDn  SelAll
+ Ins Home PgUp Refresh
+ Del End  PgDn SelAll
 Undo Redo Copy Paste Cut
 ```
 
@@ -172,6 +172,7 @@ Bspc  ↑  Del
 | Q | Insert | Insert |
 | W | Home | Home |
 | E | Page Up | Page Up |
+| R | Cmd+R (Refresh) | Ctrl+R |
 | A | Delete | Delete |
 | S | End | End |
 | D | Page Down | Page Down |
