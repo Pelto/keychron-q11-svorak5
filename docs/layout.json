@@ -759,7 +759,7 @@
     {
       "id": 6,
       "name": "NUMPAD",
-      "activation": "Tap dance TD_NUMPAD on MC_5 bottom-left position and (Svorak only) on KC_NUBS `<>` key: hold = momentary; double-tap = lock layer on; tap while locked = unlock. Lock also cleared by DIP switch or OS auto-detection change. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
+      "activation": "Tap dance TD_NUMPAD on MC_5 bottom-left position and (Svorak only) on KC_NUBS `<>` key: hold = momentary; double-tap = lock layer on; tap or double-tap while locked = unlock. Lock also cleared by DIP switch or OS auto-detection change. KC_SPC_R = KC_P0, KC_RCMD = KC_PDOT.",
       "rgb": {
         "mode": "per_key",
         "colors": {

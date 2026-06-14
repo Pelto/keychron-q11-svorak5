@@ -7,7 +7,7 @@
 //   3: WIN_SVORAK   — Swedish Dvorak (default when Win switch)
 //   4: WIN_QWERTY   — QWERTY overlay (toggle via MC_1)
 //   5: WIN_SPECIAL  — Programming symbols via Swedish keyboard combos (hold RAlt)
-//   6: NUMPAD       — Right-hand numpad (hold NUMPAD key; double-tap to lock, tap to unlock)
+//   6: NUMPAD       — Right-hand numpad (hold NUMPAD key; double-tap to lock, tap or double-tap to unlock)
 //   7: MAC_FN       — Nav, edit, shortcuts (hold FN, Mac mode)
 //   8: WIN_FN       — Nav, edit, shortcuts (hold FN, Win mode)
 //   9: MAC_MOD_L   — Left home row mods: A=Shift S=Opt D=Ctrl F=Cmd (hold Left Space, Mac)
@@ -202,7 +202,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // ── NUMPAD ─────────────────────────────────────────────────────────────────────
-// Right-hand numpad overlay. Hold NUMPAD key for momentary, double-tap to lock.
+// Right-hand numpad overlay. Hold NUMPAD key for momentary, double-tap to lock,
+// then tap or double-tap to unlock.
 [NUMPAD] = LAYOUT_92_iso(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
@@ -334,7 +335,7 @@ static void lsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset
 static void rsft_finished(tap_dance_state_t *state, void *user_data) { sft_finished(state, user_data, false); }
 static void rsft_reset(tap_dance_state_t *state, void *user_data)    { sft_reset(state, user_data, false); }
 
-// ── NUMPAD tap dance (hold=momentary, ×2=lock on, ×1 while locked=unlock) ──
+// ── NUMPAD tap dance (hold=momentary, ×2=toggle lock, ×1 while locked=unlock) ──
 typedef enum { NP_NONE, NP_TAP, NP_HOLD, NP_DOUBLE } np_td_state_t;
 static np_td_state_t numpad_td_state = NP_NONE;
 static bool numpad_locked = false;
@@ -354,8 +355,15 @@ static void numpad_td_finished(tap_dance_state_t *state, void *user_data) {
             layer_on(NUMPAD);
             break;
         case NP_DOUBLE:
-            numpad_locked = true;
-            layer_on(NUMPAD);
+            // Toggle: double-tap while locked turns the numpad back off,
+            // so the same gesture used to enter also exits.
+            if (numpad_locked) {
+                numpad_locked = false;
+                layer_off(NUMPAD);
+            } else {
+                numpad_locked = true;
+                layer_on(NUMPAD);
+            }
             break;
         case NP_TAP:
             if (numpad_locked) {
