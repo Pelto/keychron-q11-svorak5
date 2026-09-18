@@ -56,6 +56,22 @@ make flash        # build and flash (repeat for each half)
 | `make lint`      | Run QMK lint on the keymap                      |
 | `make clean`     | Remove `.build/` directory and generated files  |
 
+### Pinned versions
+
+The QMK tag and the community-module commit are both pinned in the `Makefile`:
+
+| Pin               | Value                                               |
+|-------------------|-----------------------------------------------------|
+| `QMK_VERSION`     | `0.34.4`                                            |
+| `MODULES_VERSION` | `8c55ac1` — `getreuer/qmk-modules` (`socd_cleaner`) |
+
+CI builds by running `make compile`, so GitHub Actions and a local build use the
+same sources and steps. Bump a pin and the next `make` re-syncs `.build/`
+automatically — no `make clean` needed.
+
+> CI pins `arm-none-eabi-gcc` to `13.2.Rel1` while macOS builds use the Homebrew
+> `@8` formula, so output is not byte-identical between the two.
+
 ## Layer overview
 
 The keyboard auto-detects the host OS (Mac or Windows) on USB connection and selects the matching base layer. The hardware slider still works as a manual override — flipping it switches layers immediately. On Linux or if detection is uncertain, the slider position is used.
