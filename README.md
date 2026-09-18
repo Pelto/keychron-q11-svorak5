@@ -215,12 +215,15 @@ Tap either space as normal to type a space character.
 
 Standard QWERTY overlay for gaming. Toggle again to return to Svorak.
 
-On **Windows**, the QWERTY layer is gaming-optimized:
-- Space keys are plain `KC_SPC` (no thumb modifier layers / home row mods)
+On **both platforms**, the space keys are plain `KC_SPC` in QWERTY — the thumb
+modifier layers / home row mods are disabled so a held space never turns into a
+modifier layer while gaming.
+
+On **Windows**, the QWERTY layer is further gaming-optimized:
 - Shift keys are plain (no tap dance) for instant response
 - Physical Caps Lock key works as Caps Lock (lights red when active)
 
-On **Mac**, the thumb modifiers remain active in QWERTY and tap dance shift is preserved.
+On **Mac**, tap dance shift is preserved.
 
 #### Snap Tap (SOCD filtering)
 

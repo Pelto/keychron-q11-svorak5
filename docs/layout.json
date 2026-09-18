@@ -153,7 +153,7 @@
     {
       "id": 1,
       "name": "MAC_QWERTY",
-      "activation": "TG(MAC_QWERTY) via MC_1 from MAC_SVORAK. MC_1 again to toggle off.",
+      "activation": "TG(MAC_QWERTY) via MC_1 from MAC_SVORAK. MC_1 again to toggle off. Gaming-optimized: plain space keys (home row mod layers disabled).",
       "rgb": {
         "mode": "solid",
         "color": "cyan",
@@ -257,8 +257,8 @@
         "KC_LOPT": "_______",
         "KC_LCMD": "_______",
         "MO_FN": "_______",
-        "KC_SPC_L": "_______",
-        "KC_SPC_R": "_______",
+        "KC_SPC_L": "KC_SPC",
+        "KC_SPC_R": "KC_SPC",
         "KC_RCMD": "_______",
         "MO_FN1": "_______",
         "KC_RCTL": "_______",
@@ -1165,7 +1165,7 @@
     {
       "id": 9,
       "name": "MAC_MOD_L",
-      "activation": "LT — hold Left Space from MAC_SVORAK/MAC_QWERTY. Tap for Space.",
+      "activation": "LT — hold Left Space from MAC_SVORAK only (disabled in MAC_QWERTY for gaming). Tap for Space.",
       "note": "Cmd/Ctrl on index (F/J), Opt/Alt on ring (S/L) — matches standard keyboard conventions for max cross-platform muscle memory.",
       "rgb": {
         "mode": "custom",
@@ -1185,7 +1185,7 @@
     {
       "id": 10,
       "name": "MAC_MOD_R",
-      "activation": "LT — hold Right Space from MAC_SVORAK/MAC_QWERTY. Tap for Space.",
+      "activation": "LT — hold Right Space from MAC_SVORAK only (disabled in MAC_QWERTY for gaming). Tap for Space.",
       "rgb": {
         "mode": "custom",
         "base": "off",
