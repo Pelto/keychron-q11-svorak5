@@ -6,7 +6,8 @@
 #   make compiledb    generate compile_commands.json for editor LSP
 #   make clean        remove build artifacts
 #
-# First run will clone qmk_firmware (~2 min). Subsequent builds are fast.
+# First run will clone qmk_firmware and set up the qmk CLI venv (~2 min).
+# Subsequent builds are fast.
 # Override KEYBOARD if your Q11 variant differs.
 #
 # CI (.github/workflows/build.yml) builds by running `make compile`, so the
@@ -21,10 +22,17 @@ QMK_HOME ?= $(CURDIR)/.build/qmk_firmware
 QMK_VERSION ?= 0.34.4
 # getreuer/qmk-modules publishes no tags, so pin the commit.
 MODULES_VERSION ?= 8c55ac1c5d547d1ff324ae2834b26f2075222c97
+# The `qmk` CLI (PyPI package "qmk"), pinned into a local venv rather than
+# relying on whatever `qmk` is on PATH — a stale Homebrew/pyenv install
+# breaks silently (e.g. after a Python upgrade removes its venv's interpreter).
+QMK_CLI_VERSION ?= 1.2.0
 
 # The getreuer/qmk-modules repo structure mirrors QMK's expected module path:
 #   repo/socd_cleaner/ -> modules/getreuer/socd_cleaner/
 MODULES_DIR ?= $(QMK_HOME)/modules/getreuer
+
+QMK_VENV ?= $(CURDIR)/.build/venv
+QMK_BIN  ?= $(QMK_VENV)/bin/qmk
 
 # Point the qmk CLI (compiledb, lint) at this pinned tree rather than whatever
 # checkout `qmk config` names globally.
@@ -62,10 +70,16 @@ $(MODULES_DIR): | $(QMK_HOME)
 	git clone https://github.com/getreuer/qmk-modules.git $@
 	git -C $@ checkout --detach --quiet $(MODULES_VERSION)
 
+# Isolated venv for the qmk CLI, independent of any system/Homebrew install.
+$(QMK_BIN):
+	python3 -m venv $(QMK_VENV)
+	$(QMK_VENV)/bin/pip install --quiet --upgrade pip
+	$(QMK_VENV)/bin/pip install --quiet qmk==$(QMK_CLI_VERSION)
+
 # Re-sync existing checkouts to the pins above. Without this a version bump is
 # silently ignored until `make clean` — which is exactly how a local build
 # drifts away from what CI produces.
-sync: | $(QMK_HOME) $(MODULES_DIR)
+sync: | $(QMK_HOME) $(MODULES_DIR) $(QMK_BIN)
 	@if [ "$$(git -C $(QMK_HOME) describe --tags --exact-match 2>/dev/null)" != "$(QMK_VERSION)" ]; then \
 	  echo "==> qmk_firmware -> $(QMK_VERSION)"; \
 	  git -C $(QMK_HOME) fetch --depth 1 origin tag $(QMK_VERSION); \
@@ -78,6 +92,15 @@ sync: | $(QMK_HOME) $(MODULES_DIR)
 	  git -C $(MODULES_DIR) checkout --detach --quiet $(MODULES_VERSION); \
 	  rm -rf $(QMK_HOME)/.build; \
 	fi
+	@if [ "$$($(QMK_BIN) --version 2>/dev/null)" != "$(QMK_CLI_VERSION)" ]; then \
+	  echo "==> qmk cli -> $(QMK_CLI_VERSION)"; \
+	  $(QMK_VENV)/bin/pip install --quiet qmk==$(QMK_CLI_VERSION); \
+	fi
+	@# Pin submodules to the commits recorded by the checked-out QMK_VERSION tag
+	@# (not their branch tips — `qmk git-submodule` tracks branches and drifts).
+	@# Scoped to what this ChibiOS/STM32 board actually needs.
+	git -C $(QMK_HOME) submodule sync --quiet -- lib/chibios lib/chibios-contrib
+	git -C $(QMK_HOME) submodule update --init --quiet --depth 1 -- lib/chibios lib/chibios-contrib
 
 # Symlink keymap files into the QMK tree
 link: sync
@@ -85,20 +108,20 @@ link: sync
 	@$(foreach f,$(SRC_FILES),ln -snf $(CURDIR)/$(f) $(KEYMAP_DIR)/$(f);)
 
 compile: link
-	$(MAKE) -C $(QMK_HOME) $(KEYBOARD):$(KEYMAP) -j $(JOBS)
+	$(MAKE) -C $(QMK_HOME) QMK_BIN=$(QMK_BIN) $(KEYBOARD):$(KEYMAP) -j $(JOBS)
 
 flash: link
-	$(MAKE) -C $(QMK_HOME) $(KEYBOARD):$(KEYMAP):flash
+	$(MAKE) -C $(QMK_HOME) QMK_BIN=$(QMK_BIN) $(KEYBOARD):$(KEYMAP):flash
 
 lint: link
-	cd $(QMK_HOME) && qmk lint -kb $(KEYBOARD) -km $(KEYMAP)
+	cd $(QMK_HOME) && $(QMK_BIN) lint -kb $(KEYBOARD) -km $(KEYMAP)
 
 # Generate compile_commands.json for clangd / LSP
 # QMK's --compiledb omits the user's keymap.c because the build uses a
 # generated wrapper; append an entry cloned from default_keyboard.c so
 # clangd can resolve community module symbols in keymap.c.
 compiledb: link
-	qmk compile -kb $(KEYBOARD) -km $(KEYMAP) --compiledb
+	$(QMK_BIN) compile -kb $(KEYBOARD) -km $(KEYMAP) --compiledb
 	ln -snf $(QMK_HOME)/compile_commands.json compile_commands.json
 	@# Clone a neighbouring entry's flags and force-include
 	@# community_modules_introspection.h so clangd can resolve symbols

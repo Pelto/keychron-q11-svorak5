@@ -11,10 +11,16 @@ Custom QMK keymap for the Keychron Q11 (ISO encoder) with Swedish Dvorak (Svorak
 **macOS:**
 
 ```bash
-brew install qmk/qmk/qmk arm-none-eabi-gcc@8 arm-none-eabi-binutils
+brew install arm-none-eabi-gcc@8 arm-none-eabi-binutils dfu-util
 ```
 
 > The build uses `arm-none-eabi-gcc@8` automatically. Newer GCC versions (15.x) have broken newlib headers.
+
+> The `qmk` CLI itself is *not* a prerequisite — `make` installs its own pinned
+> copy into `.build/venv` (see [Pinned versions](#pinned-versions)) so builds
+> don't depend on a system-wide install that can drift or break (e.g. a stale
+> Homebrew venv left behind by a Python upgrade). Only `python3` needs to be
+> on `PATH` to create that venv; macOS already has one.
 
 **macOS keyboard setup:**
 
@@ -58,16 +64,21 @@ make flash        # build and flash (repeat for each half)
 
 ### Pinned versions
 
-The QMK tag and the community-module commit are both pinned in the `Makefile`:
+The QMK tag, the community-module commit, and the `qmk` CLI version are all
+pinned in the `Makefile`:
 
-| Pin               | Value                                               |
-|-------------------|-----------------------------------------------------|
-| `QMK_VERSION`     | `0.34.4`                                            |
-| `MODULES_VERSION` | `8c55ac1` — `getreuer/qmk-modules` (`socd_cleaner`) |
+| Pin                | Value                                               |
+|--------------------|------------------------------------------------------|
+| `QMK_VERSION`      | `0.34.4`                                            |
+| `MODULES_VERSION`  | `8c55ac1` — `getreuer/qmk-modules` (`socd_cleaner`) |
+| `QMK_CLI_VERSION`  | `1.2.0` — installed into `.build/venv`              |
 
 CI builds by running `make compile`, so GitHub Actions and a local build use the
 same sources and steps. Bump a pin and the next `make` re-syncs `.build/`
-automatically — no `make clean` needed.
+automatically — no `make clean` needed. `sync` also pins `lib/chibios` and
+`lib/chibios-contrib` (QMK's ChibiOS submodules) to the exact commits recorded
+by `QMK_VERSION`, shallow-fetched — not whatever their branch tips currently
+point to.
 
 > CI pins `arm-none-eabi-gcc` to `13.2.Rel1` while macOS builds use the Homebrew
 > `@8` formula, so output is not byte-identical between the two.

@@ -27,17 +27,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dfu-util
 
-      - name: Setup Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
-
-      - name: Install QMK CLI
-        run: python3 -m pip install qmk
-
       # Build via the project Makefile rather than a parallel set of steps, so
-      # CI uses exactly the QMK tag, module commit and build flags that a local
-      # `make` uses. The Makefile clones and pins both trees itself.
+      # CI uses exactly the QMK tag, module commit, qmk CLI version and build
+      # flags that a local `make` uses. The Makefile clones and pins all three
+      # itself (into .build/qmk_firmware and .build/venv), using the runner's
+      # preinstalled python3 — no separate qmk/Python setup needed here.
       - name: Compile firmware
         run: make compile
 
