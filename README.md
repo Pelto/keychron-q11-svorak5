@@ -277,7 +277,7 @@ Both QWERTY layers include Snap Tap (Simultaneous Opposing Cardinal Directions f
 
 | Knob | Rotate | Press |
 |------|--------|-------|
-| Left | Back / Forward (Cmd+[ / Cmd+] on Mac, Alt+Left / Alt+Right on Win) | Mute (Svorak layers) / Toggle Snap Tap (QWERTY layers) |
+| Left | Previous / Next track | Play/Pause (Svorak layers) / Toggle Snap Tap (QWERTY layers) |
 | Right | Volume down / up | Mute |
 | Right, while a NUMPAD key is held | Zoom out / in (Cmd+- / Cmd++ on Mac, Ctrl+- / Ctrl++ on Win) | Mute |
 

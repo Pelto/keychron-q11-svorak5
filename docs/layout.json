@@ -34,9 +34,9 @@
         "scope": "all"
       },
       "knob_l": {
-        "press": "KC_MUTE",
-        "cw": "LGUI(KC_RBRC)",
-        "ccw": "LGUI(KC_LBRC)"
+        "press": "KC_MPLY",
+        "cw": "KC_MNXT",
+        "ccw": "KC_MPRV"
       },
       "knob_r": {
         "press": "KC_MUTE",
@@ -408,9 +408,9 @@
         "scope": "all"
       },
       "knob_l": {
-        "press": "KC_MUTE",
-        "cw": "LALT(KC_RGHT)",
-        "ccw": "LALT(KC_LEFT)"
+        "press": "KC_MPLY",
+        "cw": "KC_MNXT",
+        "ccw": "KC_MPRV"
       },
       "knob_r": {
         "press": "KC_MUTE",
