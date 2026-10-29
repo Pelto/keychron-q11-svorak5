@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ── MAC SVORAK ──────────────────────────────────────────────────────────────────
 [MAC_SVORAK] = LAYOUT_92_iso(
-    KC_MUTE,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
+    KC_MPLY,        KC_ESC,  KC_BRID, KC_BRIU, KC_MCTL, KC_LPAD, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_INS,  KC_DEL,  KC_MUTE,
     TG(MAC_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, SE_ACUT, KC_BSPC,           KC_PGUP,
     LSG(KC_4),      KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
@@ -172,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ── WIN SVORAK ──────────────────────────────────────────────────────────────────
 [WIN_SVORAK] = LAYOUT_92_iso(
-    KC_MUTE,        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,  KC_MUTE,
+    KC_MPLY,        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,  KC_MUTE,
     TG(WIN_QWERTY), KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,           KC_PGUP,
     KC_PSCR,        KC_TAB,  KC_LBRC, KC_QUOT, KC_SCLN, KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, KC_RBRC,                    KC_PGDN,
     TD(TD_LOCK),    KC_ENT,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, KC_NUHS, KC_ENT,            KC_HOME,
@@ -795,19 +795,15 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 // ──────────────────────────────────────────────
-// Encoder (knob) — navigation, volume, zoom
+// Encoder (knob) — media tracks, volume, zoom
 // ──────────────────────────────────────────────
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     bool is_mac = (default_layer_state & (1UL << MAC_SVORAK)) != 0;
 
     if (index == 0) {
-        // Left knob: back & forward (Cmd+]/Cmd+[ on Mac, Alt+Right/Alt+Left on Win)
-        if (is_mac) {
-            tap_code16(clockwise ? LGUI(KC_RBRC) : LGUI(KC_LBRC));
-        } else {
-            tap_code16(clockwise ? LALT(KC_RGHT) : LALT(KC_LEFT));
-        }
+        // Left knob: previous / next media track
+        tap_code(clockwise ? KC_MNXT : KC_MPRV);
     } else if (numpad_key_held) {
         // Right knob + NUMPAD key held: zoom in / out.
         // On the Swedish layout KC_MINS is '+' and KC_SLSH is '-', so these
